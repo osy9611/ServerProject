@@ -179,13 +179,10 @@ public:
 							m_SessionList[m_SessionList[nSessionID]->InviteNumber]->RoomName = m_SessionList[m_SessionList[nSessionID]->InviteNumber]->GetName();
 
 							RoomData roomData;
-							roomData.nSessionIDs[roomData.Count] = nSessionID;
-							roomData.Count++;
-							roomData.nSessionIDs[roomData.Count] = m_SessionList[m_SessionList[nSessionID]->InviteNumber]->SessionID();
-							roomData.Count++;
+							roomData.SetSessionId(nSessionID);
+							roomData.SetSessionId(m_SessionList[m_SessionList[nSessionID]->InviteNumber]->SessionID());
 
-							int InviteSessionID = m_SessionList[m_SessionList[nSessionID]->InviteNumber]->SessionID();
-							Room.insert(std::pair<std::string, RoomData>(m_SessionList[nSessionID]->RoomName, roomData));
+							MakeRoom(m_SessionList[nSessionID]->RoomName.c_str(), roomData);
 						}
 						else
 						{
@@ -207,14 +204,7 @@ public:
 						userdata.Init(ID, RoomUserCount);
 
 						std::cout << userdata.str << std::endl;
-						for (size_t i = 0; i < RoomUserCount; ++i)
-						{
-							int nSessionIDs = GetRoomUserSessionID(m_SessionList[nSessionID]->RoomName.c_str(), i);
-							if (m_SessionList[nSessionIDs]->Socket().is_open())
-							{
-								m_SessionList[nSessionIDs]->PostSend(false, userdata.packet.size, (char*)&userdata.packet);
-							}
-						}
+						SendAllPlayer(m_SessionList[nSessionID]->RoomName.c_str(), userdata.packet);
 					}
 					else
 					{
@@ -235,12 +225,7 @@ public:
 					
 					if (m_SessionList[nSessionID]->RoomName != "")
 					{
-						int RoomUserCount = GetRoomUserCount(m_SessionList[nSessionID]->RoomName.c_str());
-						for (size_t i = 0; i < RoomUserCount; ++i)
-						{
-							int nSessionIDs = GetRoomUserSessionID(m_SessionList[nSessionID]->RoomName.c_str(), i);
-							m_SessionList[nSessionIDs]->PostSend(false, changeType.packet.size, (char *)&changeType.packet);
-						}
+						SendAllPlayer(m_SessionList[nSessionID]->RoomName.c_str(), changeType.packet);
 					}
 				}
 
@@ -265,6 +250,7 @@ public:
 					SendOtherPlayer(m_SessionList[nSessionID]->RoomName.c_str(), *packet, nSessionID);
 				}
 
+				//아이템 조합 관련
 				if (Message["type"] == "ItemMix")
 				{
 					std::string Query;
@@ -308,6 +294,15 @@ private:
 			{
 				m_SessionList[nSessionIDs]->PostSend(false, packet.size, (char *)&packet);
 			}
+		}
+	}
+
+	void SendAllPlayer(const char* RoomName, PacketMessage packet)
+	{
+		for (size_t i = 0; i < Room[RoomName].Count; i++)
+		{
+			int nSessionIDs = GetRoomUserSessionID(RoomName, i);
+			m_SessionList[nSessionIDs]->PostSend(false, packet.size, (char *)&packet);
 		}
 	}
 

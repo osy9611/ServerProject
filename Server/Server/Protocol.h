@@ -29,6 +29,12 @@ struct RoomData
 	int nSessionIDs[MAX_USER_COUNT];
 	int Source[3];
 	bool Ready[MAX_USER_COUNT];
+
+	void SetSessionId(int nSessionID)
+	{
+		nSessionIDs[Count] = nSessionID;
+		Count++;
+	}
 };
 
 struct JsonData

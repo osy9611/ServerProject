@@ -127,7 +127,6 @@ void RoomManager::UserOutCheck(const char* RoomName, const int nSessionID, std::
 	}
 }
 
-
 int RoomManager::GetRoomUserSessionID(const char * RoomName,int Num)
 {
 	return Room[RoomName].nSessionIDs[Num];
