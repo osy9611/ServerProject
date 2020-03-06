@@ -30,8 +30,11 @@ float RoomManager::BoostHpCheck(float Damage)
 }
 
 //πÊ¿ª ∏∏µÎ
-void RoomManager::MakeRoom(const char* RoomName, RoomData roomData)
+void RoomManager::MakeRoom(const char* RoomName, int SessionID, int SessionID2)
 {
+	RoomData roomData;
+	roomData.SetSessionId(SessionID);
+	roomData.SetSessionId(SessionID2);
 	Room.insert(std::pair<std::string, RoomData>(RoomName, roomData));
 	
 }

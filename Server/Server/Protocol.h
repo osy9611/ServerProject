@@ -20,6 +20,12 @@ struct MyData
 {
 	std::string ID;
 	int type;
+
+	void SetData(const char * _ID, int _type)
+	{
+		ID = _ID;
+		type = _type;
+	}
 };
 
 struct RoomData

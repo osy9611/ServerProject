@@ -18,7 +18,7 @@ public:
 	void UserOutCheck(const char* RoomName, const int nSessionID, std::vector<ServerSession*> m_SessionList);
 
 	//방만듬
-	void MakeRoom(const char* RoomName, RoomData roomData);
+	void MakeRoom(const char* RoomName, int SessionID, int SessionID2);
 	
 	//방에 들어감
 	void EneterRoom(const char *RoomName, const int nSessionID);
