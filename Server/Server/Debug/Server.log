@@ -1,0 +1,26 @@
+﻿  ServerSession.cpp
+c:\users\osy96\onedrive\바탕 화면\server\server\protocol.h(94): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+c:\users\osy96\onedrive\바탕 화면\server\server\gameserver.h(67): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+c:\users\osy96\onedrive\바탕 화면\server\server\gameserver.h(83): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+c:\users\osy96\onedrive\바탕 화면\server\server\gameserver.h(209): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+c:\users\osy96\onedrive\바탕 화면\server\server\gameserver.h(219): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+c:\users\osy96\onedrive\바탕 화면\server\server\gameserver.h(245): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+c:\users\osy96\onedrive\바탕 화면\server\server\gameserver.h(257): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+c:\users\osy96\onedrive\바탕 화면\server\server\gameserver.h(279): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+c:\users\osy96\onedrive\바탕 화면\server\server\gameserver.h(294): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+c:\users\osy96\onedrive\바탕 화면\server\server\gameserver.h(334): warning C4101: 'ex' :참조되지 않은 지역 변수입니다.
+c:\users\osy96\onedrive\바탕 화면\server\server\gameserver.h(348): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+  main.cpp
+c:\users\osy96\onedrive\바탕 화면\server\server\protocol.h(94): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+c:\users\osy96\onedrive\바탕 화면\server\server\gameserver.h(67): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+c:\users\osy96\onedrive\바탕 화면\server\server\gameserver.h(83): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+c:\users\osy96\onedrive\바탕 화면\server\server\gameserver.h(209): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+c:\users\osy96\onedrive\바탕 화면\server\server\gameserver.h(219): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+c:\users\osy96\onedrive\바탕 화면\server\server\gameserver.h(245): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+c:\users\osy96\onedrive\바탕 화면\server\server\gameserver.h(257): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+c:\users\osy96\onedrive\바탕 화면\server\server\gameserver.h(279): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+c:\users\osy96\onedrive\바탕 화면\server\server\gameserver.h(294): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+c:\users\osy96\onedrive\바탕 화면\server\server\gameserver.h(334): warning C4101: 'ex' :참조되지 않은 지역 변수입니다.
+c:\users\osy96\onedrive\바탕 화면\server\server\gameserver.h(348): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+  코드를 생성하고 있습니다...
+  Server.vcxproj -> C:\Users\osy96\OneDrive\바탕 화면\Server\Debug\Server.exe
