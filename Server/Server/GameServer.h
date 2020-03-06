@@ -54,7 +54,6 @@ public:
 	{
 		dbManager.InitDB();
 		std::cout << "서버 시작....." << std::endl;
-
 		PostAccept();
 	}
 

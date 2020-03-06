@@ -11,6 +11,7 @@ DBManager::~DBManager()
 {
 }
 
+//ADO를 등록함
 void DBManager:: InitDB()
 {
 	::CoInitialize(NULL);
@@ -29,6 +30,7 @@ void DBManager:: InitDB()
 
 bool DBManager::SearchItem(const char * Source1, const char * Source2, const char * Source3,char * _result)
 {
+	//날 쿼리가 아닌 스토어드 프로시저를 사용중 추후에 개선 예정
 	std::string Query;
 	std::string Source[3];
 	Source[0] = Source1;
