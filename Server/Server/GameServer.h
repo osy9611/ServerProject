@@ -242,8 +242,15 @@ public:
 					char result[50];
 					dbManager.SearchItem("1", "1", "1", result);
 					std::cout << "결과는 " << result << std::endl;
+
+					//SubItemCount를 사용하여 아이템을 뺀다
+					RoomData data = GetRoomData(m_SessionList[nSessionID]->RoomName.c_str());
 				}
 
+				if (Message["type"] == "ItemDrop")
+				{
+					//AddItemCount를 사용하여 아이템을 넣어준다
+				}
 			}
 			catch (std::exception &ex)
 			{

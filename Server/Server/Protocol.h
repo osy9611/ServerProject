@@ -33,7 +33,7 @@ struct RoomData
 	int Count = 0;
 	int ReadyCount = 0;
 	int nSessionIDs[MAX_USER_COUNT];
-	int Source[3];
+	int Source[3] = { 0,0,0 };
 	bool Ready[MAX_USER_COUNT];
 
 	void SetSessionId(int nSessionID)

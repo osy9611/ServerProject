@@ -33,9 +33,11 @@ bool DBManager::SearchItem(const char * Source1, const char * Source2, const cha
 	//날 쿼리가 아닌 스토어드 프로시저를 사용중 추후에 개선 예정
 	std::string Query;
 	std::string Source[3];
+
 	Source[0] = Source1;
 	Source[1] = Source2;
 	Source[2] = Source3;
+
 	Query = "CALL SearchItem('" + Source[0] + "','" + Source[1] + "','" + Source[2] + "'," + "@result)";
 
 	const char *ch = Query.c_str();
