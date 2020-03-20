@@ -164,3 +164,4 @@ void  RoomManager::SubItemCount(const char* RoomName, int source1, int source2, 
 	std::cout << RoomName << " 방 현재 작업완료!" << std::endl;
 	std::cout << "현재 팀 자원" << Room[RoomName].Source[0] << " " << Room[RoomName].Source[1] << " " << Room[RoomName].Source[2] << std::endl;
 }
+

@@ -186,3 +186,24 @@ struct CoverMessage : public JsonData
 		strcpy(packet.dummy, _packet.dummy);
 	}
 };
+
+struct ItemMixResult : public JsonData
+{
+	PacketMessage packet;
+	Json::Value Data;
+
+	void Init(int source1[],int size,const char* resultItem,const char* userName)
+	{
+		for (int i = 0; i < size; ++i)
+		{
+			root["source"].append(source1[i]);
+		}
+
+		root["type"] = "ItemMixResult";
+		root["resultItem"] = resultItem;
+		root["UserName"] = userName;
+		str = writer.write(root);
+		packet.size = str.length() + 4;
+		strcpy(packet.dummy, str.c_str());
+	}
+};
