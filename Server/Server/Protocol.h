@@ -192,16 +192,49 @@ struct ItemMixResult : public JsonData
 	PacketMessage packet;
 	Json::Value Data;
 
-	void Init(int source1[],int size,const char* resultItem,const char* userName)
+	void Init(const char* resultItem)
+	{
+		root["type"] = "ItemMixResult";
+		if (strcmp(resultItem,"(null)") == 1)
+		{
+			root["result"] = "true";
+			root["Item"] = resultItem;
+		}
+		else
+		{
+			root["result"] = "false";
+		}
+		
+		str = writer.write(root);
+		packet.size = str.length() + 4;
+		strcpy(packet.dummy, str.c_str());
+	}
+};
+
+struct ItemMixFail : public JsonData
+{
+	PacketMessage packet;
+	
+	void Init()
+	{
+		root["type"] = "ItemMixResult";
+		root["result"] = "fail";
+	}
+};
+
+struct TotalItem : public JsonData
+{
+	PacketMessage packet;
+	Json::Value Data;
+
+	void Init(int source[], int size)
 	{
 		for (int i = 0; i < size; ++i)
 		{
-			root["source"].append(source1[i]);
+			root["source"].append(source[i]);
 		}
+		root["type"] = "TotalItems";
 
-		root["type"] = "ItemMixResult";
-		root["resultItem"] = resultItem;
-		root["UserName"] = userName;
 		str = writer.write(root);
 		packet.size = str.length() + 4;
 		strcpy(packet.dummy, str.c_str());

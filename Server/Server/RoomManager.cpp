@@ -145,11 +145,23 @@ RoomData RoomManager::GetRoomData(const char* RoomName)
 	return Room[RoomName];
 }
 
-void RoomManager::AddItemCount(const char* RoomName, int source1, int source2, int source3)
+//추후 작업할듯
+/*
+void RoomManager::AddItemCount(const char* RoomName, int itemType)
 {
-	Room[RoomName].Source[0] += source1;
-	Room[RoomName].Source[1] += source2;
-	Room[RoomName].Source[2] += source3;
+	std::cout << "들어온 데이터" << itemType << std::endl;
+	switch (itemType)
+	{
+	case 1:
+		Room[RoomName].Source[0]++;
+		break;
+	case 2:
+		Room[RoomName].Source[1]++;
+		break;
+	case 3:
+		Room[RoomName].Source[2]++;
+		break;
+	}
 
 	std::cout << RoomName << " 방 현재 작업완료!" << std::endl;
 	std::cout << "현재 팀 자원" <<Room[RoomName].Source[0] << " " << Room[RoomName].Source[1] << " " << Room[RoomName].Source[2] << std::endl;
@@ -164,4 +176,5 @@ void  RoomManager::SubItemCount(const char* RoomName, int source1, int source2, 
 	std::cout << RoomName << " 방 현재 작업완료!" << std::endl;
 	std::cout << "현재 팀 자원" << Room[RoomName].Source[0] << " " << Room[RoomName].Source[1] << " " << Room[RoomName].Source[2] << std::endl;
 }
+*/
 

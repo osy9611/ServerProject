@@ -52,7 +52,7 @@ public:
 
 	void Start()
 	{
-		dbManager.InitDB();
+		dbManager.InitDB();		
 		std::cout << "서버 시작....." << std::endl;
 		PostAccept();
 	}
@@ -239,28 +239,42 @@ public:
 				//아이템 조합 관련
 				if (Message["type"] == "ItemMix")
 				{
+					Json::Value source = Message["itemCount"];
+
+					std::cout << source[0].asString() << std::endl;
+					std::cout << source[1].asString() << std::endl;
+					std::cout << source[2].asString() << std::endl;
+
 					char result[50];
-					dbManager.SearchItem("1", "1", "1", result);
+					dbManager.SearchItem(source[0].asString().c_str(),
+						source[1].asString().c_str(),
+						source[2].asString().c_str(),
+						Message["money"].asString().c_str(), 
+						result);
+
 					std::cout << "결과는 " << result << std::endl;
 
-					//SubItemCount를 사용하여 아이템을 뺀다
-
-					if (result[0] != '\0')
-					{
-						SubItemCount(m_SessionList[nSessionID]->RoomName.c_str(), 1, 1, 1);
-						RoomData data = GetRoomData(m_SessionList[nSessionID]->RoomName.c_str());
-
-						ItemMixResult mixResult;
-						int dummy[3] = { 1,1,1 };
-						mixResult.Init(dummy, 3, result, m_SessionList[nSessionID]->GetName());
-					}								
+					ItemMixResult mixResult;
+					mixResult.Init(result);
+					std::cout << mixResult.str << std::endl;
+					SendOnePlayer(mixResult.packet, nSessionID);
 				}
 
-				if (Message["type"] == "ItemDrop")
+				//추후 작업할듯
+				/*
+				if (Message["type"] == "ItemGet")
 				{
 					//AddItemCount를 사용하여 아이템을 넣어준다
+					AddItemCount(m_SessionList[nSessionID]->RoomName.c_str(),Message["itemID"].asInt());
+					RoomData data = GetRoomData(m_SessionList[nSessionID]->RoomName.c_str());
+					TotalItem total;
+					total.Init(data.Source,3);
 
+					std::cout << total.str << std::endl;
+					SendAllPlayer(m_SessionList[nSessionID]->RoomName.c_str(), total.packet);
+					
 				}
+				*/
 			}
 			catch (std::exception &ex)
 			{
@@ -293,6 +307,11 @@ private:
 			int nSessionIDs = GetRoomUserSessionID(RoomName, i);
 			m_SessionList[nSessionIDs]->PostSend(false, packet.size, (char *)&packet);
 		}
+	}
+
+	void SendOnePlayer(PacketMessage packet,int nSessioID)
+	{
+		m_SessionList[nSessioID]->PostSend(false, packet.size, (char *)&packet);
 	}
 
 	bool PostAccept()
