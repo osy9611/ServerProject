@@ -157,3 +157,32 @@ public struct MosterMoving
     }
 }
 
+public struct ItemGet
+{
+    public string type;
+
+    public int itemID;
+    // public string itemName;
+
+    public void Init(int itemID)
+    {
+        type = "ItemGet";
+        this.itemID = itemID;
+    }
+}
+
+public struct ItemMix
+{
+    public string type;
+    public int[] itemID;
+    public int[] itemCount;
+    public int money;
+
+    public void Init(int[] _itemID, int[] _itemCount, int _money)
+    {
+        type = "ItemMix";
+        itemID = _itemID;
+        itemCount = _itemCount;
+        money = _money;
+    }
+}
