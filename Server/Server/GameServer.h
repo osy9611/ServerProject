@@ -9,6 +9,7 @@
 #include"ServerSession.h"
 #include"RoomManager.h"
 #include "Database.h"
+#include "DBManager.h"
 #include"Protocol.h"
 #include<map>
 
@@ -51,21 +52,8 @@ public:
 
 	void Start()
 	{
-		::CoInitialize(NULL);
-		
-		if (!db.Open("", "", CnnStr))
-		{
-			db.GetErrorErrStr(ErrStr);
-			std::cout << ErrStr << "\n";
-		}
-		else
-		{
-			std::cout << "Database Connect Success!!" << std::endl;
-		}
-		::CoUninitialize();
-
+		dbManager.InitDB();		
 		std::cout << "서버 시작....." << std::endl;
-
 		PostAccept();
 	}
 
@@ -111,15 +99,13 @@ public:
 					loginCheck.Init(Message["ID"].asString().c_str());
 					m_SessionList[nSessionID]->PostSend(false, loginCheck.packet.size, (char *)&loginCheck.packet);
 				}
+
 				//채팅
-				if (Message["type"] == "Chatting")
+				if (Message["type"] == "SendMessage")
 				{
-					for (size_t i = 0; i < m_SessionList.size(); ++i)
+					if (m_SessionList[nSessionID]->RoomName != "")
 					{
-						if (m_SessionList[i]->Socket().is_open())
-						{
-							m_SessionList[i]->PostSend(false, packet->size, (char*)&packet);
-						}
+						SendOtherPlayer(m_SessionList[nSessionID]->RoomName.c_str(), *packet, nSessionID);
 					}
 				}
 
@@ -165,6 +151,7 @@ public:
 					}
 				}
 
+				//초대결과를 보내줌
 				if (Message["type"] == "InviteResult")
 				{
 					if (atoi(Message["Answer"].asString().c_str()) == 0)
@@ -178,14 +165,8 @@ public:
 							m_SessionList[nSessionID]->RoomName = m_SessionList[m_SessionList[nSessionID]->InviteNumber]->GetName();
 							m_SessionList[m_SessionList[nSessionID]->InviteNumber]->RoomName = m_SessionList[m_SessionList[nSessionID]->InviteNumber]->GetName();
 
-							RoomData roomData;
-							roomData.nSessionIDs[roomData.Count] = nSessionID;
-							roomData.Count++;
-							roomData.nSessionIDs[roomData.Count] = m_SessionList[m_SessionList[nSessionID]->InviteNumber]->SessionID();
-							roomData.Count++;
-
 							int InviteSessionID = m_SessionList[m_SessionList[nSessionID]->InviteNumber]->SessionID();
-							Room.insert(std::pair<std::string, RoomData>(m_SessionList[nSessionID]->RoomName, roomData));
+							MakeRoom(m_SessionList[nSessionID]->RoomName.c_str(), nSessionID, InviteSessionID);
 						}
 						else
 						{
@@ -199,22 +180,14 @@ public:
 						for (size_t i = 0; i < RoomUserCount; ++i)
 						{
 							int nSessionIDs = GetRoomUserSessionID(m_SessionList[nSessionID]->RoomName.c_str(), i);
-							ID[i].ID = m_SessionList[nSessionIDs]->GetName();
-							ID[i].type = m_SessionList[nSessionIDs]->CharactorType;
+							ID[i].SetData(m_SessionList[nSessionIDs]->GetName(), m_SessionList[nSessionIDs]->CharactorType);
 						}
 
 						UserData userdata;
 						userdata.Init(ID, RoomUserCount);
 
 						std::cout << userdata.str << std::endl;
-						for (size_t i = 0; i < RoomUserCount; ++i)
-						{
-							int nSessionIDs = GetRoomUserSessionID(m_SessionList[nSessionID]->RoomName.c_str(), i);
-							if (m_SessionList[nSessionIDs]->Socket().is_open())
-							{
-								m_SessionList[nSessionIDs]->PostSend(false, userdata.packet.size, (char*)&userdata.packet);
-							}
-						}
+						SendAllPlayer(m_SessionList[nSessionID]->RoomName.c_str(), userdata.packet);
 					}
 					else
 					{
@@ -235,12 +208,7 @@ public:
 					
 					if (m_SessionList[nSessionID]->RoomName != "")
 					{
-						int RoomUserCount = GetRoomUserCount(m_SessionList[nSessionID]->RoomName.c_str());
-						for (size_t i = 0; i < RoomUserCount; ++i)
-						{
-							int nSessionIDs = GetRoomUserSessionID(m_SessionList[nSessionID]->RoomName.c_str(), i);
-							m_SessionList[nSessionIDs]->PostSend(false, changeType.packet.size, (char *)&changeType.packet);
-						}
+						SendAllPlayer(m_SessionList[nSessionID]->RoomName.c_str(), changeType.packet);
 					}
 				}
 
@@ -265,27 +233,55 @@ public:
 					SendOtherPlayer(m_SessionList[nSessionID]->RoomName.c_str(), *packet, nSessionID);
 				}
 
+				//아이템 조합 관련
 				if (Message["type"] == "ItemMix")
 				{
-					std::string Query;
-					Query = "CALL SearchItem('1','1','1',@result)";
+					Json::Value source2 = Message["itemID"];
+					Json::Value source = Message["itemCount"];
 
-					const char *ch = Query.c_str();
-					if (db.Execute(ch, tbl))
+					for (int i = 0; i < 3; i++)
 					{
-						char id[50];
-						if (db.Execute("SELECT @result", tbl))
-						{
-							if (!tbl.ISEOF())
-							{
-								std::cout << "성공" << std::endl;
-								tbl.Get((char*)"@result", id);
-								std::cout << id << std::endl;
-							}
-						}
+						std::cout << source2[i].asString() << std::endl;
+						std::cout << source[i].asString() << std::endl;
 					}
+					char result[50];
+					dbManager.SearchItem(source[0].asString().c_str(),
+						source[1].asString().c_str(),
+						source[2].asString().c_str(),
+						Message["money"].asString().c_str(), 
+						result);
+
+					std::cout << "결과는 " << result << std::endl;
+
+					ItemMixResult mixResult;
+					mixResult.Init(result);
+					std::cout << mixResult.str << std::endl;
+					SendOnePlayer(mixResult.packet, nSessionID);
 				}
 
+				if (Message["type"] == "SharedInvetory")
+				{
+					SharedInventory sharedInventory = SetInventory(1, 1, m_SessionList[nSessionID]->RoomName.c_str());
+					SendAllPlayer(m_SessionList[nSessionID]->RoomName.c_str(), sharedInventory.packet);
+				}
+
+				
+
+				//추후 작업할듯
+				/*
+				if (Message["type"] == "ItemGet")
+				{
+					//AddItemCount를 사용하여 아이템을 넣어준다
+					AddItemCount(m_SessionList[nSessionID]->RoomName.c_str(),Message["itemID"].asInt());
+					RoomData data = GetRoomData(m_SessionList[nSessionID]->RoomName.c_str());
+					TotalItem total;
+					total.Init(data.Source,3);
+
+					std::cout << total.str << std::endl;
+					SendAllPlayer(m_SessionList[nSessionID]->RoomName.c_str(), total.packet);
+					
+				}
+				*/
 			}
 			catch (std::exception &ex)
 			{
@@ -309,6 +305,20 @@ private:
 				m_SessionList[nSessionIDs]->PostSend(false, packet.size, (char *)&packet);
 			}
 		}
+	}
+
+	void SendAllPlayer(const char* RoomName, PacketMessage packet)
+	{
+		for (size_t i = 0; i < Room[RoomName].Count; i++)
+		{
+			int nSessionIDs = GetRoomUserSessionID(RoomName, i);
+			m_SessionList[nSessionIDs]->PostSend(false, packet.size, (char *)&packet);
+		}
+	}
+
+	void SendOnePlayer(PacketMessage packet,int nSessioID)
+	{
+		m_SessionList[nSessioID]->PostSend(false, packet.size, (char *)&packet);
 	}
 
 	bool PostAccept()
@@ -365,18 +375,7 @@ private:
 	Json::Value Message;
 
 	int RoomNumber;
-	
-	//데이터 베이스
-	Database db;
-	Table tbl;
 
-	//ODBC를 연결하기 위한 문자열
-	char CnnStr[200] = "DRIVER={MySQL ODBC 8.0 ANSI Driver};\
-				   SERVER=localhost;\
-				   DATABASE=gamedatas;\
-				   USER=root;\
-				   PASSWORD=@ppgk38629;";
-
-	//에러 검출
-	char ErrStr[200];
+	//DB 매니저
+	DBManager dbManager;
 };

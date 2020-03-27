@@ -61,8 +61,6 @@ bool Database::OpenTbl(int Mode, char* CmdStr, Table &Tbl)
 	RecPtr t_Rec = NULL;
 	try
 	{
-		//t_Rec->putref_ActiveConnection(m_Cnn);
-		//vtMissing<<-->>_variant_t((IDispatch *) m_Cnn, true)
 		t_Rec.CreateInstance(__uuidof(ADODB::Recordset));
 		t_Rec->Open(CmdStr, _variant_t((IDispatch *)m_Cnn, true), ADODB::adOpenStatic, ADODB::adLockOptimistic, Mode);
 	}

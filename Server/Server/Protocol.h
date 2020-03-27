@@ -8,6 +8,7 @@
 
 #define MAX_USER_COUNT 4
 
+#define MAX_INVENTORY 9
 //현재 유저가 로비에 있는지 아니면 로비에 있지않고 대기방이다 인게임에 있는지 확인하는 함수
 enum SessionState
 {
@@ -20,6 +21,12 @@ struct MyData
 {
 	std::string ID;
 	int type;
+
+	void SetData(const char * _ID, int _type)
+	{
+		ID = _ID;
+		type = _type;
+	}
 };
 
 struct RoomData
@@ -27,8 +34,14 @@ struct RoomData
 	int Count = 0;
 	int ReadyCount = 0;
 	int nSessionIDs[MAX_USER_COUNT];
-	int Source[3];
+	int Inventory[MAX_INVENTORY] = { 0, };
 	bool Ready[MAX_USER_COUNT];
+
+	void SetSessionId(int nSessionID)
+	{
+		nSessionIDs[Count] = nSessionID;
+		Count++;
+	}
 };
 
 struct JsonData
@@ -173,4 +186,65 @@ struct CoverMessage : public JsonData
 		packet.size = _packet.size;
 		strcpy(packet.dummy, _packet.dummy);
 	}
+};
+
+struct ItemMixResult : public JsonData
+{
+	PacketMessage packet;
+	Json::Value Data;
+
+	void Init(const char* resultItem)
+	{
+		root["type"] = "ItemMixResult";
+		if (strcmp(resultItem,"(null)") == 1)
+		{
+			root["result"] = "true";
+			root["Item"] = resultItem;
+		}
+		else
+		{
+			root["result"] = "false";
+		}
+		
+		str = writer.write(root);
+		packet.size = str.length() + 4;
+		strcpy(packet.dummy, str.c_str());
+	}
+};
+
+struct TotalItem : public JsonData
+{
+	PacketMessage packet;
+	Json::Value Data;
+
+	void Init(int source[], int size)
+	{
+		for (int i = 0; i < size; ++i)
+		{
+			root["source"].append(source[i]);
+		}
+		root["type"] = "TotalItems";
+
+		str = writer.write(root);
+		packet.size = str.length() + 4;
+		strcpy(packet.dummy, str.c_str());
+	}
+};
+
+struct SharedInventory :public JsonData
+{
+	PacketMessage packet;
+
+	void Init(int Inventory[])
+	{
+		for (size_t i = 0; i < MAX_INVENTORY; ++i)
+		{
+			root["Inventory"].append(Inventory[i]);
+		}
+		root["type"] = "SharedInventory";
+
+		str = writer.write(root);
+		packet.size = str.length() + 4;
+		strcpy(packet.dummy, str.c_str());
+	}	
 };
