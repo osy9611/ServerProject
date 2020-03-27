@@ -38,6 +38,8 @@ public:
 
 	//공유 인벤토리 처리부분
 	SharedInventory SetInventory(int arrayNum, int itemNumber,const char* RoomName);
+	SharedInventory SwapInventory(int arrayNum1, int arrayNum2, const char *RoomName);
+	SharedInventory DeleteInventory(int arrayNum1, const char *RoomName);
 
 protected:
 	std::map<std::string, RoomData>Room;

@@ -147,13 +147,62 @@ RoomData RoomManager::GetRoomData(const char* RoomName)
 
 SharedInventory RoomManager::SetInventory(int arrayNum, int itemNumber,const char* RoomName)
 {
-	Room[RoomName].Inventory[arrayNum] = itemNumber;
-
+	for (int i = 0; i < MAX_INVENTORY; ++i)
+	{
+		if (Room[RoomName]._Inventory[i].Inventory == itemNumber)
+		{
+			Room[RoomName]._Inventory[i].ItemCount++;
+			break;
+		}
+		if (Room[RoomName]._Inventory[i].Inventory != itemNumber && i == MAX_INVENTORY-1)
+		{
+			Room[RoomName]._Inventory[arrayNum].Inventory = itemNumber;
+			Room[RoomName]._Inventory[arrayNum].ItemCount = 0;
+			Room[RoomName]._Inventory[arrayNum].ItemCount++;
+		}
+	}
 	SharedInventory Data;
-	Data.Init(Room[RoomName].Inventory);
+	Data.Init(Room[RoomName]._Inventory);
+
+	std::cout << Room[RoomName]._Inventory[arrayNum].Inventory << std::endl;
+
 	return Data;
 }
 
+SharedInventory RoomManager::SwapInventory(int arrayNum1, int arrayNum2, const char *RoomName)
+{
+	int SwapID,SwapCount;
+
+	SwapID = Room[RoomName]._Inventory[arrayNum1].Inventory;
+	Room[RoomName]._Inventory[arrayNum1].Inventory = Room[RoomName]._Inventory[arrayNum2].Inventory;
+	Room[RoomName]._Inventory[arrayNum2].Inventory = SwapID;
+
+	SwapCount = Room[RoomName]._Inventory[arrayNum1].ItemCount;
+	Room[RoomName]._Inventory[arrayNum1].ItemCount = Room[RoomName]._Inventory[arrayNum2].ItemCount;
+	Room[RoomName]._Inventory[arrayNum2].ItemCount = SwapCount;
+
+	SharedInventory Data;
+	Data.Init(Room[RoomName]._Inventory);
+	return Data;
+}
+
+SharedInventory RoomManager::DeleteInventory(int arrayNum1, const char *RoomName)
+{
+	if (Room[RoomName]._Inventory[arrayNum1].ItemCount == 1)
+	{
+		Room[RoomName]._Inventory[arrayNum1].Inventory = 0;
+		Room[RoomName]._Inventory[arrayNum1].ItemCount = 0;
+	}
+	else if (Room[RoomName]._Inventory[arrayNum1].ItemCount > 1)
+	{
+		Room[RoomName]._Inventory[arrayNum1].ItemCount--;
+	}
+	
+
+	SharedInventory Data;
+	Data.Init(Room[RoomName]._Inventory);
+	return Data;
+}
 //추후 작업할듯
 /*
 void RoomManager::AddItemCount(const char* RoomName, int itemType)

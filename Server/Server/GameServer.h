@@ -236,14 +236,9 @@ public:
 				//아이템 조합 관련
 				if (Message["type"] == "ItemMix")
 				{
-					Json::Value source2 = Message["itemID"];
+					Json::Value sourceID = Message["itemID"];
 					Json::Value source = Message["itemCount"];
 
-					for (int i = 0; i < 3; i++)
-					{
-						std::cout << source2[i].asString() << std::endl;
-						std::cout << source[i].asString() << std::endl;
-					}
 					char result[50];
 					dbManager.SearchItem(source[0].asString().c_str(),
 						source[1].asString().c_str(),
@@ -259,12 +254,30 @@ public:
 					SendOnePlayer(mixResult.packet, nSessionID);
 				}
 
-				if (Message["type"] == "SharedInvetory")
+				if (Message["type"] == "SendShareInvInfo")
 				{
-					SharedInventory sharedInventory = SetInventory(1, 1, m_SessionList[nSessionID]->RoomName.c_str());
+					SharedInventory sharedInventory = SetInventory(Message["arrayNum"].asInt(), 
+						Message["itemNum"].asInt(), 
+						m_SessionList[nSessionID]->RoomName.c_str());
 					SendAllPlayer(m_SessionList[nSessionID]->RoomName.c_str(), sharedInventory.packet);
 				}
 
+				if (Message["type"] == "SendShareSwapInfo")
+				{
+					SharedInventory sharedInventory = SwapInventory(Message["arrayNum_1"].asInt(),
+						Message["arrayNum_2"].asInt(), 
+						m_SessionList[nSessionID]->RoomName.c_str());
+					SendAllPlayer(m_SessionList[nSessionID]->RoomName.c_str(), sharedInventory.packet);
+				}
+
+				if (Message["type"] == "SendShareDeleteInfo")
+				{
+					SharedInventory sharedInventory = DeleteInventory(Message["arrayNum"].asInt(),
+						m_SessionList[nSessionID]->RoomName.c_str());
+
+					std::cout << sharedInventory.str << std::endl;
+					SendAllPlayer(m_SessionList[nSessionID]->RoomName.c_str(), sharedInventory.packet);
+				}
 				
 
 				//추후 작업할듯

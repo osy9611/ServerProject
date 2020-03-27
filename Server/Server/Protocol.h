@@ -16,6 +16,12 @@ enum SessionState
 	NOT_ROBBY
 };
 
+struct Inventory
+{
+	int Inventory;
+	int ItemCount;
+};
+
 //각각의 캐릭터 타입과 ID를 클라이언트에 보내주기 위한 함수들
 struct MyData
 {
@@ -34,7 +40,8 @@ struct RoomData
 	int Count = 0;
 	int ReadyCount = 0;
 	int nSessionIDs[MAX_USER_COUNT];
-	int Inventory[MAX_INVENTORY] = { 0, };
+
+	Inventory _Inventory[MAX_INVENTORY] = { 0, };
 	bool Ready[MAX_USER_COUNT];
 
 	void SetSessionId(int nSessionID)
@@ -235,13 +242,14 @@ struct SharedInventory :public JsonData
 {
 	PacketMessage packet;
 
-	void Init(int Inventory[])
+	void Init(Inventory Inventory[])
 	{
 		for (size_t i = 0; i < MAX_INVENTORY; ++i)
 		{
-			root["Inventory"].append(Inventory[i]);
+			root["Inventory"].append(Inventory[i].Inventory);
+			root["ItemCount"].append(Inventory[i].ItemCount);
 		}
-		root["type"] = "SharedInventory";
+		root["type"] = "SendShareInvInfo";
 
 		str = writer.write(root);
 		packet.size = str.length() + 4;
