@@ -9,6 +9,9 @@
 #define MAX_USER_COUNT 4
 
 #define MAX_INVENTORY 9
+
+#define MAX_BOSS 2
+
 //현재 유저가 로비에 있는지 아니면 로비에 있지않고 대기방이다 인게임에 있는지 확인하는 함수
 enum SessionState
 {

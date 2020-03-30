@@ -8,8 +8,8 @@ public:
 	~DBManager();
 
 	void InitDB();
-	bool SearchItem(const char * Source1, const char * Source2, const char * Source3,const char* _Money, char * _result);
 
+	ItemMixResult SetResultItem(Json::Value _message);
 private:
 	Database db;
 	Table tbl;

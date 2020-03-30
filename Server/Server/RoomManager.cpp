@@ -14,7 +14,7 @@ int RoomManager::BossSet()
 	//random 함수 셋팅
 	std::random_device randDevice;	//렌덤 디바이스 생성
 	std::mt19937 mt(randDevice());
-	std::uniform_int_distribution<int> distribution(0, 2);
+	std::uniform_int_distribution<int> distribution(0, MAX_BOSS);
 	
 	return distribution(mt);
 }

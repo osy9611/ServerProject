@@ -236,21 +236,7 @@ public:
 				//아이템 조합 관련
 				if (Message["type"] == "ItemMix")
 				{
-					Json::Value sourceID = Message["itemID"];
-					Json::Value source = Message["itemCount"];
-
-					char result[50];
-					dbManager.SearchItem(source[0].asString().c_str(),
-						source[1].asString().c_str(),
-						source[2].asString().c_str(),
-						Message["money"].asString().c_str(), 
-						result);
-
-					std::cout << "결과는 " << result << std::endl;
-
-					ItemMixResult mixResult;
-					mixResult.Init(result);
-					std::cout << mixResult.str << std::endl;
+					ItemMixResult mixResult = dbManager.SetResultItem(Message);				
 					SendOnePlayer(mixResult.packet, nSessionID);
 				}
 
