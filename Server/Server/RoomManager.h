@@ -3,6 +3,7 @@
 
 #include <random> 
 #include "GameServer.h"
+#include "DamageManager.h"
 
 class RoomManager
 {
@@ -43,5 +44,6 @@ public:
 
 protected:
 	std::map<std::string, RoomData>Room;
+	DamageManager damageManager;
 };
 

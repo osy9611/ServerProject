@@ -1,26 +1,137 @@
-﻿  ServerSession.cpp
-c:\users\osy96\onedrive\바탕 화면\server\server\protocol.h(94): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-c:\users\osy96\onedrive\바탕 화면\server\server\gameserver.h(67): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-c:\users\osy96\onedrive\바탕 화면\server\server\gameserver.h(83): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-c:\users\osy96\onedrive\바탕 화면\server\server\gameserver.h(209): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-c:\users\osy96\onedrive\바탕 화면\server\server\gameserver.h(219): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-c:\users\osy96\onedrive\바탕 화면\server\server\gameserver.h(245): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-c:\users\osy96\onedrive\바탕 화면\server\server\gameserver.h(257): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-c:\users\osy96\onedrive\바탕 화면\server\server\gameserver.h(279): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-c:\users\osy96\onedrive\바탕 화면\server\server\gameserver.h(294): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-c:\users\osy96\onedrive\바탕 화면\server\server\gameserver.h(334): warning C4101: 'ex' :참조되지 않은 지역 변수입니다.
-c:\users\osy96\onedrive\바탕 화면\server\server\gameserver.h(348): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+﻿  Database.cpp
+c:\users\osy96\onedrive\바탕 화면\serverproject\server\server\database.cpp(15): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1774): note: 'sprintf' 선언을 참조하십시오.
+c:\users\osy96\onedrive\바탕 화면\serverproject\server\server\database.cpp(16): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1774): note: 'sprintf' 선언을 참조하십시오.
+c:\users\osy96\onedrive\바탕 화면\serverproject\server\server\database.cpp(17): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1774): note: 'sprintf' 선언을 참조하십시오.
+c:\users\osy96\onedrive\바탕 화면\serverproject\server\server\database.cpp(18): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1774): note: 'sprintf' 선언을 참조하십시오.
+c:\users\osy96\onedrive\바탕 화면\serverproject\server\server\database.cpp(19): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1774): note: 'sprintf' 선언을 참조하십시오.
+c:\users\osy96\onedrive\바탕 화면\serverproject\server\server\database.cpp(25): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1774): note: 'sprintf' 선언을 참조하십시오.
+c:\users\osy96\onedrive\바탕 화면\serverproject\server\server\database.cpp(30): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1774): note: 'sprintf' 선언을 참조하십시오.
+c:\users\osy96\onedrive\바탕 화면\serverproject\server\server\database.cpp(35): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1774): note: 'sprintf' 선언을 참조하십시오.
+c:\users\osy96\onedrive\바탕 화면\serverproject\server\server\database.cpp(49): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1774): note: 'sprintf' 선언을 참조하십시오.
+c:\users\osy96\onedrive\바탕 화면\serverproject\server\server\database.cpp(58): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1774): note: 'sprintf' 선언을 참조하십시오.
+c:\users\osy96\onedrive\바탕 화면\serverproject\server\server\database.cpp(71): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1774): note: 'sprintf' 선언을 참조하십시오.
+c:\users\osy96\onedrive\바탕 화면\serverproject\server\server\database.cpp(86): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1774): note: 'sprintf' 선언을 참조하십시오.
+c:\users\osy96\onedrive\바탕 화면\serverproject\server\server\database.cpp(100): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1774): note: 'sprintf' 선언을 참조하십시오.
+c:\users\osy96\onedrive\바탕 화면\serverproject\server\server\database.cpp(102): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1774): note: 'sprintf' 선언을 참조하십시오.
+c:\users\osy96\onedrive\바탕 화면\serverproject\server\server\database.cpp(116): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1774): note: 'sprintf' 선언을 참조하십시오.
+c:\users\osy96\onedrive\바탕 화면\serverproject\server\server\database.cpp(126): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1774): note: 'sprintf' 선언을 참조하십시오.
+c:\users\osy96\onedrive\바탕 화면\serverproject\server\server\database.cpp(137): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1774): note: 'sprintf' 선언을 참조하십시오.
+c:\users\osy96\onedrive\바탕 화면\serverproject\server\server\database.cpp(140): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1774): note: 'sprintf' 선언을 참조하십시오.
+c:\users\osy96\onedrive\바탕 화면\serverproject\server\server\database.cpp(142): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1774): note: 'sprintf' 선언을 참조하십시오.
+c:\users\osy96\onedrive\바탕 화면\serverproject\server\server\database.cpp(155): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1774): note: 'sprintf' 선언을 참조하십시오.
+c:\users\osy96\onedrive\바탕 화면\serverproject\server\server\database.cpp(157): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1774): note: 'sprintf' 선언을 참조하십시오.
+c:\users\osy96\onedrive\바탕 화면\serverproject\server\server\database.cpp(170): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1774): note: 'sprintf' 선언을 참조하십시오.
+c:\users\osy96\onedrive\바탕 화면\serverproject\server\server\database.cpp(172): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1774): note: 'sprintf' 선언을 참조하십시오.
+c:\users\osy96\onedrive\바탕 화면\serverproject\server\server\database.cpp(185): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1774): note: 'sprintf' 선언을 참조하십시오.
+c:\users\osy96\onedrive\바탕 화면\serverproject\server\server\database.cpp(187): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1774): note: 'sprintf' 선언을 참조하십시오.
+c:\users\osy96\onedrive\바탕 화면\serverproject\server\server\database.cpp(204): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1774): note: 'sprintf' 선언을 참조하십시오.
+c:\users\osy96\onedrive\바탕 화면\serverproject\server\server\database.cpp(221): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1774): note: 'sprintf' 선언을 참조하십시오.
+c:\users\osy96\onedrive\바탕 화면\serverproject\server\server\database.cpp(238): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1774): note: 'sprintf' 선언을 참조하십시오.
+c:\users\osy96\onedrive\바탕 화면\serverproject\server\server\database.cpp(255): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1774): note: 'sprintf' 선언을 참조하십시오.
+  DBManager.cpp
+c:\users\osy96\onedrive\바탕 화면\serverproject\server\server\protocol.h(119): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+c:\users\osy96\onedrive\바탕 화면\serverproject\server\server\gameserver.h(180): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+c:\users\osy96\onedrive\바탕 화면\serverproject\server\server\gameserver.h(285): warning C4101: 'ex' :참조되지 않은 지역 변수입니다.
+c:\users\osy96\onedrive\바탕 화면\serverproject\server\server\gameserver.h(299): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+c:\users\osy96\onedrive\바탕 화면\serverproject\server\server\gameserver.h(311): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
   main.cpp
-c:\users\osy96\onedrive\바탕 화면\server\server\protocol.h(94): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-c:\users\osy96\onedrive\바탕 화면\server\server\gameserver.h(67): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-c:\users\osy96\onedrive\바탕 화면\server\server\gameserver.h(83): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-c:\users\osy96\onedrive\바탕 화면\server\server\gameserver.h(209): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-c:\users\osy96\onedrive\바탕 화면\server\server\gameserver.h(219): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-c:\users\osy96\onedrive\바탕 화면\server\server\gameserver.h(245): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-c:\users\osy96\onedrive\바탕 화면\server\server\gameserver.h(257): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-c:\users\osy96\onedrive\바탕 화면\server\server\gameserver.h(279): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-c:\users\osy96\onedrive\바탕 화면\server\server\gameserver.h(294): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-c:\users\osy96\onedrive\바탕 화면\server\server\gameserver.h(334): warning C4101: 'ex' :참조되지 않은 지역 변수입니다.
-c:\users\osy96\onedrive\바탕 화면\server\server\gameserver.h(348): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+c:\users\osy96\onedrive\바탕 화면\serverproject\server\server\protocol.h(119): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+c:\users\osy96\onedrive\바탕 화면\serverproject\server\server\gameserver.h(180): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+c:\users\osy96\onedrive\바탕 화면\serverproject\server\server\gameserver.h(285): warning C4101: 'ex' :참조되지 않은 지역 변수입니다.
+c:\users\osy96\onedrive\바탕 화면\serverproject\server\server\gameserver.h(299): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+c:\users\osy96\onedrive\바탕 화면\serverproject\server\server\gameserver.h(311): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+  RoomManager.cpp
+c:\users\osy96\onedrive\바탕 화면\serverproject\server\server\protocol.h(119): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+c:\users\osy96\onedrive\바탕 화면\serverproject\server\server\gameserver.h(180): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+c:\users\osy96\onedrive\바탕 화면\serverproject\server\server\gameserver.h(285): warning C4101: 'ex' :참조되지 않은 지역 변수입니다.
+c:\users\osy96\onedrive\바탕 화면\serverproject\server\server\gameserver.h(299): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+c:\users\osy96\onedrive\바탕 화면\serverproject\server\server\gameserver.h(311): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+c:\users\osy96\onedrive\바탕 화면\serverproject\server\server\roommanager.cpp(52): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+c:\users\osy96\onedrive\바탕 화면\serverproject\server\server\roommanager.cpp(74): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+c:\users\osy96\onedrive\바탕 화면\serverproject\server\server\roommanager.cpp(89): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+c:\users\osy96\onedrive\바탕 화면\serverproject\server\server\roommanager.cpp(103): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+c:\users\osy96\onedrive\바탕 화면\serverproject\server\server\roommanager.cpp(119): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+  ServerSession.cpp
+c:\users\osy96\onedrive\바탕 화면\serverproject\server\server\protocol.h(119): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+c:\users\osy96\onedrive\바탕 화면\serverproject\server\server\gameserver.h(180): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+c:\users\osy96\onedrive\바탕 화면\serverproject\server\server\gameserver.h(285): warning C4101: 'ex' :참조되지 않은 지역 변수입니다.
+c:\users\osy96\onedrive\바탕 화면\serverproject\server\server\gameserver.h(299): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+c:\users\osy96\onedrive\바탕 화면\serverproject\server\server\gameserver.h(311): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
   코드를 생성하고 있습니다...
-  Server.vcxproj -> C:\Users\osy96\OneDrive\바탕 화면\Server\Debug\Server.exe
+DBManager.obj : error LNK2019: "public: __thiscall Json::Value::Value(enum Json::ValueType)" (??0Value@Json@@QAE@W4ValueType@1@@Z) 외부 기호(참조 위치: "public: __thiscall ItemMixResult::ItemMixResult(void)" (??0ItemMixResult@@QAE@XZ) 함수)에서 확인하지 못했습니다.
+main.obj : error LNK2001: "public: __thiscall Json::Value::Value(enum Json::ValueType)" (??0Value@Json@@QAE@W4ValueType@1@@Z) 외부 기호를 확인할 수 없습니다.
+RoomManager.obj : error LNK2001: "public: __thiscall Json::Value::Value(enum Json::ValueType)" (??0Value@Json@@QAE@W4ValueType@1@@Z) 외부 기호를 확인할 수 없습니다.
+ServerSession.obj : error LNK2001: "public: __thiscall Json::Value::Value(enum Json::ValueType)" (??0Value@Json@@QAE@W4ValueType@1@@Z) 외부 기호를 확인할 수 없습니다.
+DBManager.obj : error LNK2019: "public: __thiscall Json::Value::Value(char const *)" (??0Value@Json@@QAE@PBD@Z) 외부 기호(참조 위치: "public: void __thiscall ItemMixResult::Init(char const *)" (?Init@ItemMixResult@@QAEXPBD@Z) 함수)에서 확인하지 못했습니다.
+RoomManager.obj : error LNK2001: "public: __thiscall Json::Value::Value(char const *)" (??0Value@Json@@QAE@PBD@Z) 외부 기호를 확인할 수 없습니다.
+ServerSession.obj : error LNK2001: "public: __thiscall Json::Value::Value(char const *)" (??0Value@Json@@QAE@PBD@Z) 외부 기호를 확인할 수 없습니다.
+DBManager.obj : error LNK2019: "public: __thiscall Json::Value::Value(class Json::Value const &)" (??0Value@Json@@QAE@ABV01@@Z) 외부 기호(참조 위치: "public: struct ItemMixResult __thiscall DBManager::SetResultItem(class Json::Value)" (?SetResultItem@DBManager@@QAE?AUItemMixResult@@VValue@Json@@@Z) 함수)에서 확인하지 못했습니다.
+ServerSession.obj : error LNK2001: "public: __thiscall Json::Value::Value(class Json::Value const &)" (??0Value@Json@@QAE@ABV01@@Z) 외부 기호를 확인할 수 없습니다.
+DBManager.obj : error LNK2019: "public: __thiscall Json::Value::Value(class Json::Value &&)" (??0Value@Json@@QAE@$$QAV01@@Z) 외부 기호(참조 위치: "public: __thiscall ItemMixResult::ItemMixResult(struct ItemMixResult &&)" (??0ItemMixResult@@QAE@$$QAU0@@Z) 함수)에서 확인하지 못했습니다.
+RoomManager.obj : error LNK2001: "public: __thiscall Json::Value::Value(class Json::Value &&)" (??0Value@Json@@QAE@$$QAV01@@Z) 외부 기호를 확인할 수 없습니다.
+DBManager.obj : error LNK2019: "public: __thiscall Json::Value::~Value(void)" (??1Value@Json@@QAE@XZ) 외부 기호(참조 위치: __unwindfunclet$??0JsonData@@QAE@$$QAU0@@Z$0 함수)에서 확인하지 못했습니다.
+main.obj : error LNK2001: "public: __thiscall Json::Value::~Value(void)" (??1Value@Json@@QAE@XZ) 외부 기호를 확인할 수 없습니다.
+RoomManager.obj : error LNK2001: "public: __thiscall Json::Value::~Value(void)" (??1Value@Json@@QAE@XZ) 외부 기호를 확인할 수 없습니다.
+ServerSession.obj : error LNK2001: "public: __thiscall Json::Value::~Value(void)" (??1Value@Json@@QAE@XZ) 외부 기호를 확인할 수 없습니다.
+DBManager.obj : error LNK2019: "public: class Json::Value & __thiscall Json::Value::operator=(class Json::Value &&)" (??4Value@Json@@QAEAAV01@$$QAV01@@Z) 외부 기호(참조 위치: "public: void __thiscall ItemMixResult::Init(char const *)" (?Init@ItemMixResult@@QAEXPBD@Z) 함수)에서 확인하지 못했습니다.
+RoomManager.obj : error LNK2001: "public: class Json::Value & __thiscall Json::Value::operator=(class Json::Value &&)" (??4Value@Json@@QAEAAV01@$$QAV01@@Z) 외부 기호를 확인할 수 없습니다.
+ServerSession.obj : error LNK2001: "public: class Json::Value & __thiscall Json::Value::operator=(class Json::Value &&)" (??4Value@Json@@QAEAAV01@$$QAV01@@Z) 외부 기호를 확인할 수 없습니다.
+DBManager.obj : error LNK2019: "public: class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > __thiscall Json::Value::asString(void)const " (?asString@Value@Json@@QBE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ) 외부 기호(참조 위치: "public: struct ItemMixResult __thiscall DBManager::SetResultItem(class Json::Value)" (?SetResultItem@DBManager@@QAE?AUItemMixResult@@VValue@Json@@@Z) 함수)에서 확인하지 못했습니다.
+ServerSession.obj : error LNK2001: "public: class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > __thiscall Json::Value::asString(void)const " (?asString@Value@Json@@QBE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ) 외부 기호를 확인할 수 없습니다.
+DBManager.obj : error LNK2019: "public: class Json::Value & __thiscall Json::Value::operator[](int)" (??AValue@Json@@QAEAAV01@H@Z) 외부 기호(참조 위치: "public: struct ItemMixResult __thiscall DBManager::SetResultItem(class Json::Value)" (?SetResultItem@DBManager@@QAE?AUItemMixResult@@VValue@Json@@@Z) 함수)에서 확인하지 못했습니다.
+DBManager.obj : error LNK2019: "public: class Json::Value & __thiscall Json::Value::operator[](char const *)" (??AValue@Json@@QAEAAV01@PBD@Z) 외부 기호(참조 위치: "public: void __thiscall ItemMixResult::Init(char const *)" (?Init@ItemMixResult@@QAEXPBD@Z) 함수)에서 확인하지 못했습니다.
+RoomManager.obj : error LNK2001: "public: class Json::Value & __thiscall Json::Value::operator[](char const *)" (??AValue@Json@@QAEAAV01@PBD@Z) 외부 기호를 확인할 수 없습니다.
+ServerSession.obj : error LNK2001: "public: class Json::Value & __thiscall Json::Value::operator[](char const *)" (??AValue@Json@@QAEAAV01@PBD@Z) 외부 기호를 확인할 수 없습니다.
+DBManager.obj : error LNK2019: "public: virtual __thiscall Json::Writer::~Writer(void)" (??1Writer@Json@@UAE@XZ) 외부 기호(참조 위치: __unwindfunclet$??0StyledWriter@Json@@QAE@ABV01@@Z$0 함수)에서 확인하지 못했습니다.
+RoomManager.obj : error LNK2001: "public: virtual __thiscall Json::Writer::~Writer(void)" (??1Writer@Json@@UAE@XZ) 외부 기호를 확인할 수 없습니다.
+ServerSession.obj : error LNK2001: "public: virtual __thiscall Json::Writer::~Writer(void)" (??1Writer@Json@@UAE@XZ) 외부 기호를 확인할 수 없습니다.
+DBManager.obj : error LNK2019: "public: __thiscall Json::StyledWriter::StyledWriter(void)" (??0StyledWriter@Json@@QAE@XZ) 외부 기호(참조 위치: "public: __thiscall JsonData::JsonData(void)" (??0JsonData@@QAE@XZ) 함수)에서 확인하지 못했습니다.
+RoomManager.obj : error LNK2001: "public: __thiscall Json::StyledWriter::StyledWriter(void)" (??0StyledWriter@Json@@QAE@XZ) 외부 기호를 확인할 수 없습니다.
+ServerSession.obj : error LNK2001: "public: __thiscall Json::StyledWriter::StyledWriter(void)" (??0StyledWriter@Json@@QAE@XZ) 외부 기호를 확인할 수 없습니다.
+DBManager.obj : error LNK2001: "public: virtual class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > __thiscall Json::StyledWriter::write(class Json::Value const &)" (?write@StyledWriter@Json@@UAE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@ABVValue@2@@Z) 외부 기호를 확인할 수 없습니다.
+RoomManager.obj : error LNK2001: "public: virtual class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > __thiscall Json::StyledWriter::write(class Json::Value const &)" (?write@StyledWriter@Json@@UAE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@ABVValue@2@@Z) 외부 기호를 확인할 수 없습니다.
+main.obj : error LNK2019: "public: __thiscall Json::Reader::Reader(void)" (??0Reader@Json@@QAE@XZ) 외부 기호(참조 위치: "public: __thiscall GameServer::GameServer(class boost::asio::io_context &)" (??0GameServer@@QAE@AAVio_context@asio@boost@@@Z) 함수)에서 확인하지 못했습니다.
+RoomManager.obj : error LNK2019: "public: __thiscall Json::Value::Value(int)" (??0Value@Json@@QAE@H@Z) 외부 기호(참조 위치: "public: void __thiscall SharedInventory::Init(struct Inventory * const)" (?Init@SharedInventory@@QAEXQAUInventory@@@Z) 함수)에서 확인하지 못했습니다.
+ServerSession.obj : error LNK2001: "public: __thiscall Json::Value::Value(int)" (??0Value@Json@@QAE@H@Z) 외부 기호를 확인할 수 없습니다.
+RoomManager.obj : error LNK2019: "public: __thiscall Json::Value::Value(class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > const &)" (??0Value@Json@@QAE@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z) 외부 기호(참조 위치: "public: void __thiscall Ready::Init(char const *,bool,struct MyData *,int)" (?Init@Ready@@QAEXPBD_NPAUMyData@@H@Z) 함수)에서 확인하지 못했습니다.
+ServerSession.obj : error LNK2001: "public: __thiscall Json::Value::Value(class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > const &)" (??0Value@Json@@QAE@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z) 외부 기호를 확인할 수 없습니다.
+RoomManager.obj : error LNK2019: "public: __thiscall Json::Value::Value(bool)" (??0Value@Json@@QAE@_N@Z) 외부 기호(참조 위치: "public: void __thiscall Ready::Init(char const *,bool,struct MyData *,int)" (?Init@Ready@@QAEXPBD_NPAUMyData@@H@Z) 함수)에서 확인하지 못했습니다.
+RoomManager.obj : error LNK2019: "public: class Json::Value & __thiscall Json::Value::operator=(class Json::Value const &)" (??4Value@Json@@QAEAAV01@ABV01@@Z) 외부 기호(참조 위치: "public: void __thiscall Ready::Init(char const *,bool,struct MyData *,int)" (?Init@Ready@@QAEXPBD_NPAUMyData@@H@Z) 함수)에서 확인하지 못했습니다.
+ServerSession.obj : error LNK2001: "public: class Json::Value & __thiscall Json::Value::operator=(class Json::Value const &)" (??4Value@Json@@QAEAAV01@ABV01@@Z) 외부 기호를 확인할 수 없습니다.
+RoomManager.obj : error LNK2019: "public: class Json::Value & __thiscall Json::Value::append(class Json::Value const &)" (?append@Value@Json@@QAEAAV12@ABV12@@Z) 외부 기호(참조 위치: "public: void __thiscall Ready::Init(char const *,bool,struct MyData *,int)" (?Init@Ready@@QAEXPBD_NPAUMyData@@H@Z) 함수)에서 확인하지 못했습니다.
+ServerSession.obj : error LNK2001: "public: class Json::Value & __thiscall Json::Value::append(class Json::Value const &)" (?append@Value@Json@@QAEAAV12@ABV12@@Z) 외부 기호를 확인할 수 없습니다.
+RoomManager.obj : error LNK2019: "public: class Json::Value & __thiscall Json::Value::append(class Json::Value &&)" (?append@Value@Json@@QAEAAV12@$$QAV12@@Z) 외부 기호(참조 위치: "public: void __thiscall SharedInventory::Init(struct Inventory * const)" (?Init@SharedInventory@@QAEXQAUInventory@@@Z) 함수)에서 확인하지 못했습니다.
+ServerSession.obj : error LNK2019: "public: bool __thiscall Json::Value::operator==(class Json::Value const &)const " (??8Value@Json@@QBE_NABV01@@Z) 외부 기호(참조 위치: "public: void __thiscall GameServer::ProcessPacket(int,char const *,int)" (?ProcessPacket@GameServer@@QAEXHPBDH@Z) 함수)에서 확인하지 못했습니다.
+ServerSession.obj : error LNK2019: "public: int __thiscall Json::Value::asInt(void)const " (?asInt@Value@Json@@QBEHXZ) 외부 기호(참조 위치: "public: void __thiscall GameServer::ProcessPacket(int,char const *,int)" (?ProcessPacket@GameServer@@QAEXHPBDH@Z) 함수)에서 확인하지 못했습니다.
+ServerSession.obj : error LNK2019: "public: bool __thiscall Json::Reader::parse(class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > const &,class Json::Value &,bool)" (?parse@Reader@Json@@QAE_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@AAVValue@2@_N@Z) 외부 기호(참조 위치: "public: void __thiscall GameServer::ProcessPacket(int,char const *,int)" (?ProcessPacket@GameServer@@QAEXHPBDH@Z) 함수)에서 확인하지 못했습니다.
+C:\Users\osy96\OneDrive\바탕 화면\ServerProject\Server\Server\json\lib\lib_json.lib : warning LNK4272: 'x64' 라이브러리 컴퓨터 종류가 'x86' 대상 컴퓨터 종류와 충돌합니다.
+C:\Users\osy96\OneDrive\바탕 화면\ServerProject\Server\Debug\Server.exe : fatal error LNK1120: 22개의 확인할 수 없는 외부 참조입니다.

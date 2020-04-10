@@ -228,8 +228,6 @@ public:
 				//키입력을 받았을 경우에 사용하는 함수
 				if (Message["type"] == "PlayerData")
 				{
-					CoverMessage coverMessage;
-					coverMessage.Init(*packet);
 					SendOtherPlayer(m_SessionList[nSessionID]->RoomName.c_str(), *packet, nSessionID);
 				}
 
@@ -265,6 +263,19 @@ public:
 					SendAllPlayer(m_SessionList[nSessionID]->RoomName.c_str(), sharedInventory.packet);
 				}
 				
+				if (Message["type"] == "BossDamage")
+				{
+					float Damage = damageManager.BoosDamageCalc(0, 0);
+					DamageResult damageResult;
+					damageResult.Init(Damage, true, "");
+				}
+
+				if (Message["type"] == "PlayerDamage")
+				{
+					float Damage = damageManager.PlayerDamageCalc(0, 0);
+					DamageResult damageResult;
+					damageResult.Init(Damage, false, m_SessionList[nSessionID]->RoomName.c_str());
+				}
 
 				//추후 작업할듯
 				/*

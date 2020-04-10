@@ -54,17 +54,9 @@ struct RoomData
 	}
 };
 
-struct JsonData
+struct BossData
 {
-	Json::Value root;
-	Json::StyledWriter writer;
-	std::string str = "";
-	int size;
-};
-
-struct PacketHeader
-{
-	int size;
+	float Hp;
 };
 
 struct PacketMessage
@@ -73,22 +65,42 @@ struct PacketMessage
 	char dummy[MAX_RECEIVE_BUFFER_LEN * 2];
 };
 
-struct LoginCheck : public JsonData
+struct JsonData
 {
+	Json::Value root;
+	Json::StyledWriter writer;
+	std::string str = "";
+
 	PacketMessage packet;
-	void Init(const char* pData)
+	int size;
+
+	void SetJsonData()
 	{
-		root["type"] = "LoginCheck";
-		root["Message"] = pData;
 		str = writer.write(root);
 		packet.size = str.length() + 4;
 		strcpy(packet.dummy, str.c_str());
 	}
 };
 
+struct PacketHeader
+{
+	int size;
+};
+
+
+
+struct LoginCheck : public JsonData
+{
+	void Init(const char* pData)
+	{
+		root["type"] = "LoginCheck";
+		root["Message"] = pData;
+		SetJsonData();
+	}
+};
+
 struct ResultFriend : public JsonData
 {
-	PacketMessage packet;
 	void Init(bool result, const char* pData)
 	{
 		if (result)
@@ -102,15 +114,12 @@ struct ResultFriend : public JsonData
 			root["type"] = "UI";
 			root["UItype"] = "NoUserMessage";
 		}
-		str = writer.write(root);
-		packet.size = str.length() + 4;
-		strcpy(packet.dummy, str.c_str());
+		SetJsonData();
 	}
 };
 
 struct UserData : public JsonData
 {
-	PacketMessage packet;
 	Json::Value Data;
 	void Init(MyData *SessionID, int len)
 	{
@@ -125,42 +134,33 @@ struct UserData : public JsonData
 		}
 
 		root["UserList"] = Data;
-		str = writer.write(root);
-		packet.size = str.length() + 4;
-		strcpy(packet.dummy, str.c_str());
+		SetJsonData();
 	}
 };
 
 struct UserOut : public JsonData
 {
-	PacketMessage packet;
 	void Init(const char* pData)
 	{
 		root["type"] = "UserOut";
 		root["Name"] = pData;
-		str = writer.write(root);
-		packet.size = str.length() + 4;
-		strcpy(packet.dummy, str.c_str());
+		SetJsonData();
 	}
 };
 
 struct ChangeType : public JsonData
 {
-	PacketMessage packet;
 	void Init(int type, const char *pData)
 	{
 		root["type"] = "ChangeType";
 		root["Name"] = pData;
 		root["CharactorNum"] = type;
-		str = writer.write(root);
-		packet.size = str.length() + 4;
-		strcpy(packet.dummy, str.c_str());
+		SetJsonData();
 	}
 };
 
 struct Ready : public JsonData
 {
-	PacketMessage packet;
 	Json::Value Data;
 	void Init(const char *pData, bool Start, MyData *mData, int mCnt)
 	{
@@ -181,16 +181,12 @@ struct Ready : public JsonData
 			}
 			root["SessionIDList"] = Data;
 		}
-		str = writer.write(root);
-		packet.size = str.length() + 4;
-		strcpy(packet.dummy, str.c_str());
+		SetJsonData();
 	}
 };
 
 struct CoverMessage : public JsonData
 {
-	PacketMessage packet;
-
 	void Init(PacketMessage _packet)
 	{
 		packet.size = _packet.size;
@@ -200,7 +196,6 @@ struct CoverMessage : public JsonData
 
 struct ItemMixResult : public JsonData
 {
-	PacketMessage packet;
 	Json::Value Data;
 
 	void Init(const char* resultItem)
@@ -216,15 +211,12 @@ struct ItemMixResult : public JsonData
 			root["result"] = "false";
 		}
 		
-		str = writer.write(root);
-		packet.size = str.length() + 4;
-		strcpy(packet.dummy, str.c_str());
+		SetJsonData();
 	}
 };
 
 struct TotalItem : public JsonData
 {
-	PacketMessage packet;
 	Json::Value Data;
 
 	void Init(int source[], int size)
@@ -235,16 +227,12 @@ struct TotalItem : public JsonData
 		}
 		root["type"] = "TotalItems";
 
-		str = writer.write(root);
-		packet.size = str.length() + 4;
-		strcpy(packet.dummy, str.c_str());
+		SetJsonData();
 	}
 };
 
 struct SharedInventory :public JsonData
 {
-	PacketMessage packet;
-
 	void Init(Inventory Inventory[])
 	{
 		for (size_t i = 0; i < MAX_INVENTORY; ++i)
@@ -254,8 +242,26 @@ struct SharedInventory :public JsonData
 		}
 		root["type"] = "SendShareInvInfo";
 
-		str = writer.write(root);
-		packet.size = str.length() + 4;
-		strcpy(packet.dummy, str.c_str());
+		SetJsonData();
 	}	
+};
+
+struct DamageResult : public JsonData
+{
+	void Init(float Damage, bool boss,const char* name)
+	{
+		if (boss)
+		{
+			root["type"] = "BossHp";
+		}
+		else
+		{
+			root["type"] = "PlayerDamage";
+			root["PlayerName"] = name;
+		}
+
+		root["Hp"] = Damage;
+
+		SetJsonData();
+	}
 };

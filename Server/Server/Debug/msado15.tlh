@@ -1,9 +1,9 @@
-﻿// Created by Microsoft (R) C/C++ Compiler Version 14.16.27034.0 (ce4ef26a).
+﻿// Created by Microsoft (R) C/C++ Compiler Version 14.16.27034.0 (af7e5b59).
 //
-// c:\users\osy96\onedrive\바탕 화면\server\server\debug\msado15.tlh
+// c:\users\osy96\onedrive\바탕 화면\serverproject\server\server\debug\msado15.tlh
 //
 // C++ source equivalent of type library C:\Program Files\Common Files\System\ado\msado15.dll
-// compiler-generated file created 02/22/20 at 16:44:34 - DO NOT EDIT!
+// compiler-generated file created 03/30/20 at 22:58:16 - DO NOT EDIT!
 
 #pragma once
 #pragma pack(push, 8)
@@ -5024,7 +5024,7 @@ _Record_Deprecated : _ADO
 // Wrapper method implementations
 //
 
-#include "c:\users\osy96\onedrive\바탕 화면\server\server\debug\msado15.tli"
+#include "c:\users\osy96\onedrive\바탕 화면\serverproject\server\server\debug\msado15.tli"
 
 } // namespace ADODB
 

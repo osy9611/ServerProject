@@ -203,6 +203,8 @@ SharedInventory RoomManager::DeleteInventory(int arrayNum1, const char *RoomName
 	Data.Init(Room[RoomName]._Inventory);
 	return Data;
 }
+
+
 //추후 작업할듯
 /*
 void RoomManager::AddItemCount(const char* RoomName, int itemType)
