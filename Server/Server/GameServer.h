@@ -10,6 +10,7 @@
 #include"RoomManager.h"
 #include "Database.h"
 #include "DBManager.h"
+#include"BossManager.h"
 #include"Protocol.h"
 #include<map>
 
@@ -52,7 +53,8 @@ public:
 
 	void Start()
 	{
-		dbManager.InitDB();		
+		dbManager = DBManager::getInstance();
+		dbManager->InitDB();		
 		std::cout << "서버 시작....." << std::endl;
 		PostAccept();
 	}
@@ -229,12 +231,13 @@ public:
 				if (Message["type"] == "PlayerData")
 				{
 					SendOtherPlayer(m_SessionList[nSessionID]->RoomName.c_str(), *packet, nSessionID);
+					std::cout << packet->dummy << std::endl;
 				}
 
 				//아이템 조합 관련
 				if (Message["type"] == "ItemMix")
 				{
-					ItemMixResult mixResult = dbManager.SetResultItem(Message);				
+					ItemMixResult mixResult = dbManager->SetResultItem(Message);				
 					SendOnePlayer(mixResult.packet, nSessionID);
 				}
 
@@ -387,5 +390,5 @@ private:
 	int RoomNumber;
 
 	//DB 매니저
-	DBManager dbManager;
+	DBManager *dbManager;
 };

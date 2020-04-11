@@ -38,7 +38,9 @@ struct MyData
 	}
 };
 
-struct RoomData
+class BossManager;
+
+struct RoomData 
 {
 	int Count = 0;
 	int ReadyCount = 0;
@@ -46,6 +48,8 @@ struct RoomData
 
 	Inventory _Inventory[MAX_INVENTORY] = { 0, };
 	bool Ready[MAX_USER_COUNT];
+
+	BossManager *bossManager;
 
 	void SetSessionId(int nSessionID)
 	{
@@ -56,7 +60,9 @@ struct RoomData
 
 struct BossData
 {
-	float Hp;
+	int Item[3] = { 0, };
+	int ItemPer[3] = { 0, };
+	int Money;
 };
 
 struct PacketMessage

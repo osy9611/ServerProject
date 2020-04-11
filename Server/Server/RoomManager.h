@@ -45,5 +45,7 @@ public:
 protected:
 	std::map<std::string, RoomData>Room;
 	DamageManager damageManager;
+
+
 };
 

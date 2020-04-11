@@ -1,6 +1,15 @@
 #include"GameServer.h"
 #include "DBManager.h"
 
+DBManager* DBManager::instance = nullptr;
+
+DBManager* DBManager::getInstance()
+{
+	if (instance == nullptr)
+		instance = new DBManager();
+
+	return instance;
+}
 
 DBManager::DBManager()
 {
@@ -68,4 +77,44 @@ ItemMixResult DBManager::SetResultItem(Json::Value _message)
 	mixResult.Init(result);
 	std::cout << mixResult.str << std::endl;
 	return mixResult;
+}
+
+BossData DBManager::SearchBossDrop(int BossNum)
+{
+	std::string Query;
+
+	Query = "CALL BossDrop(" + std::to_string(BossNum) + "," +
+		"@Item1,@ItemPer1,@Item2,@ItemPer2,@Item3,@ItemPer3,@Money)";
+
+	BossData Result;
+
+	const char *ch = Query.c_str();
+
+	std::string _item[3] = { "@Item1", "@Item2" ,"@Item3" };
+	std::string _itemPer[3] = { "@ItemPer1","@ItemPer2","@ItemPer3" };
+
+	char result[50];
+	if (db.Execute(ch, tbl))
+	{
+		if (db.Execute("SELECT @Item1,@ItemPer1,@Item2,@ItemPer2,@Item3,@ItemPer3,@Money", tbl))
+		{
+			if (!tbl.ISEOF())
+			{
+				std::cout << "¼º°ø" << std::endl;		
+				for (int i = 0; i < 3; ++i)
+				{
+					tbl.Get((char*)_item[i].c_str(), result);
+					Result.Item[i] = atoi(result);
+					result[0] = '\0';
+
+					tbl.Get((char*)_itemPer[i].c_str(), result);
+					Result.ItemPer[i] = atoi(result);
+					result[0] = '\0';
+				}
+				tbl.Get((char*)"@Money", result);
+				Result.Money = atoi(result);
+			}
+		}
+	}
+	return Result;
 }

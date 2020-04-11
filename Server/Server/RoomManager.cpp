@@ -2,6 +2,7 @@
 #include "GameServer.h"
 RoomManager::RoomManager()
 {
+
 }
 
 
@@ -79,6 +80,8 @@ void RoomManager::RoomReady(const char* RoomName, const int nSessionID, std::vec
 
 				ready.Init(m_SessionList[nSessionID]->GetName(), true, ID, Room[RoomName].Count);
 
+				Room[RoomName].bossManager = new BossManager;
+				Room[RoomName].bossManager->SetBoosData(1);
 				std::cout << ready.str << std::endl;
 			}
 			else
@@ -125,6 +128,7 @@ void RoomManager::UserOutCheck(const char* RoomName, const int nSessionID, std::
 	}
 	else
 	{
+		delete Room[m_SessionList[nSessionID]->RoomName].bossManager;
 		Room.erase(m_SessionList[nSessionID]->RoomName);
 		std::cout << "방에 유저가 없어서 삭제되었습니다" << std::endl;
 	}

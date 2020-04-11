@@ -3,13 +3,23 @@
 
 class DBManager
 {
+private:
+
+	//데이터베이스는 어디서든 접근을 해야하기 때문에 싱글콘으로 만들었다
+	static DBManager* instance;
+
 public:
+
 	DBManager();
 	~DBManager();
+
+	static DBManager* getInstance();
 
 	void InitDB();
 
 	ItemMixResult SetResultItem(Json::Value _message);
+	BossData SearchBossDrop(int BossNum);
+
 private:
 	Database db;
 	Table tbl;
