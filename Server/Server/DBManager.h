@@ -14,6 +14,7 @@ public:
 	~DBManager();
 
 	static DBManager* getInstance();
+	static void FreeInstance();
 
 	void InitDB();
 

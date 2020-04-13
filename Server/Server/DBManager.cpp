@@ -11,6 +11,15 @@ DBManager* DBManager::getInstance()
 	return instance;
 }
 
+void DBManager::FreeInstance()
+{
+	if (NULL != instance)
+	{
+		delete instance;
+		instance = NULL;
+	}
+}
+
 DBManager::DBManager()
 {
 }
@@ -96,6 +105,7 @@ BossData DBManager::SearchBossDrop(int BossNum)
 	char result[50];
 	if (db.Execute(ch, tbl))
 	{
+		std::cout << "저장 프로시저 성공" << std::endl;
 		if (db.Execute("SELECT @Item1,@ItemPer1,@Item2,@ItemPer2,@Item3,@ItemPer3,@Money", tbl))
 		{
 			if (!tbl.ISEOF())

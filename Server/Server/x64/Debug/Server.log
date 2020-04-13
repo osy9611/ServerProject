@@ -1,34 +1,35 @@
 ﻿  BossManager.cpp
 c:\users\osy96\onedrive\바탕 화면\serverproject\server\server\protocol.h(86): warning C4267: '=': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\osy96\onedrive\바탕 화면\serverproject\server\server\gameserver.h(184): warning C4267: '인수': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\osy96\onedrive\바탕 화면\serverproject\server\server\gameserver.h(299): warning C4101: 'ex' :참조되지 않은 지역 변수입니다.
-c:\users\osy96\onedrive\바탕 화면\serverproject\server\server\gameserver.h(315): warning C4267: '인수': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\osy96\onedrive\바탕 화면\serverproject\server\server\gameserver.h(327): warning C4267: '인수': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\osy96\onedrive\바탕 화면\serverproject\server\server\gameserver.h(185): warning C4267: '인수': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\osy96\onedrive\바탕 화면\serverproject\server\server\gameserver.h(298): warning C4101: 'ex' :참조되지 않은 지역 변수입니다.
+c:\users\osy96\onedrive\바탕 화면\serverproject\server\server\gameserver.h(314): warning C4267: '인수': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\osy96\onedrive\바탕 화면\serverproject\server\server\gameserver.h(326): warning C4267: '인수': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\osy96\onedrive\바탕 화면\serverproject\server\server\bossmanager.cpp(69): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
   DBManager.cpp
 c:\users\osy96\onedrive\바탕 화면\serverproject\server\server\protocol.h(86): warning C4267: '=': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\osy96\onedrive\바탕 화면\serverproject\server\server\gameserver.h(184): warning C4267: '인수': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\osy96\onedrive\바탕 화면\serverproject\server\server\gameserver.h(299): warning C4101: 'ex' :참조되지 않은 지역 변수입니다.
-c:\users\osy96\onedrive\바탕 화면\serverproject\server\server\gameserver.h(315): warning C4267: '인수': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\osy96\onedrive\바탕 화면\serverproject\server\server\gameserver.h(327): warning C4267: '인수': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  RoomManager.cpp
-c:\users\osy96\onedrive\바탕 화면\serverproject\server\server\protocol.h(86): warning C4267: '=': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\osy96\onedrive\바탕 화면\serverproject\server\server\gameserver.h(184): warning C4267: '인수': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\osy96\onedrive\바탕 화면\serverproject\server\server\gameserver.h(299): warning C4101: 'ex' :참조되지 않은 지역 변수입니다.
-c:\users\osy96\onedrive\바탕 화면\serverproject\server\server\gameserver.h(315): warning C4267: '인수': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\osy96\onedrive\바탕 화면\serverproject\server\server\gameserver.h(327): warning C4267: '인수': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  ServerSession.cpp
-c:\users\osy96\onedrive\바탕 화면\serverproject\server\server\protocol.h(86): warning C4267: '=': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\osy96\onedrive\바탕 화면\serverproject\server\server\gameserver.h(184): warning C4267: '인수': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\osy96\onedrive\바탕 화면\serverproject\server\server\gameserver.h(299): warning C4101: 'ex' :참조되지 않은 지역 변수입니다.
-c:\users\osy96\onedrive\바탕 화면\serverproject\server\server\gameserver.h(315): warning C4267: '인수': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\osy96\onedrive\바탕 화면\serverproject\server\server\gameserver.h(327): warning C4267: '인수': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\osy96\onedrive\바탕 화면\serverproject\server\server\serversession.cpp(99): warning C4267: '인수': 'size_t'에서 'const int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\osy96\onedrive\바탕 화면\serverproject\server\server\serversession.cpp(135): warning C4267: '초기화 중': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\osy96\onedrive\바탕 화면\serverproject\server\server\gameserver.h(185): warning C4267: '인수': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\osy96\onedrive\바탕 화면\serverproject\server\server\gameserver.h(298): warning C4101: 'ex' :참조되지 않은 지역 변수입니다.
+c:\users\osy96\onedrive\바탕 화면\serverproject\server\server\gameserver.h(314): warning C4267: '인수': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\osy96\onedrive\바탕 화면\serverproject\server\server\gameserver.h(326): warning C4267: '인수': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
   main.cpp
 c:\users\osy96\onedrive\바탕 화면\serverproject\server\server\protocol.h(86): warning C4267: '=': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\osy96\onedrive\바탕 화면\serverproject\server\server\gameserver.h(184): warning C4267: '인수': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\osy96\onedrive\바탕 화면\serverproject\server\server\gameserver.h(299): warning C4101: 'ex' :참조되지 않은 지역 변수입니다.
-c:\users\osy96\onedrive\바탕 화면\serverproject\server\server\gameserver.h(315): warning C4267: '인수': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\osy96\onedrive\바탕 화면\serverproject\server\server\gameserver.h(327): warning C4267: '인수': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\osy96\onedrive\바탕 화면\serverproject\server\server\gameserver.h(185): warning C4267: '인수': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\osy96\onedrive\바탕 화면\serverproject\server\server\gameserver.h(298): warning C4101: 'ex' :참조되지 않은 지역 변수입니다.
+c:\users\osy96\onedrive\바탕 화면\serverproject\server\server\gameserver.h(314): warning C4267: '인수': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\osy96\onedrive\바탕 화면\serverproject\server\server\gameserver.h(326): warning C4267: '인수': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  RoomManager.cpp
+c:\users\osy96\onedrive\바탕 화면\serverproject\server\server\protocol.h(86): warning C4267: '=': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\osy96\onedrive\바탕 화면\serverproject\server\server\gameserver.h(185): warning C4267: '인수': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\osy96\onedrive\바탕 화면\serverproject\server\server\gameserver.h(298): warning C4101: 'ex' :참조되지 않은 지역 변수입니다.
+c:\users\osy96\onedrive\바탕 화면\serverproject\server\server\gameserver.h(314): warning C4267: '인수': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\osy96\onedrive\바탕 화면\serverproject\server\server\gameserver.h(326): warning C4267: '인수': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  ServerSession.cpp
+c:\users\osy96\onedrive\바탕 화면\serverproject\server\server\protocol.h(86): warning C4267: '=': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\osy96\onedrive\바탕 화면\serverproject\server\server\gameserver.h(185): warning C4267: '인수': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\osy96\onedrive\바탕 화면\serverproject\server\server\gameserver.h(298): warning C4101: 'ex' :참조되지 않은 지역 변수입니다.
+c:\users\osy96\onedrive\바탕 화면\serverproject\server\server\gameserver.h(314): warning C4267: '인수': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\osy96\onedrive\바탕 화면\serverproject\server\server\gameserver.h(326): warning C4267: '인수': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\osy96\onedrive\바탕 화면\serverproject\server\server\serversession.cpp(99): warning C4267: '인수': 'size_t'에서 'const int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\osy96\onedrive\바탕 화면\serverproject\server\server\serversession.cpp(135): warning C4267: '초기화 중': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
   코드를 생성하고 있습니다...
   Server.vcxproj -> C:\Users\osy96\OneDrive\바탕 화면\ServerProject\Server\x64\Debug\Server.exe

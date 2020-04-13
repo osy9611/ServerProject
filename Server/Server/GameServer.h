@@ -6,6 +6,7 @@
 #include<deque>
 #include<string>
 #include<tchar.h>
+#include<random>
 #include"ServerSession.h"
 #include"RoomManager.h"
 #include "Database.h"
@@ -231,7 +232,6 @@ public:
 				if (Message["type"] == "PlayerData")
 				{
 					SendOtherPlayer(m_SessionList[nSessionID]->RoomName.c_str(), *packet, nSessionID);
-					std::cout << packet->dummy << std::endl;
 				}
 
 				//아이템 조합 관련
@@ -268,16 +268,15 @@ public:
 				
 				if (Message["type"] == "BossDamage")
 				{
-					float Damage = damageManager.BoosDamageCalc(0, 0);
-					DamageResult damageResult;
-					damageResult.Init(Damage, true, "");
+					BossResult bossResult = Room[m_SessionList[nSessionID]->RoomName].bossManager->HitBoss(1);
+
+					std::cout << bossResult.str << std::endl;
+					SendAllPlayer(m_SessionList[nSessionID]->RoomName.c_str(), bossResult.packet);
 				}
 
 				if (Message["type"] == "PlayerDamage")
 				{
-					float Damage = damageManager.PlayerDamageCalc(0, 0);
-					DamageResult damageResult;
-					damageResult.Init(Damage, false, m_SessionList[nSessionID]->RoomName.c_str());
+					SendOtherPlayer(m_SessionList[nSessionID]->RoomName.c_str(), *packet, nSessionID);
 				}
 
 				//추후 작업할듯

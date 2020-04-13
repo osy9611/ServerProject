@@ -81,7 +81,7 @@ void RoomManager::RoomReady(const char* RoomName, const int nSessionID, std::vec
 				ready.Init(m_SessionList[nSessionID]->GetName(), true, ID, Room[RoomName].Count);
 
 				Room[RoomName].bossManager = new BossManager;
-				Room[RoomName].bossManager->SetBoosData(1);
+				Room[RoomName].bossManager->SetBossData(1);
 				std::cout << ready.str << std::endl;
 			}
 			else

@@ -144,7 +144,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BossManager.cpp" />
-    <ClCompile Include="DamageManager.cpp" />
     <ClCompile Include="Database.cpp" />
     <ClCompile Include="DBManager.cpp" />
     <ClCompile Include="main.cpp" />
@@ -153,7 +152,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BossManager.h" />
-    <ClInclude Include="DamageManager.h" />
     <ClInclude Include="Database.h" />
     <ClInclude Include="DBManager.h" />
     <ClInclude Include="GameServer.h" />

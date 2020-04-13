@@ -252,22 +252,44 @@ struct SharedInventory :public JsonData
 	}	
 };
 
-struct DamageResult : public JsonData
+//struct DamageResult : public JsonData
+//{
+//	void Init(float Damage, bool boss,const char* name)
+//	{
+//		if (boss)
+//		{
+//			root["type"] = "BossHp";
+//		}
+//		else
+//		{
+//			root["type"] = "PlayerDamage";
+//			root["PlayerName"] = name;
+//		}
+//
+//		root["Hp"] = Damage;
+//
+//		SetJsonData();
+//	}
+//};
+
+struct BossResult :public JsonData
 {
-	void Init(float Damage, bool boss,const char* name)
+	void Init(int Item[], int ItemCount, int Money)
 	{
-		if (boss)
+		root["type"] = "GameClear";
+		for (int i = 0; i < ItemCount; ++i)
 		{
-			root["type"] = "BossHp";
+			root["items"].append(Item[i]);
 		}
-		else
-		{
-			root["type"] = "PlayerDamage";
-			root["PlayerName"] = name;
-		}
+		root["money"] = Money;
 
-		root["Hp"] = Damage;
+		SetJsonData();
+	}
 
+	void Init(int Hp)
+	{
+		root["type"] = "GameClear";
+		root["Hp"] = Hp;
 		SetJsonData();
 	}
 };
