@@ -76,19 +76,19 @@ BossResult BossManager::HitBoss(float BossDamage)
 int BossManager::PhaseCheck(int Hp)
 {
 	
-	if (_BossData.PhaseHp[0] >= Hp || _BossData.PhaseHp[1] <= Hp)
+	if (_BossData.PhaseHp[0] >= Hp && _BossData.PhaseHp[1] <= Hp)
 	{
 		return _BossData.Phase[0];
 	}
-	else if (_BossData.PhaseHp[1] >= Hp || _BossData.PhaseHp[2] <= Hp)
+	else if (_BossData.PhaseHp[1] >= Hp && _BossData.PhaseHp[2] <= Hp)
 	{
 		return _BossData.Phase[1];
 	}
-	else if (_BossData.PhaseHp[2] >= Hp || _BossData.PhaseHp[3] <= Hp)
+	else if (_BossData.PhaseHp[2] >= Hp && _BossData.PhaseHp[3] <= Hp)
 	{
 		return _BossData.Phase[2];
 	}
-	else if (_BossData.PhaseHp[3] >= Hp || _BossData.PhaseHp[4] <= Hp)
+	else if (_BossData.PhaseHp[3] >= Hp && _BossData.PhaseHp[4] <= Hp)
 	{
 		return _BossData.Phase[3];
 	}
@@ -101,11 +101,17 @@ int BossManager::PhaseCheck(int Hp)
 BossPhaseResult BossManager::CalcPhase(Json::Value _message)
 {
 	BossPhaseResult result;
+	XMFLOAT2 dir;
 	switch (Phase)
 	{
 	case 0:	//ÆäÀÌÁî 1
-		XMFLOAT2 dir =DirCalc(_message["px"].asInt(), _message["py"].asInt(),_message["bx"].asInt(),_message["by"].asInt());
+		dir =DirCalc(_message["px"].asInt(), _message["py"].asInt(),_message["bx"].asInt(),_message["by"].asInt());
 		result.DirInit(dir.x,dir.y);
+		break;
+	
+	default:
+		dir = DirCalc(_message["px"].asInt(), _message["py"].asInt(), _message["bx"].asInt(), _message["by"].asInt());
+		result.DirInit(dir.x, dir.y);
 		break;
 	}
 

@@ -28,6 +28,7 @@ private:
 	float Hp;
 	//보스 현재 페이즈
 	int Phase = 0;
+	int PhaseCount = 0;
 	//보스 드랍 데이터
 	BossData _BossData;
 	//DB 매니저
