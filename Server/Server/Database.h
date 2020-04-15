@@ -59,6 +59,7 @@ public:
 	int Add(char* FieldName, long FieldValue);
 	bool Get(char* FieldName, char* FieldValue);
 	bool Get(char* FieldName, int& FieldValue);
+	int  Get(char* FieldName);	//검색된 int 값을 가져온다
 	bool Get(char* FieldName, float& FieldValue);
 	bool Get(char* FieldName, double& FieldValue);
 	bool Get(char* FieldName, double& FieldValue, int Scale);

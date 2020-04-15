@@ -153,10 +153,21 @@ SharedInventory RoomManager::SetInventory(int arrayNum, int itemNumber,const cha
 {
 	for (int i = 0; i < MAX_INVENTORY; ++i)
 	{
-		if (Room[RoomName]._Inventory[i].Inventory == itemNumber)
+		if (Room[RoomName]._Inventory[i].Inventory == itemNumber )
 		{
-			Room[RoomName]._Inventory[i].ItemCount++;
-			break;
+			if (itemNumber >= 201)
+			{
+				Room[RoomName]._Inventory[arrayNum].Inventory = itemNumber;
+				Room[RoomName]._Inventory[arrayNum].ItemCount = 0;
+				Room[RoomName]._Inventory[arrayNum].ItemCount++;				
+				break;
+			}
+			else
+			{
+				Room[RoomName]._Inventory[i].ItemCount++;
+				break;
+			}
+			
 		}
 		if (Room[RoomName]._Inventory[i].Inventory != itemNumber && i == MAX_INVENTORY-1)
 		{

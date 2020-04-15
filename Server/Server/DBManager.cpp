@@ -88,43 +88,52 @@ ItemMixResult DBManager::SetResultItem(Json::Value _message)
 	return mixResult;
 }
 
-BossData DBManager::SearchBossDrop(int BossNum)
+BossData DBManager::SearchBoss(int BossNum)
 {
-	std::string Query;
-
 	Query = "CALL BossDrop(" + std::to_string(BossNum) + "," +
 		"@Item1,@ItemPer1,@Item2,@ItemPer2,@Item3,@ItemPer3,@Money)";
 
 	BossData Result;
-
-	const char *ch = Query.c_str();
-
-	std::string _item[3] = { "@Item1", "@Item2" ,"@Item3" };
-	std::string _itemPer[3] = { "@ItemPer1","@ItemPer2","@ItemPer3" };
-
-	char result[50];
-	if (db.Execute(ch, tbl))
+	
+	if (db.Execute(Query.c_str(), tbl))
 	{
-		std::cout << "저장 프로시저 성공" << std::endl;
+		std::cout << "보스 드랍 테이블 저장 프로시저 성공" << std::endl;
 		if (db.Execute("SELECT @Item1,@ItemPer1,@Item2,@ItemPer2,@Item3,@ItemPer3,@Money", tbl))
 		{
 			if (!tbl.ISEOF())
 			{
 				std::cout << "성공" << std::endl;		
-				for (int i = 0; i < 3; ++i)
+				for (size_t i = 0; i < 3; ++i)
 				{
-					tbl.Get((char*)_item[i].c_str(), result);
-					Result.Item[i] = atoi(result);
-					result[0] = '\0';
-
-					tbl.Get((char*)_itemPer[i].c_str(), result);
-					Result.ItemPer[i] = atoi(result);
-					result[0] = '\0';
+					Result.Item[i] = tbl.Get((char*)_item[i].c_str());
+					Result.ItemPer[i] = tbl.Get((char*)_itemPer[i].c_str());
 				}
-				tbl.Get((char*)"@Money", result);
-				Result.Money = atoi(result);
+				
+				Result.Money = tbl.Get((char*)"@Money");
 			}
 		}
 	}
+
+	Query = "CALL BossPhase(" + std::to_string(BossNum) + "," +
+		"@Phase1,@Phase1HP,@Phase2,@Phase2HP,@Phase3,@Phase3HP,@Phase4,@Phase4HP)";
+
+	if (db.Execute(Query.c_str(), tbl))
+	{
+		std::cout << "보스 페이즈 저장 프로시저 성공" << std::endl;
+		if (db.Execute("SELECT @Phase1,@Phase1HP,@Phase2,@Phase2HP,@Phase3,@Phase3HP,@Phase4,@Phase4HP", tbl))
+		{
+			if (!tbl.ISEOF())
+			{
+				std::cout << "성공" << std::endl;
+				for (size_t i = 0; i < 4; ++i)
+				{
+					Result.Phase[i] = tbl.Get((char*)_phase[i].c_str());
+					Result.PhaseHp[i] = tbl.Get((char*)_phaseHp[i].c_str());
+				}
+			}
+		}
+
+	}
+
 	return Result;
 }

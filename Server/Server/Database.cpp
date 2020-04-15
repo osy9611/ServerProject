@@ -158,6 +158,20 @@ bool Table::Get(char* FieldName, int& FieldValue)
 	return 1;
 }
 
+int Table::Get(char* FieldName)
+{
+	_variant_t vtValue;
+	try
+	{
+		vtValue = m_Rec->Fields->GetItem(FieldName)->GetValue();
+	}
+
+	CATCHERRGET
+
+		sprintf(m_ErrStr, "Success");
+	return vtValue.intVal;
+}
+
 bool Table::Get(char* FieldName, float& FieldValue)
 {
 	try

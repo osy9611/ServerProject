@@ -17,15 +17,15 @@ void BossManager::SetBossData(int Data)
 {
 	std::cout << "보스 셋팅중입니다" << std::endl;
 
-	DropData = dbManager->SearchBossDrop(Data);
+	ResetBossData();
 
-	for (int i = 0; i < 3; ++i)
+	_BossData = dbManager->SearchBoss(Data);
+
+	for (size_t i = 0; i < 3; ++i)
 	{
-		RandomSet(DropData.Item[i], DropData.ItemPer[i]);
-		std::cout << DropData.Item[i] << " " << DropData.ItemPer[i] << std::endl;
+		RandomSet(_BossData.Item[i], _BossData.ItemPer[i]);
 	}
-	Money = DropData.Money;
-	std::cout << DropData.Money << std::endl;
+	Money = _BossData.Money;
 }
 
 void BossManager::ResetBossData()
@@ -62,12 +62,64 @@ BossResult BossManager::HitBoss(float BossDamage)
 	if (Hp <= 0)
 	{
 		result.Init(Item, ItemCount, Money);
-		ResetBossData();
+		//ResetBossData();
 	}
 	else
 	{
-		result.Init(Hp);
+		Phase = PhaseCheck(Hp);
+		result.Init(Hp,Phase);
 	}
+
+	return result;
+}
+
+int BossManager::PhaseCheck(int Hp)
+{
+	
+	if (_BossData.PhaseHp[0] >= Hp || _BossData.PhaseHp[1] <= Hp)
+	{
+		return _BossData.Phase[0];
+	}
+	else if (_BossData.PhaseHp[1] >= Hp || _BossData.PhaseHp[2] <= Hp)
+	{
+		return _BossData.Phase[1];
+	}
+	else if (_BossData.PhaseHp[2] >= Hp || _BossData.PhaseHp[3] <= Hp)
+	{
+		return _BossData.Phase[2];
+	}
+	else if (_BossData.PhaseHp[3] >= Hp || _BossData.PhaseHp[4] <= Hp)
+	{
+		return _BossData.Phase[3];
+	}
+	else
+	{
+		return _BossData.Phase[4];
+	}
+}
+
+BossPhaseResult BossManager::CalcPhase(Json::Value _message)
+{
+	BossPhaseResult result;
+	switch (Phase)
+	{
+	case 0:	//페이즈 1
+		XMFLOAT2 dir =DirCalc(_message["px"].asInt(), _message["py"].asInt(),_message["bx"].asInt(),_message["by"].asInt());
+		result.DirInit(dir.x,dir.y);
+		break;
+	}
+
+	return result;
+
+}
+
+XMFLOAT2 BossManager::DirCalc(float px, float py,float bx,float by)
+{
+	XMFLOAT2 dir = XMFLOAT2(px-bx, py - by);
+	XMVECTOR vecdir = XMLoadFloat2(&dir);
+	XMVECTOR normaldir = XMVector2Normalize(vecdir);
+	XMFLOAT2 result;
+	XMStoreFloat2(&result, normaldir);
 
 	return result;
 }

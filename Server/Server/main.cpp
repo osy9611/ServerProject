@@ -15,6 +15,8 @@ int main()
 	server.Init(MAX_SESSION_COUNT);
 	server.Start();
 
+	_CrtDumpMemoryLeaks();
+
 	io_context.run();
 
 	std::cout << "네트웍 접속 종료" << std::endl;

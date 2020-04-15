@@ -19,7 +19,7 @@ public:
 	void InitDB();
 
 	ItemMixResult SetResultItem(Json::Value _message);
-	BossData SearchBossDrop(int BossNum);
+	BossData SearchBoss(int BossNum);
 
 private:
 	Database db;
@@ -31,6 +31,17 @@ private:
 				   DATABASE=gamedatas;\
 				   USER=root;\
 				   PASSWORD=@ppgk38629;";
+
+	//DB에 사용할 쿼리문
+	std::string Query;
+
+	//아이템 드랍 테이블 관련 
+	std::string _item[3] = { "@Item1", "@Item2" ,"@Item3" };
+	std::string _itemPer[3] = { "@ItemPer1","@ItemPer2","@ItemPer3" };
+
+	//보스 페이즈 관련
+	std::string _phase[4] = { "@Phase1","@Phase2","@Phase3","@Phase4" };
+	std::string _phaseHp[4] = { "@Phase1HP","@Phase2HP","@Phase3HP","@Phase4HP" };
 
 	//에러 검출
 	char ErrStr[200];

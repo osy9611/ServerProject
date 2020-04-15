@@ -62,7 +62,9 @@ struct BossData
 {
 	int Item[3] = { 0, };
 	int ItemPer[3] = { 0, };
-	int Money;
+	int Money = 0;
+	int Phase[4] = { 0, };
+	int PhaseHp[4] = { 0, };
 };
 
 struct PacketMessage
@@ -286,10 +288,22 @@ struct BossResult :public JsonData
 		SetJsonData();
 	}
 
-	void Init(int Hp)
+	void Init(int Hp,int Phase)
 	{
-		root["type"] = "GameClear";
+		root["type"] = "BossHp";
 		root["Hp"] = Hp;
+		root["Phase"] = Phase;
+		SetJsonData();
+	}
+};
+
+struct BossPhaseResult : public JsonData
+{
+	void DirInit(float x,float y)
+	{
+		root["type"] = "BulletDir";
+		root["x"] = (double)x;
+		root["y"] = (double)y;
 		SetJsonData();
 	}
 };

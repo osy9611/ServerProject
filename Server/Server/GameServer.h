@@ -14,6 +14,12 @@
 #include"BossManager.h"
 #include"Protocol.h"
 #include<map>
+#include <crtdbg.h>
+
+#if _DEBUG 
+#define new new(_NORMAL_BLOCK, __FILE__, __LINE__)
+#define malloc(s) _malloc_dbg(s, _NORMAL_BLOCK, __FILE__, __LINE__) 
+#endif // 몇행에서 메모리 누수가 나는지 알려줌.
 
 class GameServer : public RoomManager
 {
@@ -272,6 +278,14 @@ public:
 
 					std::cout << bossResult.str << std::endl;
 					SendAllPlayer(m_SessionList[nSessionID]->RoomName.c_str(), bossResult.packet);
+				}
+
+				//해당 페이즈의 계산을 요청할때
+				if (Message["type"] == "Phase")
+				{
+					BossPhaseResult bossPhaseResult = Room[m_SessionList[nSessionID]->RoomName].bossManager->CalcPhase(Message);
+					//std::cout << bossPhaseResult.str << std::endl;
+					SendAllPlayer(m_SessionList[nSessionID]->RoomName.c_str(), bossPhaseResult.packet);
 				}
 
 				if (Message["type"] == "PlayerDamage")
