@@ -82,6 +82,7 @@ void RoomManager::RoomReady(const char* RoomName, const int nSessionID, std::vec
 
 				Room[RoomName].bossManager = new BossManager;
 				Room[RoomName].bossManager->SetBossData(1);
+				Room[RoomName].bossManager->UserSet(Room[RoomName].Count);
 				std::cout << ready.str << std::endl;
 			}
 			else
@@ -115,6 +116,7 @@ void RoomManager::UserOutCheck(const char* RoomName, const int nSessionID, std::
 			}
 		}
 		Room[RoomName].Count--;
+		Room[RoomName].bossManager->UserSet(Room[RoomName].Count);
 		UserOut userOut;
 		userOut.Init(m_SessionList[nSessionID]->GetName());
 

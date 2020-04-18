@@ -21,6 +21,18 @@
 #define malloc(s) _malloc_dbg(s, _NORMAL_BLOCK, __FILE__, __LINE__) 
 #endif // 몇행에서 메모리 누수가 나는지 알려줌.
 
+/*
+해쉬함수를 만들어서 문자열도 switch문을 사용할 수 있도록 만듬
+
+constexpr C++11에 새로 추가된 키워드로 변수 또는 함수의 값을 컴파일 시점에 도출하여 상수화 시켜버리는 기능을 한다.
+constexpr 함수는 제약 사항이 많아 일반 함수처럼 자유자재로 만들 수는 없지만 잘 활용하면 많은 것들을 컴파일 시점에
+계산해낼 수 이는 완소 기능을 한다.
+*/
+constexpr unsigned int HashCode(const char* str)
+{
+	return str[0] ? static_cast<unsigned int>(str[0]) + 0xEDB8832Full * HashCode(str + 1) : 8603;
+}
+
 class GameServer : public RoomManager
 {
 public:
@@ -90,6 +102,7 @@ public:
 		}
 	}
 
+
 	void ProcessPacket(const int nSessionID, const char* pData, int nPacketData)
 	{
 		PacketMessage *packet = (PacketMessage*)pData;
@@ -97,8 +110,9 @@ public:
 		{
 			try
 			{
-				//플레이어 정보 
-				if (Message["type"] == "PlayerInfo")
+				switch (HashCode(Message["type"].asString().c_str()))
+				{
+				case HashCode("PlayerInfo"):
 				{
 					m_SessionList[nSessionID]->SetName(Message["ID"].asString().c_str());
 
@@ -107,19 +121,17 @@ public:
 					LoginCheck loginCheck;
 					loginCheck.Init(Message["ID"].asString().c_str());
 					m_SessionList[nSessionID]->PostSend(false, loginCheck.packet.size, (char *)&loginCheck.packet);
+					break;
 				}
-
-				//채팅
-				if (Message["type"] == "SendMessage")
+				case HashCode("SendMessage"):
 				{
 					if (m_SessionList[nSessionID]->RoomName != "")
 					{
 						SendOtherPlayer(m_SessionList[nSessionID]->RoomName.c_str(), *packet, nSessionID);
 					}
+					break;
 				}
-
-				//친구찾기 관련
-				if (Message["type"] == "FindFriend")
+				case HashCode("FindFriend"):
 				{
 					for (size_t i = 0; i < m_SessionList.size(); ++i)
 					{
@@ -158,10 +170,9 @@ public:
 							}
 						}
 					}
+					break;
 				}
-
-				//초대결과를 보내줌
-				if (Message["type"] == "InviteResult")
+				case HashCode("InviteResult"):
 				{
 					if (atoi(Message["Answer"].asString().c_str()) == 0)
 					{
@@ -204,25 +215,22 @@ public:
 						m_SessionList[nSessionID]->InviteNumber = 0;
 						std::cout << "초대를 거절하였습니다" << std::endl;
 					}
+					break;
 				}
+				case HashCode("ChangeType"):
+				{	m_SessionList[nSessionID]->CharactorType = Message["CharactorNum"].asInt();
+				std::cout << m_SessionList[nSessionID]->GetName() << "의 캐릭터 타입이 변경되었습니다 : " << m_SessionList[nSessionID]->CharactorType << std::endl;
 
-				//캐릭터 타입 변경
-				if (Message["type"] == "ChangeType")
+				ChangeType changeType;
+				changeType.Init(m_SessionList[nSessionID]->CharactorType, m_SessionList[nSessionID]->GetName());
+
+				if (m_SessionList[nSessionID]->RoomName != "")
 				{
-					m_SessionList[nSessionID]->CharactorType = Message["CharactorNum"].asInt();
-					std::cout << m_SessionList[nSessionID]->GetName() << "의 캐릭터 타입이 변경되었습니다 : " << m_SessionList[nSessionID]->CharactorType << std::endl;
-
-					ChangeType changeType;
-					changeType.Init(m_SessionList[nSessionID]->CharactorType, m_SessionList[nSessionID]->GetName());
-					
-					if (m_SessionList[nSessionID]->RoomName != "")
-					{
-						SendAllPlayer(m_SessionList[nSessionID]->RoomName.c_str(), changeType.packet);
-					}
+					SendAllPlayer(m_SessionList[nSessionID]->RoomName.c_str(), changeType.packet);
 				}
-
-				//래디 메시지
-				if (Message["type"] == "Ready")
+				break;
+				}
+				case HashCode("Ready"):
 				{
 					if (m_SessionList[nSessionID]->RoomName != "")
 					{
@@ -232,82 +240,84 @@ public:
 					{
 						//솔로 게임으로 시작
 					}
+					break;
 				}
-
-				//키입력을 받았을 경우에 사용하는 함수
-				if (Message["type"] == "PlayerData")
+				case HashCode("PlayerData"):
 				{
 					SendOtherPlayer(m_SessionList[nSessionID]->RoomName.c_str(), *packet, nSessionID);
-				}
 
-				//아이템 조합 관련
-				if (Message["type"] == "ItemMix")
-				{
-					ItemMixResult mixResult = dbManager->SetResultItem(Message);				
+					break;
+				}
+				case HashCode("ItemMix"):
+				{	ItemMixResult mixResult = dbManager->SetResultItem(Message);
 					SendOnePlayer(mixResult.packet, nSessionID);
+					
+break;
 				}
-
-				if (Message["type"] == "SendShareInvInfo")
+				case HashCode("SendShareInvInfo"):
 				{
-					SharedInventory sharedInventory = SetInventory(Message["arrayNum"].asInt(), 
-						Message["itemNum"].asInt(), 
+					SharedInventory sharedInventory = SetInventory(Message["arrayNum"].asInt(),
+						Message["itemNum"].asInt(),
 						m_SessionList[nSessionID]->RoomName.c_str());
 					SendAllPlayer(m_SessionList[nSessionID]->RoomName.c_str(), sharedInventory.packet);
+					break;
 				}
-
-				if (Message["type"] == "SendShareSwapInfo")
+				case HashCode("SendShareSwapInfo"):
 				{
 					SharedInventory sharedInventory = SwapInventory(Message["arrayNum_1"].asInt(),
-						Message["arrayNum_2"].asInt(), 
+						Message["arrayNum_2"].asInt(),
 						m_SessionList[nSessionID]->RoomName.c_str());
 					SendAllPlayer(m_SessionList[nSessionID]->RoomName.c_str(), sharedInventory.packet);
-				}
-
-				if (Message["type"] == "SendShareDeleteInfo")
+					break;
+				} 
+				case HashCode("SendShareDeleteInfo"):
 				{
 					SharedInventory sharedInventory = DeleteInventory(Message["arrayNum"].asInt(),
 						m_SessionList[nSessionID]->RoomName.c_str());
 
 					std::cout << sharedInventory.str << std::endl;
 					SendAllPlayer(m_SessionList[nSessionID]->RoomName.c_str(), sharedInventory.packet);
-				}
-				
-				if (Message["type"] == "BossDamage")
+					break;
+				} 
+				case HashCode("BossDamage"):
 				{
 					BossResult bossResult = Room[m_SessionList[nSessionID]->RoomName].bossManager->HitBoss(1);
 
 					std::cout << bossResult.str << std::endl;
 					SendAllPlayer(m_SessionList[nSessionID]->RoomName.c_str(), bossResult.packet);
+					break;
+				} 
+				case HashCode("PlayerDamage"):
+				{
+					SendOtherPlayer(m_SessionList[nSessionID]->RoomName.c_str(), *packet, nSessionID);
+					break;
 				}
-
-				//해당 페이즈의 계산을 요청할때
-				if (Message["type"] == "Phase")
+				case HashCode("Phase"):
 				{
 					BossPhaseResult bossPhaseResult = Room[m_SessionList[nSessionID]->RoomName].bossManager->CalcPhase(Message);
 					//std::cout << bossPhaseResult.str << std::endl;
 					SendAllPlayer(m_SessionList[nSessionID]->RoomName.c_str(), bossPhaseResult.packet);
-				}
 
-				if (Message["type"] == "PlayerDamage")
+					break;
+				}
+				
+				case HashCode("PhaseEnd"):
 				{
-					SendOtherPlayer(m_SessionList[nSessionID]->RoomName.c_str(), *packet, nSessionID);
+					if (Room[m_SessionList[nSessionID]->RoomName].bossManager->RestartCheck())
+					{
+						PhaseRestart phaseRestart;
+						phaseRestart.Init();
+						std::cout << "페이즈 재시작" << std::endl;
+						SendAllPlayer(m_SessionList[nSessionID]->RoomName.c_str(), phaseRestart.packet);
+					}
+					break;
 				}
-
-				//추후 작업할듯
-				/*
-				if (Message["type"] == "ItemGet")
-				{
-					//AddItemCount를 사용하여 아이템을 넣어준다
-					AddItemCount(m_SessionList[nSessionID]->RoomName.c_str(),Message["itemID"].asInt());
-					RoomData data = GetRoomData(m_SessionList[nSessionID]->RoomName.c_str());
-					TotalItem total;
-					total.Init(data.Source,3);
-
-					std::cout << total.str << std::endl;
-					SendAllPlayer(m_SessionList[nSessionID]->RoomName.c_str(), total.packet);
-					
+				default:
+					std::cout << "해당되는 패킷이 없습니다" << std::endl;
+					std::cout << packet->dummy << std::endl;
+					break;
 				}
-				*/
+		
 			}
 			catch (std::exception &ex)
 			{
@@ -317,9 +327,6 @@ public:
 		return;
 	}
 private:
-	/*
-	접속 받기 요청을 할때마다 PostAccept 함수를 이용하여 m_SessionQueue에서 사용하지 않는 세션 번호를 가져와 async_accept에 사용한다
-	*/
 
 	void SendOtherPlayer(const char* RoomName, PacketMessage packet, int nSessionID)
 	{
@@ -347,6 +354,10 @@ private:
 		m_SessionList[nSessioID]->PostSend(false, packet.size, (char *)&packet);
 	}
 
+	
+	/*
+	접속 받기 요청을 할때마다 PostAccept 함수를 이용하여 m_SessionQueue에서 사용하지 않는 세션 번호를 가져와 async_accept에 사용한다
+	*/
 	bool PostAccept()
 	{
 		if (m_SessionQueue.empty())

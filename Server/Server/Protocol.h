@@ -40,6 +40,7 @@ struct MyData
 
 class BossManager;
 
+//방 데이터
 struct RoomData 
 {
 	int Count = 0;
@@ -58,14 +59,6 @@ struct RoomData
 	}
 };
 
-struct BossData
-{
-	int Item[3] = { 0, };
-	int ItemPer[3] = { 0, };
-	int Money = 0;
-	int Phase[4] = { 0, };
-	int PhaseHp[4] = { 0, };
-};
 
 struct PacketMessage
 {
@@ -181,7 +174,7 @@ struct Ready : public JsonData
 		else
 		{
 			root["Start"] = true;
-			for (int i = 0; i < mCnt; ++i)
+			for (size_t i = 0; i < mCnt; ++i)
 			{
 				Json::Value Session;
 				Session["SessionID"] = mData[i].ID;
@@ -274,12 +267,23 @@ struct SharedInventory :public JsonData
 //	}
 //};
 
+/*보스 데이터 및 보스 패킷 관련된 구조체들*/
+struct BossData
+{
+	int Item[3] = { 0, };
+	int ItemPer[3] = { 0, };
+	int Money = 0;
+	int Phase[4] = { 0, };
+	int PhaseHp[4] = { 0, };
+};
+
+
 struct BossResult :public JsonData
 {
 	void Init(int Item[], int ItemCount, int Money)
 	{
 		root["type"] = "GameClear";
-		for (int i = 0; i < ItemCount; ++i)
+		for (size_t i = 0; i < ItemCount; ++i)
 		{
 			root["items"].append(Item[i]);
 		}
@@ -304,6 +308,22 @@ struct BossPhaseResult : public JsonData
 		root["type"] = "BulletDir";
 		root["x"] = (double)x;
 		root["y"] = (double)y;
+		SetJsonData();
+	}
+
+	void RandomLaser(int arr)
+	{
+		root["type"] = "RandomLaser";
+		root["razer"] = arr;
+		SetJsonData();
+	}
+};
+
+struct PhaseRestart : public JsonData
+{
+	void Init()
+	{
+		root["type"] = "PhaseRestart";
 		SetJsonData();
 	}
 };

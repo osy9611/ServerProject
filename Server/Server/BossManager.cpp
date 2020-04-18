@@ -13,6 +13,11 @@ BossManager::~BossManager()
 	dbManager = NULL;
 }
 
+void BossManager::UserSet(int _userCount)
+{
+	UserCount = _userCount;
+}
+
 void BossManager::SetBossData(int Data)
 {
 	std::cout << "보스 셋팅중입니다" << std::endl;
@@ -75,7 +80,6 @@ BossResult BossManager::HitBoss(float BossDamage)
 
 int BossManager::PhaseCheck(int Hp)
 {
-	
 	if (_BossData.PhaseHp[0] >= Hp && _BossData.PhaseHp[1] <= Hp)
 	{
 		return _BossData.Phase[0];
@@ -88,31 +92,58 @@ int BossManager::PhaseCheck(int Hp)
 	{
 		return _BossData.Phase[2];
 	}
-	else if (_BossData.PhaseHp[3] >= Hp && _BossData.PhaseHp[4] <= Hp)
+	else if (_BossData.PhaseHp[3] >= Hp && 0 <= Hp)
 	{
 		return _BossData.Phase[3];
 	}
+}
+
+bool BossManager::RestartCheck()
+{
+	std::cout << "유저 페이즈 체크" << std::endl;
+
+	PhaseClearCount++;
+
+	//유저 숫자와 페이즈 클리어 숫자가 같으면 참을 반환
+	if (UserCount == PhaseClearCount)
+	{
+		std::cout << "유저 페이즈 체크된 인원 : "<< PhaseClearCount << std::endl;
+		PhaseClearCount = 0;
+		return 1;
+	}
 	else
 	{
-		return _BossData.Phase[4];
+		std::cout << "유저 페이즈 체크된 인원 : " << PhaseClearCount << std::endl;
+		
+		return 0;
 	}
 }
 
 BossPhaseResult BossManager::CalcPhase(Json::Value _message)
 {
 	BossPhaseResult result;
-	XMFLOAT2 dir;
+	
 	switch (Phase)
 	{
-	case 0:	//페이즈 1
-		dir =DirCalc(_message["px"].asInt(), _message["py"].asInt(),_message["bx"].asInt(),_message["by"].asInt());
-		result.DirInit(dir.x,dir.y);
-		break;
-	
-	default:
-		dir = DirCalc(_message["px"].asInt(), _message["py"].asInt(), _message["bx"].asInt(), _message["by"].asInt());
+	case 3:	//페이즈 1
+	{
+		XMFLOAT2 dir;
+		dir = DirCalc(_message["px"].asFloat(), _message["py"].asFloat(), _message["bx"].asFloat(), _message["by"].asFloat());
 		result.DirInit(dir.x, dir.y);
 		break;
+	}	
+	case 4:
+	{
+		result.RandomLaser(SetLaser());
+	}
+
+	default:
+	{
+		XMFLOAT2 dir;
+		dir = DirCalc(_message["px"].asFloat(), _message["py"].asFloat(), _message["bx"].asFloat(), _message["by"].asFloat());
+		result.DirInit(dir.x, dir.y);
+		break;
+	}
 	}
 
 	return result;
@@ -128,4 +159,13 @@ XMFLOAT2 BossManager::DirCalc(float px, float py,float bx,float by)
 	XMStoreFloat2(&result, normaldir);
 
 	return result;
+}
+
+int BossManager::SetLaser()
+{
+	std::random_device randDevice;	//랜덤 디바이스 생성
+	std::mt19937  mt(randDevice());
+	std::uniform_int_distribution<int> distribution(0, 7);
+
+	return  distribution(randDevice);
 }
