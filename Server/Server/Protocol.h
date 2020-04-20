@@ -303,6 +303,8 @@ struct BossResult :public JsonData
 
 struct BossPhaseResult : public JsonData
 {
+	bool PhaseCalc;
+
 	void DirInit(float x,float y)
 	{
 		root["type"] = "BulletDir";
@@ -314,7 +316,7 @@ struct BossPhaseResult : public JsonData
 	void RandomLaser(int arr)
 	{
 		root["type"] = "RandomLaser";
-		root["razer"] = arr;
+		root["laserDir"] = arr;
 		SetJsonData();
 	}
 };

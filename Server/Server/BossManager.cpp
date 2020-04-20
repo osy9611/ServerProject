@@ -18,6 +18,11 @@ void BossManager::UserSet(int _userCount)
 	UserCount = _userCount;
 }
 
+int BossManager::GetPhase()
+{
+	return Phase;
+}
+
 void BossManager::SetBossData(int Data)
 {
 	std::cout << "보스 셋팅중입니다" << std::endl;
@@ -100,20 +105,20 @@ int BossManager::PhaseCheck(int Hp)
 
 bool BossManager::RestartCheck()
 {
-	std::cout << "유저 페이즈 체크" << std::endl;
+	//std::cout << "유저 페이즈 체크" << std::endl;
 
 	PhaseClearCount++;
 
 	//유저 숫자와 페이즈 클리어 숫자가 같으면 참을 반환
-	if (UserCount == PhaseClearCount)
+	if (UserCount <= PhaseClearCount)
 	{
-		std::cout << "유저 페이즈 체크된 인원 : "<< PhaseClearCount << std::endl;
+		//std::cout << "유저 페이즈 체크된 인원 : "<< PhaseClearCount << std::endl;
 		PhaseClearCount = 0;
 		return 1;
 	}
 	else
 	{
-		std::cout << "유저 페이즈 체크된 인원 : " << PhaseClearCount << std::endl;
+		//std::cout << "유저 페이즈 체크된 인원 : " << PhaseClearCount << std::endl;
 		
 		return 0;
 	}
@@ -130,18 +135,31 @@ BossPhaseResult BossManager::CalcPhase(Json::Value _message)
 		XMFLOAT2 dir;
 		dir = DirCalc(_message["px"].asFloat(), _message["py"].asFloat(), _message["bx"].asFloat(), _message["by"].asFloat());
 		result.DirInit(dir.x, dir.y);
+		result.PhaseCalc = true;
 		break;
 	}	
 	case 4:
 	{
-		result.RandomLaser(SetLaser());
+		PhaseCount++;
+
+		if (PhaseCount == UserCount)
+		{
+			int index = SetLaser();
+			result.RandomLaser(index);
+			result.PhaseCalc = true;
+			PhaseCount = 0;
+
+		}
+		else
+		{
+			result.PhaseCalc = false;
+		}
+		break;
 	}
 
 	default:
 	{
-		XMFLOAT2 dir;
-		dir = DirCalc(_message["px"].asFloat(), _message["py"].asFloat(), _message["bx"].asFloat(), _message["by"].asFloat());
-		result.DirInit(dir.x, dir.y);
+		result.PhaseCalc = false;
 		break;
 	}
 	}

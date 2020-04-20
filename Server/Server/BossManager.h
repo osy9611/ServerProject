@@ -30,12 +30,17 @@ public:
 
 	//각각의 클라이언트 페이즈 완료여부
 	int PhaseClearCount = 0;
+
+	int GetPhase();
+
+	int PhaseCount = 0;
+
 private:
 	//Hp
 	float Hp;
 	//보스 현재 페이즈
 	int Phase = 0;
-	int PhaseCount = 0;
+	
 
 	//접속된 유저수
 	int UserCount;

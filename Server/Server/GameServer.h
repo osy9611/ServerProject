@@ -281,7 +281,7 @@ break;
 				} 
 				case HashCode("BossDamage"):
 				{
-					BossResult bossResult = Room[m_SessionList[nSessionID]->RoomName].bossManager->HitBoss(1);
+					BossResult bossResult = Room[m_SessionList[nSessionID]->RoomName].bossManager->HitBoss(5);
 
 					std::cout << bossResult.str << std::endl;
 					SendAllPlayer(m_SessionList[nSessionID]->RoomName.c_str(), bossResult.packet);
@@ -295,9 +295,14 @@ break;
 				case HashCode("Phase"):
 				{
 					BossPhaseResult bossPhaseResult = Room[m_SessionList[nSessionID]->RoomName].bossManager->CalcPhase(Message);
-					//std::cout << bossPhaseResult.str << std::endl;
-					SendAllPlayer(m_SessionList[nSessionID]->RoomName.c_str(), bossPhaseResult.packet);
+				
+					if (bossPhaseResult.PhaseCalc == true)
+					{
+						SendAllPlayer(m_SessionList[nSessionID]->RoomName.c_str(), bossPhaseResult.packet);
 
+						Room[m_SessionList[nSessionID]->RoomName].bossManager->PhaseCount = 0;
+					}
+									
 					break;
 				}
 				
@@ -307,7 +312,7 @@ break;
 					{
 						PhaseRestart phaseRestart;
 						phaseRestart.Init();
-						std::cout << "페이즈 재시작" << std::endl;
+						//std::cout << "페이즈 재시작" << std::endl;
 						SendAllPlayer(m_SessionList[nSessionID]->RoomName.c_str(), phaseRestart.packet);
 					}
 					break;
