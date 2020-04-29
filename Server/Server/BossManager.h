@@ -12,17 +12,19 @@
 #define MAX_SWAP_POS 4
 using namespace DirectX;
 
+class GameServer;
+
 class BossManager
 {
 public:
-	BossManager();
+	BossManager(GameServer* pServer,const char* roomName);
 	~BossManager();
 
 	void SetBossData(int Data);
 	void UserSet(int _userCount);
 	void ResetBossData();
 	BossResult HitBoss(float Damage);
-	BossPhaseResult CalcPhase(Json::Value _messsage, boost::asio::deadline_timer* t);
+	BossPhaseResult CalcPhase(Json::Value _messsage);
 	PhaseRestart PhaseSet();
 
 	//각 클라이언트의 페이즈가 끝났는지 확인하는 함수
@@ -35,10 +37,9 @@ public:
 
 	int PhaseCount = 0;
 	
-	void print(const boost::system::error_code & error);
-
 	void ShufflePhase();	
 private:
+	const char* RoomName;
 	//Hp
 	float Hp;
 	//보스 현재 페이즈
@@ -66,5 +67,7 @@ private:
 	int Random(int min, int max);
 	//탄환 반향값 계산
 	XMFLOAT2 DirCalc(float px, float py, float bx, float by);
+
+	GameServer* m_pServer;
 };
 

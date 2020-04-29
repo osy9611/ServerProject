@@ -39,7 +39,6 @@ public:
 
 	GameServer(boost::asio::io_context& io_context)
 		:m_acceptor(io_context, boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), PORT_NUMBER))
-		, timer(io_context, boost::posix_time::milliseconds(0))
 	{
 		m_acceptor.set_option(boost::asio::ip::tcp::no_delay(true));
 		m_bIsAccepting = false;
@@ -236,7 +235,7 @@ public:
 				{
 					if (m_SessionList[nSessionID]->RoomName != "")
 					{
-						RoomReady(m_SessionList[nSessionID]->RoomName.c_str(), nSessionID, m_SessionList);
+						RoomReady(this,m_SessionList[nSessionID]->RoomName.c_str(), nSessionID, m_SessionList);
 					}
 					else
 					{
@@ -296,7 +295,7 @@ public:
 				}
 				case HashCode("Phase"):
 				{
-					BossPhaseResult bossPhaseResult = Room[m_SessionList[nSessionID]->RoomName].bossManager->CalcPhase(Message,&timer);
+					BossPhaseResult bossPhaseResult = Room[m_SessionList[nSessionID]->RoomName].bossManager->CalcPhase(Message);
 				
 					if (bossPhaseResult.PhaseCalc == true)
 					{
@@ -313,6 +312,17 @@ public:
 					}
 					break;
 				}
+				case HashCode("PhaseTimeEnd"):
+				{
+					if (Room[m_SessionList[nSessionID]->RoomName].bossManager->RestartCheck())
+					{
+						BossPhaseResult bossPhaseResult;
+						bossPhaseResult.TimerOn();
+						SendAllPlayer(m_SessionList[nSessionID]->RoomName.c_str(), bossPhaseResult.packet);
+					}
+					break;
+				}
+
 				case HashCode("PhaseRestart"):
 				{
 					if (Room[m_SessionList[nSessionID]->RoomName].bossManager->RestartCheck())
@@ -337,7 +347,6 @@ public:
 		}
 		return;
 	}
-private:
 
 	void SendOtherPlayer(const char* RoomName, PacketMessage packet, int nSessionID)
 	{
@@ -360,12 +369,18 @@ private:
 		}
 	}
 
-	void SendOnePlayer(PacketMessage packet,int nSessioID)
+	void SendOnePlayer(PacketMessage packet, int nSessionID)
 	{
-		m_SessionList[nSessioID]->PostSend(false, packet.size, (char *)&packet);
+		m_SessionList[nSessionID]->PostSend(false, packet.size, (char *)&packet);
 	}
 
-	
+	const char* SearchUserName(int nSessionID,const char* RoomName)
+	{
+		std::cout << m_SessionList[GetRoomUserSessionID(RoomName, nSessionID)]->GetName() << std::endl;
+		return m_SessionList[GetRoomUserSessionID(RoomName, nSessionID)]->GetName();
+	}
+
+private:
 	/*
 	접속 받기 요청을 할때마다 PostAccept 함수를 이용하여 m_SessionQueue에서 사용하지 않는 세션 번호를 가져와 async_accept에 사용한다
 	*/
@@ -415,7 +430,6 @@ private:
 	bool m_bIsAccepting;
 
 	boost::asio::ip::tcp::acceptor m_acceptor;
-	boost::asio::deadline_timer timer;
 
 
 	std::vector<ServerSession*> m_SessionList;	//유저 배열

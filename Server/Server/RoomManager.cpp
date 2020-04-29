@@ -48,7 +48,7 @@ void RoomManager::EneterRoom(const char *RoomName, const int nSessionID)
 }
 
 //플레이어가 래디를 했을 경우에 호출됨
-void RoomManager::RoomReady(const char* RoomName, const int nSessionID, std::vector<ServerSession*> m_SessionList)
+void RoomManager::RoomReady(GameServer* pServer,const char* RoomName, const int nSessionID, std::vector<ServerSession*> m_SessionList)
 {
 	for (size_t i = 0; i < Room[RoomName].Count; ++i)
 	{
@@ -80,7 +80,7 @@ void RoomManager::RoomReady(const char* RoomName, const int nSessionID, std::vec
 
 				ready.Init(m_SessionList[nSessionID]->GetName(), true, ID, Room[RoomName].Count);
 
-				Room[RoomName].bossManager = new BossManager;
+				Room[RoomName].bossManager = new BossManager(pServer, RoomName);
 				Room[RoomName].bossManager->SetBossData(1);
 				Room[RoomName].bossManager->UserSet(Room[RoomName].Count);
 				std::cout << ready.str << std::endl;

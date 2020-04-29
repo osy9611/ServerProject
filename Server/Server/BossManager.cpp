@@ -2,7 +2,8 @@
 #include "GameServer.h"
 
 
-BossManager::BossManager()
+BossManager::BossManager(GameServer *pServer,const char* _roomName)
+	:m_pServer(pServer),RoomName(_roomName)
 {
 	dbManager = DBManager::getInstance();
 }
@@ -90,6 +91,7 @@ BossResult BossManager::HitBoss(float BossDamage)
 	{
 		Hp -= BossDamage;
 		ShufflePhase();
+		Phase = _BossData.Phase[0];
 		result.Init(Hp, _BossData.Phase[0]);
 		NowPhase++;
 	}
@@ -137,13 +139,17 @@ PhaseRestart BossManager::PhaseSet()
 
 	if (NowPhase == 3)
 	{
+		Phase = _BossData.Phase[NowPhase];
 		result.Init(_BossData.Phase[NowPhase]);
-		NowPhase = 0;
+		std::cout << "배열번호: " << NowPhase << " 현재 패턴: " << Phase << std::endl;
+		NowPhase = 0;		
 		ShufflePhase();
 		return result;
 	}
 	else
 	{
+		Phase = _BossData.Phase[NowPhase];
+		std::cout << "배열번호: "<< NowPhase <<" 현재 패턴: "  <<Phase << std::endl;
 		result.Init(_BossData.Phase[NowPhase]);
 		NowPhase++;
 		return result;
@@ -151,15 +157,10 @@ PhaseRestart BossManager::PhaseSet()
 	
 }
 
-void BossManager::print(const boost::system::error_code & error)
-{
-	std::cout << "타이머" << std::endl;
-}
-
-BossPhaseResult BossManager::CalcPhase(Json::Value _message, boost::asio::deadline_timer* t)
+BossPhaseResult BossManager::CalcPhase(Json::Value _message)
 {
 	BossPhaseResult result;
-	
+
 	switch (Phase)
 	{
 	case 2:
@@ -171,14 +172,10 @@ BossPhaseResult BossManager::CalcPhase(Json::Value _message, boost::asio::deadli
 			result.RandomCircleBullet(index);
 			result.PhaseCalc = true;
 			PhaseCount = 0;
-
 		}
 		else
 		{
 			result.PhaseCalc = false;
-			int count = 0;
-			t->expires_at(t->expires_at() + boost::posix_time::seconds(1));
-			t->async_wait(boost::bind(&BossManager::print,this ,boost::asio::placeholders::error));
 		}
 		break;
 	case 3:	//페이즈 1
@@ -199,7 +196,6 @@ BossPhaseResult BossManager::CalcPhase(Json::Value _message, boost::asio::deadli
 			result.RandomLaser(index);
 			result.PhaseCalc = true;
 			PhaseCount = 0;
-
 		}
 		else
 		{
@@ -207,8 +203,23 @@ BossPhaseResult BossManager::CalcPhase(Json::Value _message, boost::asio::deadli
 		}
 		break;
 	}
-	case 5:
+	case 12:
 
+		PhaseCount++;
+
+		if (PhaseCount == UserCount)
+		{
+			std::cout << m_pServer->GetRoomData(RoomName).Count << std::endl;
+			int index = Random(0, m_pServer->GetRoomData(RoomName).Count-1);
+			
+			result.CircleFloor(m_pServer->SearchUserName(index,RoomName));
+			result.PhaseCalc = true;
+			PhaseCount = 0;
+		}
+		else
+		{
+			result.PhaseCalc = false;
+		}
 		break;
 
 	default:

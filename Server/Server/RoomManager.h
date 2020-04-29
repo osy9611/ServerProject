@@ -24,7 +24,7 @@ public:
 	void EneterRoom(const char *RoomName, const int nSessionID);
 
 	//방 준비를 위함
-	void RoomReady(const char* RoomName, const int nSessionID, std::vector<ServerSession*> m_SessionList);
+	void RoomReady(GameServer* pServer,const char* RoomName, const int nSessionID, std::vector<ServerSession*> m_SessionList);
 	//방에있는 유저들의 세션 아이디를 받아옴
 	int GetRoomUserSessionID(const char * RoomName,int Num);
 	//방에 있는 유저들의 인원수를 가져옴

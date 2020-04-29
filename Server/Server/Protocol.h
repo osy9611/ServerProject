@@ -314,6 +314,19 @@ struct BossPhaseResult : public JsonData
 		root["bulletType"] = num;
 		SetJsonData();
 	}
+
+	void CircleFloor(const char *_name)
+	{
+		root["type"] = "CircleFloor";
+		root["targetName"] = _name;
+		SetJsonData();
+	}
+
+	void TimerOn()
+	{
+		root["type"] = "TimerOn";
+		SetJsonData();
+	}
 };
 
 struct PhaseRestart : public JsonData
