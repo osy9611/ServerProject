@@ -6,10 +6,11 @@ public class PatternManager : MonoBehaviour
 {
     public static PatternManager instance;
 
-    PatternCommand pat_induceBullet, pat_wheelLaser;
+    PatternCommand pat_induceBullet, pat_wheelLaser, pat_circleFloor;
     Vector2 playerPos;
     public PhaseEnd data_PhaseEnd;
     public PhaseRestart data_Restart;
+    public PhaseTimeEnd data_PhaseTimeEnd;
 
     [HideInInspector]
     public bool _isStart;
@@ -21,18 +22,24 @@ public class PatternManager : MonoBehaviour
     public BulletType BT;
     public int _patternCount;
 
+    //원형 장판을 위한 함수
+    public string _circleFloorTargetName;
+    public bool _limitTimeOn;
+
     private void Awake()
     {
         instance = this;
 
         data_PhaseEnd.Init();
         data_Restart.Init();
+        data_PhaseTimeEnd.Init();
     }
 
     private void Start()
     {
         pat_induceBullet = new InduceBullet();
         pat_wheelLaser = new WheelLaser();
+        pat_circleFloor = new InduceCircleFloor();
     }
 
     private void Update()
@@ -63,15 +70,28 @@ public class PatternManager : MonoBehaviour
                         //_isEnd = true;
                     }
                     break;
-                //case 3: // 유도 탄환
-                //    pat_induceBullet.Execute(playerPos);
-                //    Boss.instance.DelaySendPhaseData(0.5f);
-                //    _isEnd = true;
-                //    break;
                 case 4: // 랜덤 레이저
                     pat_wheelLaser.Execute(_index);
-                    Boss.instance.DelaySendPhaseData(0.5f);
-                    //_isEnd = true;
+                    break;
+                case 12:
+                    if(!_limitTimeOn)
+                    {
+                        //타겟 이름이 없을 경우 서버에다 타겟을 누가 정할지 알려준다
+                        if (_circleFloorTargetName == "")
+                        {
+                            Boss.instance.DelaySendPhaseData(0.5f);
+                        }
+                        else if (_circleFloorTargetName != "")
+                        {
+                            pat_circleFloor.Execute(_circleFloorTargetName);
+                        }
+                    }    
+                    else
+                    {
+                        //죽이라고 서버에서 지시하면 클라는 바로 캐릭터가 범위에 있는지를
+                        //확인하고 죽여버린다
+                        pat_circleFloor.Execute();
+                    }
                     break;
                 default:
                     pat_induceBullet.BulletExecute(Boss.instance._circleBullet, BT);
@@ -101,7 +121,7 @@ public class PatternManager : MonoBehaviour
             Invoke("SendPhaseEnd", 0.2f);
         }
     }
-    
+
     public void TimeDelaySendDelayPhaseEnd(float _time)
     {
         Invoke("SendDelayPhaseEnd", _time);
@@ -112,6 +132,8 @@ public class PatternManager : MonoBehaviour
     {
         CancelInvoke("SendDelayPhaseEnd");
         _isEnd = true;
+        _limitTimeOn = false;
+        _circleFloorTargetName = "";
     }
 
     public void LoadRandomLaser(JsonData _data) // 랜덤 레이저를 날릴 인덱스를 Resolve.
@@ -120,31 +142,52 @@ public class PatternManager : MonoBehaviour
         _index = int.Parse(_data["laserDir"].ToString());
     }
 
-    public void LoadInduceBullet(JsonData _data) // 유도 탄환을 날릴 플레이어의 위치를 Resolve.
-    {
-        _isStart = true;
-        playerPos.x = float.Parse(_data["x"].ToString());
-        playerPos.y = float.Parse(_data["y"].ToString());
-    }
-
     //원형 탄환의 타입을 셋팅한다
     public void LoadInduceCircleBullet(JsonData _data)
     {
-        Debug.Log("총알 결과는? " + int.Parse(_data["bulletType"].ToString()));
         BT = (BulletType)int.Parse(_data["bulletType"].ToString());
     }
 
+    //원형 장판 셋팅
+    public void LoadInduceCircleFloor(JsonData _data)
+    {
+        _circleFloorTargetName = _data["targetName"].ToString();
+        _isStart = true;
+    }
+
+    //서버에서 패턴을 재시작하라고 받으면 재시작을 위한 함수
     public void PatternRestart()
     {
         _isStart = true;
     }
 
+    //패턴을 셋팅하고 그 패턴을 실행하는 함수
     public void PatternStart(JsonData _data)
     {
         Boss.instance.patternNum = int.Parse(_data["Phase"].ToString());
         _isStart = true;
     }
 
+    //시간 제한이 걸려있는 패턴일 경우에는 타이머 체크를 하고 서버로 보내주는 역할을 한다
+    public void DelayPhaseTimeEnd(float _time)
+    {
+        Debug.Log("제한 시간이 다됨전");
+        Invoke("SendPhaseTimeEnd", _time);
+    }
+    
+    private void SendPhaseTimeEnd()
+    {
+        Debug.Log("제한 시간이 다됨");
+        CancelInvoke("SendPhaseTimeEnd");
+        JsonData SendData = JsonMapper.ToJson(data_PhaseTimeEnd);
+        ServerClient.instance.Send(SendData.ToString());
+    }
+
+    public void LimitTimeOn()
+    {
+        _limitTimeOn = true;
+        _isStart = true;
+    }
     private void SendPhaseEnd()
     {
         CancelInvoke("SendPhaseEnd");

@@ -19,6 +19,8 @@ public class GameManager : MonoBehaviour
     public string PlayerName;
     //플레이어 타입(캐릭터)
     public int type;
+    //플레이어 스크립트
+    public Player _player;
 
     //게임스폰 포인트를 잡아주는 데이터
     public string GameSpawnData;

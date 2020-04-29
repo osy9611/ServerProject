@@ -33,6 +33,7 @@ public class MakeManager : MonoBehaviour
                                , SpawnPoint[i].position, Quaternion.identity);
                     obj_temp.name = GameManager.instance.PlayerName;
                     cameraMove.target = obj_temp;
+                    GameManager.instance._player = obj_temp.GetComponent<Player>();
                     hpBar_mynickname.text = GameManager.instance.PlayerName;
                 }
                 else 

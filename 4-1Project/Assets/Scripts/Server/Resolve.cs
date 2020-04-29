@@ -123,14 +123,19 @@ public class Resolve
                 case "SendShareInvInfo":
                     Inventory.instance.UpdateShareInfo(Data);
                     break;
-                case "BulletDir": // 유도탄
-                    PatternManager.instance.LoadInduceBullet(Data);
-                    break;
                 case "RandomLaser": // 랜덤레이저
                     PatternManager.instance.LoadRandomLaser(Data);
                     break;
                 case "CircleBulletType":  //원형 탄환
                     PatternManager.instance.LoadInduceCircleBullet(Data);
+                    break;
+                case "CircleFloor":
+                    
+                    PatternManager.instance.LoadInduceCircleFloor(Data);
+                    break;
+                case "TimerOn":
+                    Debug.Log("들어옴!");
+                    PatternManager.instance.LimitTimeOn();
                     break;
                 case "PhaseRestart":
                     PatternManager.instance.PatternRestart();

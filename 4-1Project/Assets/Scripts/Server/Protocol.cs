@@ -303,6 +303,16 @@ public struct PhaseEnd
     }
 }
 
+public struct PhaseTimeEnd
+{
+    public string type;
+
+    public void Init()
+    {
+        type = "PhaseTimeEnd";
+    }
+}
+
 
 
 

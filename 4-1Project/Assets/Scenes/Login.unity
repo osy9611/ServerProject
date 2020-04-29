@@ -1690,6 +1690,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerName: 
   type: 0
+  _player: {fileID: 0}
   GameSpawnData: 
   playerInfo: []
   Heros:
