@@ -115,12 +115,12 @@ BossData DBManager::SearchBoss(int BossNum)
 	}
 
 	Query = "CALL BossPhase(" + std::to_string(BossNum) + "," +
-		"@Phase1,@Phase1HP,@Phase2,@Phase2HP,@Phase3,@Phase3HP,@Phase4,@Phase4HP)";
+		"@Hp,@Phase1,@Phase2,@Phase3,@Phase4)";
 
 	if (db.Execute(Query.c_str(), tbl))
 	{
 		std::cout << "보스 페이즈 저장 프로시저 성공" << std::endl;
-		if (db.Execute("SELECT @Phase1,@Phase1HP,@Phase2,@Phase2HP,@Phase3,@Phase3HP,@Phase4,@Phase4HP", tbl))
+		if (db.Execute("SELECT @Hp,@Phase1,@Phase2,@Phase3,@Phase4", tbl))
 		{
 			if (!tbl.ISEOF())
 			{
@@ -128,8 +128,9 @@ BossData DBManager::SearchBoss(int BossNum)
 				for (size_t i = 0; i < 4; ++i)
 				{
 					Result.Phase[i] = tbl.Get((char*)_phase[i].c_str());
-					Result.PhaseHp[i] = tbl.Get((char*)_phaseHp[i].c_str());
 				}
+
+				Result.Hp = tbl.Get("@Hp");
 			}
 		}
 

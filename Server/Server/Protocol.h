@@ -247,25 +247,6 @@ struct SharedInventory :public JsonData
 	}	
 };
 
-//struct DamageResult : public JsonData
-//{
-//	void Init(float Damage, bool boss,const char* name)
-//	{
-//		if (boss)
-//		{
-//			root["type"] = "BossHp";
-//		}
-//		else
-//		{
-//			root["type"] = "PlayerDamage";
-//			root["PlayerName"] = name;
-//		}
-//
-//		root["Hp"] = Damage;
-//
-//		SetJsonData();
-//	}
-//};
 
 /*보스 데이터 및 보스 패킷 관련된 구조체들*/
 struct BossData
@@ -274,7 +255,7 @@ struct BossData
 	int ItemPer[3] = { 0, };
 	int Money = 0;
 	int Phase[4] = { 0, };
-	int PhaseHp[4] = { 0, };
+	int Hp = 0;
 };
 
 
@@ -289,6 +270,13 @@ struct BossResult :public JsonData
 		}
 		root["money"] = Money;
 
+		SetJsonData();
+	}
+
+	void Init(int Hp)
+	{
+		root["type"] = "BossHp";
+		root["Hp"] = Hp;
 		SetJsonData();
 	}
 
@@ -319,10 +307,24 @@ struct BossPhaseResult : public JsonData
 		root["laserDir"] = arr;
 		SetJsonData();
 	}
+
+	void RandomCircleBullet(int num)
+	{
+		root["type"] = "CircleBulletType";
+		root["bulletType"] = num;
+		SetJsonData();
+	}
 };
 
 struct PhaseRestart : public JsonData
 {
+	void Init(int _phase)
+	{
+		root["type"] = "PhaseStart";
+		root["Phase"] = _phase;
+		SetJsonData();
+	}
+
 	void Init()
 	{
 		root["type"] = "PhaseRestart";

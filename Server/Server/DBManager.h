@@ -41,7 +41,6 @@ private:
 
 	//보스 페이즈 관련
 	std::string _phase[4] = { "@Phase1","@Phase2","@Phase3","@Phase4" };
-	std::string _phaseHp[4] = { "@Phase1HP","@Phase2HP","@Phase3HP","@Phase4HP" };
 
 	//에러 검출
 	char ErrStr[200];

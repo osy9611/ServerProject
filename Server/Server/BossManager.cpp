@@ -30,22 +30,22 @@ void BossManager::SetBossData(int Data)
 	ResetBossData();
 
 	_BossData = dbManager->SearchBoss(Data);
-
+	Hp = _BossData.Hp;
 	for (size_t i = 0; i < 3; ++i)
 	{
-		RandomSet(_BossData.Item[i], _BossData.ItemPer[i]);
+		RandomItemSet(_BossData.Item[i], _BossData.ItemPer[i]);
 	}
 	Money = _BossData.Money;
 }
 
 void BossManager::ResetBossData()
 {
-	Hp = 100;
+	Hp = 0;
 	ItemCount = 0;
 	Money = 0;
 }
 
-void BossManager::RandomSet(int ItemID,int ItemPer)
+void BossManager::RandomItemSet(int ItemID, int ItemPer)
 {
 	if (ItemID != 0)
 	{
@@ -64,43 +64,50 @@ void BossManager::RandomSet(int ItemID,int ItemPer)
 	}
 }
 
+void BossManager::ShufflePhase()
+{
+	int temp;
+	int n;
+	std::random_device randDevice;	//랜덤 디바이스 생성
+	std::mt19937  mt(randDevice());
+	std::uniform_int_distribution<int> distribution(0, 3);
+
+	for (size_t i = 0; i < 4; ++i)
+	{
+		n = distribution(randDevice);
+
+		temp = _BossData.Phase[n];
+		_BossData.Phase[n] = _BossData.Phase[3];
+		_BossData.Phase[3] = temp;
+	}
+}
+
 BossResult BossManager::HitBoss(float BossDamage)
 {
 	BossResult result;
 
-	Hp -= BossDamage;
-	if (Hp <= 0)
+	if (Hp == _BossData.Hp)
 	{
-		result.Init(Item, ItemCount, Money);
-		//ResetBossData();
+		Hp -= BossDamage;
+		ShufflePhase();
+		result.Init(Hp, _BossData.Phase[0]);
+		NowPhase++;
 	}
 	else
 	{
-		Phase = PhaseCheck(Hp);
-		result.Init(Hp,Phase);
+		Hp -= BossDamage;
+		if (Hp <= 0)
+		{
+			result.Init(Item, ItemCount, Money);
+		}
+		else
+		{
+			result.Init(Hp);
+		}
 	}
+	
 
 	return result;
-}
-
-int BossManager::PhaseCheck(int Hp)
-{
-	if (_BossData.PhaseHp[0] >= Hp && _BossData.PhaseHp[1] <= Hp)
-	{
-		return _BossData.Phase[0];
-	}
-	else if (_BossData.PhaseHp[1] >= Hp && _BossData.PhaseHp[2] <= Hp)
-	{
-		return _BossData.Phase[1];
-	}
-	else if (_BossData.PhaseHp[2] >= Hp && _BossData.PhaseHp[3] <= Hp)
-	{
-		return _BossData.Phase[2];
-	}
-	else if (_BossData.PhaseHp[3] >= Hp && 0 <= Hp)
-	{
-		return _BossData.Phase[3];
-	}
 }
 
 bool BossManager::RestartCheck()
@@ -119,17 +126,61 @@ bool BossManager::RestartCheck()
 	else
 	{
 		//std::cout << "유저 페이즈 체크된 인원 : " << PhaseClearCount << std::endl;
-		
+
 		return 0;
 	}
 }
 
-BossPhaseResult BossManager::CalcPhase(Json::Value _message)
+PhaseRestart BossManager::PhaseSet()
+{
+	PhaseRestart result;
+
+	if (NowPhase == 3)
+	{
+		result.Init(_BossData.Phase[NowPhase]);
+		NowPhase = 0;
+		ShufflePhase();
+		return result;
+	}
+	else
+	{
+		result.Init(_BossData.Phase[NowPhase]);
+		NowPhase++;
+		return result;
+	}
+	
+}
+
+void BossManager::print(const boost::system::error_code & error)
+{
+	std::cout << "타이머" << std::endl;
+}
+
+BossPhaseResult BossManager::CalcPhase(Json::Value _message, boost::asio::deadline_timer* t)
 {
 	BossPhaseResult result;
 	
 	switch (Phase)
 	{
+	case 2:
+		PhaseCount++;
+
+		if (PhaseCount == UserCount)
+		{
+			int index = Random(0, 3);
+			result.RandomCircleBullet(index);
+			result.PhaseCalc = true;
+			PhaseCount = 0;
+
+		}
+		else
+		{
+			result.PhaseCalc = false;
+			int count = 0;
+			t->expires_at(t->expires_at() + boost::posix_time::seconds(1));
+			t->async_wait(boost::bind(&BossManager::print,this ,boost::asio::placeholders::error));
+		}
+		break;
 	case 3:	//페이즈 1
 	{
 		XMFLOAT2 dir;
@@ -144,7 +195,7 @@ BossPhaseResult BossManager::CalcPhase(Json::Value _message)
 
 		if (PhaseCount == UserCount)
 		{
-			int index = SetLaser();
+			int index = Random(0, 7);
 			result.RandomLaser(index);
 			result.PhaseCalc = true;
 			PhaseCount = 0;
@@ -156,6 +207,9 @@ BossPhaseResult BossManager::CalcPhase(Json::Value _message)
 		}
 		break;
 	}
+	case 5:
+
+		break;
 
 	default:
 	{
@@ -179,11 +233,11 @@ XMFLOAT2 BossManager::DirCalc(float px, float py,float bx,float by)
 	return result;
 }
 
-int BossManager::SetLaser()
+int BossManager::Random(int min,int max)
 {
 	std::random_device randDevice;	//랜덤 디바이스 생성
 	std::mt19937  mt(randDevice());
-	std::uniform_int_distribution<int> distribution(0, 7);
+	std::uniform_int_distribution<int> distribution(min, max);
 
 	return  distribution(randDevice);
 }

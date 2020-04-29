@@ -36,8 +36,10 @@ constexpr unsigned int HashCode(const char* str)
 class GameServer : public RoomManager
 {
 public:
+
 	GameServer(boost::asio::io_context& io_context)
-		:m_acceptor(io_context, boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), PORT_NUMBER))		
+		:m_acceptor(io_context, boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), PORT_NUMBER))
+		, timer(io_context, boost::posix_time::milliseconds(0))
 	{
 		m_acceptor.set_option(boost::asio::ip::tcp::no_delay(true));
 		m_bIsAccepting = false;
@@ -252,7 +254,7 @@ public:
 				{	ItemMixResult mixResult = dbManager->SetResultItem(Message);
 					SendOnePlayer(mixResult.packet, nSessionID);
 					
-break;
+					break;
 				}
 				case HashCode("SendShareInvInfo"):
 				{
@@ -281,7 +283,7 @@ break;
 				} 
 				case HashCode("BossDamage"):
 				{
-					BossResult bossResult = Room[m_SessionList[nSessionID]->RoomName].bossManager->HitBoss(5);
+					BossResult bossResult = Room[m_SessionList[nSessionID]->RoomName].bossManager->HitBoss(Message["damage"].asFloat());
 
 					std::cout << bossResult.str << std::endl;
 					SendAllPlayer(m_SessionList[nSessionID]->RoomName.c_str(), bossResult.packet);
@@ -294,25 +296,29 @@ break;
 				}
 				case HashCode("Phase"):
 				{
-					BossPhaseResult bossPhaseResult = Room[m_SessionList[nSessionID]->RoomName].bossManager->CalcPhase(Message);
+					BossPhaseResult bossPhaseResult = Room[m_SessionList[nSessionID]->RoomName].bossManager->CalcPhase(Message,&timer);
 				
 					if (bossPhaseResult.PhaseCalc == true)
 					{
 						SendAllPlayer(m_SessionList[nSessionID]->RoomName.c_str(), bossPhaseResult.packet);
-
-						Room[m_SessionList[nSessionID]->RoomName].bossManager->PhaseCount = 0;
+					}									
+					break;
+				}				
+				case HashCode("PhaseEnd"):
+				{
+					if (Room[m_SessionList[nSessionID]->RoomName].bossManager->RestartCheck())
+					{
+						PhaseRestart phaseRestart = Room[m_SessionList[nSessionID]->RoomName].bossManager->PhaseSet();
+						SendAllPlayer(m_SessionList[nSessionID]->RoomName.c_str(), phaseRestart.packet);
 					}
-									
 					break;
 				}
-				
-				case HashCode("PhaseEnd"):
+				case HashCode("PhaseRestart"):
 				{
 					if (Room[m_SessionList[nSessionID]->RoomName].bossManager->RestartCheck())
 					{
 						PhaseRestart phaseRestart;
 						phaseRestart.Init();
-						//std::cout << "페이즈 재시작" << std::endl;
 						SendAllPlayer(m_SessionList[nSessionID]->RoomName.c_str(), phaseRestart.packet);
 					}
 					break;
@@ -409,6 +415,8 @@ private:
 	bool m_bIsAccepting;
 
 	boost::asio::ip::tcp::acceptor m_acceptor;
+	boost::asio::deadline_timer timer;
+
 
 	std::vector<ServerSession*> m_SessionList;	//유저 배열
 	std::deque<int> m_SessionQueue;				//유저 배열 번호
