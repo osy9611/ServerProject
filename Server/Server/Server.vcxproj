@@ -146,7 +146,9 @@
     <ClCompile Include="BossManager.cpp" />
     <ClCompile Include="Database.cpp" />
     <ClCompile Include="DBManager.cpp" />
+    <ClCompile Include="GameServer.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MonsterManager.cpp" />
     <ClCompile Include="RoomManager.cpp" />
     <ClCompile Include="ServerSession.cpp" />
   </ItemGroup>
@@ -155,6 +157,7 @@
     <ClInclude Include="Database.h" />
     <ClInclude Include="DBManager.h" />
     <ClInclude Include="GameServer.h" />
+    <ClInclude Include="MonsterManager.h" />
     <ClInclude Include="Protocol.h" />
     <ClInclude Include="RoomManager.h" />
     <ClInclude Include="ServerSession.h" />

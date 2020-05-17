@@ -9,9 +9,10 @@
 #include<random>
 #include"ServerSession.h"
 #include"RoomManager.h"
-#include "Database.h"
-#include "DBManager.h"
+#include"Database.h"
+#include"DBManager.h"
 #include"BossManager.h"
+#include"MonsterManager.h"
 #include"Protocol.h"
 #include<map>
 #include <crtdbg.h>
@@ -33,6 +34,11 @@ constexpr unsigned int HashCode(const char* str)
 	return str[0] ? static_cast<unsigned int>(str[0]) + 0xEDB8832Full * HashCode(str + 1) : 8603;
 }
 
+//extern HANDLE SyncTimerTread;
+
+//extern unsigned __stdcall SyncTimer(GameServer *p_Server);
+
+
 class GameServer : public RoomManager
 {
 public:
@@ -42,6 +48,9 @@ public:
 	{
 		m_acceptor.set_option(boost::asio::ip::tcp::no_delay(true));
 		m_bIsAccepting = false;
+
+		
+		//io_context.post(SyncTimer);
 	}
 
 	~GameServer()
@@ -55,6 +64,8 @@ public:
 
 			delete  m_SessionList[i];
 		}
+
+		//CloseHandle(SyncTimerTread);
 	}
 
 	/*
@@ -69,7 +80,15 @@ public:
 			m_SessionList.push_back(pSession);
 			m_SessionQueue.push_back(i);
 		}
+
+		//SyncTimerTread = (HANDLE)_beginthreadex(NULL,
+		//	0, (_beginthreadex_proc_type )SyncTimer,
+		//	this,
+		//	0,
+		//	0);
 	}
+
+	
 
 	void Start()
 	{
@@ -235,7 +254,7 @@ public:
 				{
 					if (m_SessionList[nSessionID]->RoomName != "")
 					{
-						RoomReady(this,m_SessionList[nSessionID]->RoomName.c_str(), nSessionID, m_SessionList);
+						RoomReady(this, m_SessionList[nSessionID]->RoomName.c_str(), nSessionID, m_SessionList);
 					}
 					else
 					{
@@ -244,16 +263,18 @@ public:
 					break;
 				}
 				case HashCode("PlayerData"):
+				case HashCode("PlayerDamage"):
+				case HashCode("PlayerPortal"):
 				{
 					SendOtherPlayer(m_SessionList[nSessionID]->RoomName.c_str(), *packet, nSessionID);
 
 					break;
-				}
+				}	
 				case HashCode("ItemMix"):
 				{	ItemMixResult mixResult = dbManager->SetResultItem(Message);
-					SendOnePlayer(mixResult.packet, nSessionID);
-					
-					break;
+				SendOnePlayer(mixResult.packet, nSessionID);
+
+				break;
 				}
 				case HashCode("SendShareInvInfo"):
 				{
@@ -270,7 +291,7 @@ public:
 						m_SessionList[nSessionID]->RoomName.c_str());
 					SendAllPlayer(m_SessionList[nSessionID]->RoomName.c_str(), sharedInventory.packet);
 					break;
-				} 
+				}
 				case HashCode("SendShareDeleteInfo"):
 				{
 					SharedInventory sharedInventory = DeleteInventory(Message["arrayNum"].asInt(),
@@ -279,7 +300,7 @@ public:
 					std::cout << sharedInventory.str << std::endl;
 					SendAllPlayer(m_SessionList[nSessionID]->RoomName.c_str(), sharedInventory.packet);
 					break;
-				} 
+				}
 				case HashCode("BossDamage"):
 				{
 					BossResult bossResult = Room[m_SessionList[nSessionID]->RoomName].bossManager->HitBoss(Message["damage"].asFloat());
@@ -287,22 +308,18 @@ public:
 					std::cout << bossResult.str << std::endl;
 					SendAllPlayer(m_SessionList[nSessionID]->RoomName.c_str(), bossResult.packet);
 					break;
-				} 
-				case HashCode("PlayerDamage"):
-				{
-					SendOtherPlayer(m_SessionList[nSessionID]->RoomName.c_str(), *packet, nSessionID);
-					break;
 				}
+			
 				case HashCode("Phase"):
 				{
 					BossPhaseResult bossPhaseResult = Room[m_SessionList[nSessionID]->RoomName].bossManager->CalcPhase(Message);
-				
+
 					if (bossPhaseResult.PhaseCalc == true)
 					{
 						SendAllPlayer(m_SessionList[nSessionID]->RoomName.c_str(), bossPhaseResult.packet);
-					}									
+					}
 					break;
-				}				
+				}
 				case HashCode("PhaseEnd"):
 				{
 					if (Room[m_SessionList[nSessionID]->RoomName].bossManager->RestartCheck())
@@ -318,11 +335,11 @@ public:
 					{
 						BossPhaseResult bossPhaseResult;
 						bossPhaseResult.TimerOn();
+						Room[m_SessionList[nSessionID]->RoomName].bossManager->FireBallCheck();
 						SendAllPlayer(m_SessionList[nSessionID]->RoomName.c_str(), bossPhaseResult.packet);
 					}
 					break;
 				}
-
 				case HashCode("PhaseRestart"):
 				{
 					if (Room[m_SessionList[nSessionID]->RoomName].bossManager->RestartCheck())
@@ -331,6 +348,26 @@ public:
 						phaseRestart.Init();
 						SendAllPlayer(m_SessionList[nSessionID]->RoomName.c_str(), phaseRestart.packet);
 					}
+					break;
+				}
+				case HashCode("SubPhaseRestart"):
+				{
+					if (Room[m_SessionList[nSessionID]->RoomName].bossManager->RestartCheck())
+					{
+						PhaseRestart phaseRestart;
+						//phaseRestart.SubInit();
+						SendAllPlayer(m_SessionList[nSessionID]->RoomName.c_str(), phaseRestart.packet);
+					}
+					break;
+				}
+				case HashCode("DamageFireBall"):
+				{
+					SendOtherPlayer(m_SessionList[nSessionID]->RoomName.c_str(), *packet, nSessionID);
+					break;
+				}
+				case HashCode("DestroyFireBall"):
+				{
+					Room[m_SessionList[nSessionID]->RoomName].bossManager->DestroyFireBall();
 					break;
 				}
 				default:
@@ -348,6 +385,25 @@ public:
 		return;
 	}
 
+	bool CheckStart(const char* RoomName)
+	{
+		if (Room[RoomName].GameStart)
+		{
+			std::cout << "간다" << std::endl;
+			return 1;
+		}
+		else
+		{
+			std::cout << "안간다" << std::endl;
+			return 0;
+		}
+	}
+
+	const char* SearchUserName(int nSessionID,const char* RoomName)
+	{
+		return m_SessionList[GetRoomUserSessionID(RoomName, nSessionID)]->GetName();
+	}
+	
 	void SendOtherPlayer(const char* RoomName, PacketMessage packet, int nSessionID)
 	{
 		for (size_t i = 0; i < Room[RoomName].Count; i++)
@@ -374,13 +430,11 @@ public:
 		m_SessionList[nSessionID]->PostSend(false, packet.size, (char *)&packet);
 	}
 
-	const char* SearchUserName(int nSessionID,const char* RoomName)
-	{
-		std::cout << m_SessionList[GetRoomUserSessionID(RoomName, nSessionID)]->GetName() << std::endl;
-		return m_SessionList[GetRoomUserSessionID(RoomName, nSessionID)]->GetName();
-	}
-
 private:
+
+	
+
+
 	/*
 	접속 받기 요청을 할때마다 PostAccept 함수를 이용하여 m_SessionQueue에서 사용하지 않는 세션 번호를 가져와 async_accept에 사용한다
 	*/
@@ -423,6 +477,7 @@ private:
 			std::cout << "error No: " << error.value() << "error Message: " << error.message() << std::endl;
 		}
 	}
+
 
 
 	int m_nSepNumber;

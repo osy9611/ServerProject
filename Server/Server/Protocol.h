@@ -50,6 +50,7 @@ struct RoomData
 	Inventory _Inventory[MAX_INVENTORY] = { 0, };
 	bool Ready[MAX_USER_COUNT];
 
+	bool GameStart = false;
 	BossManager *bossManager;
 
 	void SetSessionId(int nSessionID)
@@ -199,9 +200,10 @@ struct ItemMixResult : public JsonData
 {
 	Json::Value Data;
 
-	void Init(const char* resultItem)
+	void Init(const char* resultItem,int resultMoney)
 	{
 		root["type"] = "ItemMixResult";
+		root["money"] = resultMoney;
 		if (strcmp(resultItem,"(null)") == 1)
 		{
 			root["result"] = "true";
@@ -263,7 +265,8 @@ struct BossResult :public JsonData
 {
 	void Init(int Item[], int ItemCount, int Money)
 	{
-		root["type"] = "GameClear";
+		root["type"] = "BossHp";
+		root["Hp"] = 0;
 		for (size_t i = 0; i < ItemCount; ++i)
 		{
 			root["items"].append(Item[i]);
@@ -315,10 +318,19 @@ struct BossPhaseResult : public JsonData
 		SetJsonData();
 	}
 
-	void CircleFloor(const char *_name)
+	void CircleFloor(const char *_name,int num)
 	{
 		root["type"] = "CircleFloor";
 		root["targetName"] = _name;
+		root["bulletType"] = num;
+		SetJsonData();
+	}
+
+	void FirBall(int milltime, int num)
+	{
+		root["type"] = "FireBall";
+		root["millTime"] = milltime;
+		root["bulletType"] = num;
 		SetJsonData();
 	}
 
@@ -341,6 +353,15 @@ struct PhaseRestart : public JsonData
 	void Init()
 	{
 		root["type"] = "PhaseRestart";
+		SetJsonData();
+	}
+};
+
+struct SyncPosition :public JsonData
+{
+	void Init()
+	{
+		root["type"] = "SyncPosition";
 		SetJsonData();
 	}
 };

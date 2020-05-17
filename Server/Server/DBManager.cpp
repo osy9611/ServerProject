@@ -62,28 +62,30 @@ ItemMixResult DBManager::SetResultItem(Json::Value _message)
 	printf("\n");
 	Query = "CALL SearchItem('" 
 		+ sourceID[0].asString() + "','" + source[0].asString() + "','"
-		+ sourceID[1].asString() + "','" + source[0].asString() + "','"
-		+ sourceID[2].asString() + "','" + source[0].asString() + "','"
+		+ sourceID[1].asString() + "','" + source[1].asString() + "','"
+		+ sourceID[2].asString() + "','" + source[2].asString() + "','"
 		+ _message["money"].asString() 
-		+ "'," + "@result)";
+		+ "'," + "@result,@resultMoney)";
 
 	char result[50];
+	int resultMoney;
 
 	const char *ch = Query.c_str();
 	if (db.Execute(ch, tbl))
 	{
-		if (db.Execute("SELECT @result", tbl))
+		if (db.Execute("SELECT @result,@resultMoney", tbl))
 		{
 			if (!tbl.ISEOF())
 			{
 				std::cout << "¼º°ø" << std::endl;
 				tbl.Get((char*)"@result", result);
+				resultMoney = tbl.Get("@resultMoney");
 			}
 		}
 	}
-
+	
 	ItemMixResult mixResult;
-	mixResult.Init(result);
+	mixResult.Init(result, _message["money"].asInt() - resultMoney);
 	std::cout << mixResult.str << std::endl;
 	return mixResult;
 }

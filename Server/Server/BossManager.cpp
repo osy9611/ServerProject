@@ -31,6 +31,7 @@ void BossManager::SetBossData(int Data)
 	ResetBossData();
 
 	_BossData = dbManager->SearchBoss(Data);
+	FullHp = _BossData.Hp;
 	Hp = _BossData.Hp;
 	for (size_t i = 0; i < 3; ++i)
 	{
@@ -69,13 +70,10 @@ void BossManager::ShufflePhase()
 {
 	int temp;
 	int n;
-	std::random_device randDevice;	//랜덤 디바이스 생성
-	std::mt19937  mt(randDevice());
-	std::uniform_int_distribution<int> distribution(0, 3);
 
 	for (size_t i = 0; i < 4; ++i)
 	{
-		n = distribution(randDevice);
+		n = Random(0, 3);
 
 		temp = _BossData.Phase[n];
 		_BossData.Phase[n] = _BossData.Phase[3];
@@ -83,12 +81,43 @@ void BossManager::ShufflePhase()
 	}
 }
 
+void BossManager::ShuffleMainBulletType()
+{
+	int temp;
+	int n;
+
+	for (size_t i = 0; i < MAX_MAIN_BULLET; ++i)
+	{
+		n = Random(0, MAX_MAIN_BULLET);
+
+		temp = _BossData.Phase[n];
+		_BossData.Phase[n] = _BossData.Phase[MAX_MAIN_BULLET- 1];
+		_BossData.Phase[MAX_MAIN_BULLET - 1] = temp;
+	}
+}
+
+void BossManager::ShuffleSubBulletType()
+{
+	int temp;
+	int n;
+
+	for (size_t i = 0; i < MAX_SUB_BULLET; ++i)
+	{
+		n = Random(0, MAX_SUB_BULLET);
+
+		temp = _BossData.Phase[n];
+		_BossData.Phase[n] = _BossData.Phase[MAX_SUB_BULLET - 1];
+		_BossData.Phase[MAX_SUB_BULLET - 1] = temp;
+	}
+}
+
 BossResult BossManager::HitBoss(float BossDamage)
 {
 	BossResult result;
 
-	if (Hp == _BossData.Hp)
+	if (Hp == _BossData.Hp && _firstStart)
 	{
+		_firstStart = false;
 		Hp -= BossDamage;
 		ShufflePhase();
 		Phase = _BossData.Phase[0];
@@ -141,7 +170,6 @@ PhaseRestart BossManager::PhaseSet()
 	{
 		Phase = _BossData.Phase[NowPhase];
 		result.Init(_BossData.Phase[NowPhase]);
-		std::cout << "배열번호: " << NowPhase << " 현재 패턴: " << Phase << std::endl;
 		NowPhase = 0;		
 		ShufflePhase();
 		return result;
@@ -149,7 +177,6 @@ PhaseRestart BossManager::PhaseSet()
 	else
 	{
 		Phase = _BossData.Phase[NowPhase];
-		std::cout << "배열번호: "<< NowPhase <<" 현재 패턴: "  <<Phase << std::endl;
 		result.Init(_BossData.Phase[NowPhase]);
 		NowPhase++;
 		return result;
@@ -160,74 +187,67 @@ PhaseRestart BossManager::PhaseSet()
 BossPhaseResult BossManager::CalcPhase(Json::Value _message)
 {
 	BossPhaseResult result;
-
-	switch (Phase)
+	PhaseCount++;
+	if (PhaseCount == UserCount)
 	{
-	case 2:
-		PhaseCount++;
-
-		if (PhaseCount == UserCount)
-		{
-			int index = Random(0, 3);
-			result.RandomCircleBullet(index);
-			result.PhaseCalc = true;
-			PhaseCount = 0;
-		}
-		else
-		{
-			result.PhaseCalc = false;
-		}
-		break;
-	case 3:	//페이즈 1
-	{
-		XMFLOAT2 dir;
-		dir = DirCalc(_message["px"].asFloat(), _message["py"].asFloat(), _message["bx"].asFloat(), _message["by"].asFloat());
-		result.DirInit(dir.x, dir.y);
 		result.PhaseCalc = true;
-		break;
-	}	
-	case 4:
-	{
-		PhaseCount++;
-
-		if (PhaseCount == UserCount)
+		PhaseCount = 0;
+		switch (Phase)
 		{
-			int index = Random(0, 7);
-			result.RandomLaser(index);
-			result.PhaseCalc = true;
-			PhaseCount = 0;
+		case 2:
+		{
+			result.RandomCircleBullet(mainBulletType[mainBulletTypeCount]);
+			if (mainBulletTypeCount != MAX_MAIN_BULLET-1)
+			{
+				mainBulletTypeCount++;
+			}
+			else
+			{
+				mainBulletTypeCount = 0;
+				ShuffleMainBulletType();
+			}
+			break;
+		}			
+		case 3:	//페이즈 1
+		{
+			XMFLOAT2 dir;
+			dir = DirCalc(_message["px"].asFloat(), _message["py"].asFloat(), _message["bx"].asFloat(), _message["by"].asFloat());
+			result.DirInit(dir.x, dir.y);
+			break;
 		}
-		else
+		case 8:
+		{
+			FireBallCount = 4;
+			struct timeb timer_msec;
+			ftime(&timer_msec);
+
+			curr_tm = localtime((time_t*)&timer_msec);
+			int milltime = (curr_tm->tm_hour * pow(60, 3) +
+				curr_tm->tm_min * pow(60, 2) +
+				curr_tm->tm_sec * 60) * 1000 + timer_msec.millitm;
+
+			result.FirBall(milltime, Random(0, MAX_SUB_BULLET));
+
+			break;
+		}
+		case 12:
+		{
+			int index = Random(0, m_pServer->GetRoomData(RoomName).Count - 1);
+			result.CircleFloor(m_pServer->SearchUserName(index, RoomName), Random(0, MAX_SUB_BULLET));
+			break;
+		}
+		default:
 		{
 			result.PhaseCalc = false;
+			break;
 		}
-		break;
+		}
 	}
-	case 12:
-
-		PhaseCount++;
-
-		if (PhaseCount == UserCount)
-		{
-			std::cout << m_pServer->GetRoomData(RoomName).Count << std::endl;
-			int index = Random(0, m_pServer->GetRoomData(RoomName).Count-1);
-			
-			result.CircleFloor(m_pServer->SearchUserName(index,RoomName));
-			result.PhaseCalc = true;
-			PhaseCount = 0;
-		}
-		else
-		{
-			result.PhaseCalc = false;
-		}
-		break;
-
-	default:
+	else
 	{
 		result.PhaseCalc = false;
-		break;
 	}
-	}
+	
 
 	return result;
 
@@ -251,4 +271,23 @@ int BossManager::Random(int min,int max)
 	std::uniform_int_distribution<int> distribution(min, max);
 
 	return  distribution(randDevice);
+}
+
+void BossManager::DestroyFireBall()
+{
+	FireBallCount -= 1;
+	std::cout << FireBallCount << std::endl;
+}
+
+void BossManager::FireBallCheck()
+{
+	if (Phase == 8)
+	{
+		if (FireBallCount > 0)
+		{
+			Hp = FullHp;
+		}
+		FireBallCount = MAX_FIRE_BALL;
+	}
+
 }

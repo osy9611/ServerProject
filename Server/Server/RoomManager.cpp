@@ -36,6 +36,7 @@ void RoomManager::MakeRoom(const char* RoomName, int SessionID, int SessionID2)
 	RoomData roomData;
 	roomData.SetSessionId(SessionID);
 	roomData.SetSessionId(SessionID2);
+	RoomNames.push_back(RoomName);
 	Room.insert(std::pair<std::string, RoomData>(RoomName, roomData));
 	
 }
@@ -83,6 +84,8 @@ void RoomManager::RoomReady(GameServer* pServer,const char* RoomName, const int 
 				Room[RoomName].bossManager = new BossManager(pServer, RoomName);
 				Room[RoomName].bossManager->SetBossData(1);
 				Room[RoomName].bossManager->UserSet(Room[RoomName].Count);
+
+				Room[RoomName].GameStart = true;
 				std::cout << ready.str << std::endl;
 			}
 			else
@@ -98,6 +101,8 @@ void RoomManager::RoomReady(GameServer* pServer,const char* RoomName, const int 
 		}
 	}
 }
+
+
 
 //유저가 나감을 체크
 void RoomManager::UserOutCheck(const char* RoomName, const int nSessionID, std::vector<ServerSession*> m_SessionList)
@@ -132,6 +137,15 @@ void RoomManager::UserOutCheck(const char* RoomName, const int nSessionID, std::
 	{
 		delete Room[m_SessionList[nSessionID]->RoomName].bossManager;
 		Room.erase(m_SessionList[nSessionID]->RoomName);
+
+		for (size_t i = 0; i < RoomNames.size(); ++i)
+		{
+			if (RoomNames[i] == m_SessionList[nSessionID]->RoomName)
+			{
+				RoomNames.erase(RoomNames.begin() + i);
+				break;
+			}
+		}
 		std::cout << "방에 유저가 없어서 삭제되었습니다" << std::endl;
 	}
 }
@@ -221,37 +235,4 @@ SharedInventory RoomManager::DeleteInventory(int arrayNum1, const char *RoomName
 	return Data;
 }
 
-
-//추후 작업할듯
-/*
-void RoomManager::AddItemCount(const char* RoomName, int itemType)
-{
-	std::cout << "들어온 데이터" << itemType << std::endl;
-	switch (itemType)
-	{
-	case 1:
-		Room[RoomName].Source[0]++;
-		break;
-	case 2:
-		Room[RoomName].Source[1]++;
-		break;
-	case 3:
-		Room[RoomName].Source[2]++;
-		break;
-	}
-
-	std::cout << RoomName << " 방 현재 작업완료!" << std::endl;
-	std::cout << "현재 팀 자원" <<Room[RoomName].Source[0] << " " << Room[RoomName].Source[1] << " " << Room[RoomName].Source[2] << std::endl;
-}
-
-void  RoomManager::SubItemCount(const char* RoomName, int source1, int source2, int source3)
-{
-	Room[RoomName].Source[0] -= source1;
-	Room[RoomName].Source[1] -= source2;
-	Room[RoomName].Source[2] -= source3;
-
-	std::cout << RoomName << " 방 현재 작업완료!" << std::endl;
-	std::cout << "현재 팀 자원" << Room[RoomName].Source[0] << " " << Room[RoomName].Source[1] << " " << Room[RoomName].Source[2] << std::endl;
-}
-*/
 

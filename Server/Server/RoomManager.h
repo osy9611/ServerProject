@@ -41,6 +41,9 @@ public:
 	SharedInventory SwapInventory(int arrayNum1, int arrayNum2, const char *RoomName);
 	SharedInventory DeleteInventory(int arrayNum1, const char *RoomName);
 
+
+	std::vector<std::string> RoomNames;
+
 protected:
 	std::map<std::string, RoomData>Room;
 };
