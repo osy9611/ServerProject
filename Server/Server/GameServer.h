@@ -370,6 +370,13 @@ public:
 					Room[m_SessionList[nSessionID]->RoomName].bossManager->DestroyFireBall();
 					break;
 				}
+				case HashCode("ItemPerResult"):
+				{
+					ItmePerResult itemPerResult = PercentageCheck(SOURCEITEMPER, m_SessionList[nSessionID]->GetName());
+					std::cout << itemPerResult.str << std::endl;
+					SendAllPlayer(m_SessionList[nSessionID]->RoomName.c_str(), itemPerResult.packet);
+					break;
+				}
 				default:
 					std::cout << "해당되는 패킷이 없습니다" << std::endl;
 					std::cout << packet->dummy << std::endl;

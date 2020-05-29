@@ -236,6 +236,13 @@ BossPhaseResult BossManager::CalcPhase(Json::Value _message)
 			result.CircleFloor(m_pServer->SearchUserName(index, RoomName), Random(0, MAX_SUB_BULLET));
 			break;
 		}
+		case 21:
+		{
+			int index = Random(0, m_pServer->GetRoomData(RoomName).Count - 1);
+			result.Restriction(m_pServer->SearchUserName(index, RoomName), Random(0, MAX_SUB_BULLET));
+			std::cout << result.str << std::endl;
+			break;
+		}
 		default:
 		{
 			result.PhaseCalc = false;

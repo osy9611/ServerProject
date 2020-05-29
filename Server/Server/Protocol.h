@@ -11,6 +11,7 @@
 #define MAX_INVENTORY 9
 
 #define MAX_BOSS 2
+#define SOURCEITEMPER 50
 
 //현재 유저가 로비에 있는지 아니면 로비에 있지않고 대기방이다 인게임에 있는지 확인하는 함수
 enum SessionState
@@ -334,6 +335,13 @@ struct BossPhaseResult : public JsonData
 		SetJsonData();
 	}
 
+	void Restriction(const char * _name, int num)
+	{
+		root["type"] = "Restriction";
+		root["targetName"] = _name;
+		SetJsonData();
+	}
+
 	void TimerOn()
 	{
 		root["type"] = "TimerOn";
@@ -362,6 +370,17 @@ struct SyncPosition :public JsonData
 	void Init()
 	{
 		root["type"] = "SyncPosition";
+		SetJsonData();
+	}
+};
+
+struct ItmePerResult : public JsonData
+{
+	void Init(bool result,const char * UserName)
+	{
+		root["type"] = "ItemPerResult";
+		root["result"] = result;
+		root["name"] = UserName;
 		SetJsonData();
 	}
 };

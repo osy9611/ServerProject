@@ -235,4 +235,23 @@ SharedInventory RoomManager::DeleteInventory(int arrayNum1, const char *RoomName
 	return Data;
 }
 
+//아이템 확률 관련
+ItmePerResult RoomManager::PercentageCheck(int Per,const char* UserName)
+{
+	ItmePerResult result;
 
+	std::random_device randDevice;	//랜덤 디바이스 생성
+	std::mt19937  mt(randDevice());
+	std::uniform_int_distribution<int> distribution(0, 100);
+	int perResult = distribution(randDevice);
+	if (perResult <= SOURCEITEMPER)
+	{
+		result.Init(true,UserName);
+	}
+	else
+	{
+		result.Init(false,UserName);
+	}
+
+	return result;
+}

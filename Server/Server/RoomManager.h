@@ -30,6 +30,9 @@ public:
 	//방에 있는 유저들의 인원수를 가져옴
 	int GetRoomUserCount(const char* RoomName);
 
+	//아이템 확률 관련
+	ItmePerResult PercentageCheck(int Per,const char* UserName);
+
 	void AddItemCount(const char* RoomName, int itemType);
 	void SubItemCount(const char* RoomName, int source1, int source2, int source3);
 
