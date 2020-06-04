@@ -7,8 +7,6 @@ using LitJson;
 public class OtherPlayerManager : MonoBehaviour
 {
     public static OtherPlayerManager instance;
-    
-    //public List<OtherPlayer> PlayerList;
 
     public Dictionary<string, Player_Server> PlayerList = new Dictionary<string, Player_Server>();
 

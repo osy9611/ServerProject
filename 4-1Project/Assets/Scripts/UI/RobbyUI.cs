@@ -85,9 +85,9 @@ public class RobbyUI : MonoBehaviour
                 //TransportTCP.instance.Send(buffer, buffer.Length);
                 inputField.text = null;
             }
-            else
+            else // 입력한 닉네임이 나와 같은 닉네임일 경우
             {
-                SystemMessage.text = "자신의 닉네임을 입력하셨습니다 !";
+                SystemMessage.text = "자신의 닉네임을 입력하셨습니다 !"; 
                 Invoke("ResetSystemMessage", 1.0f);
             }
           
@@ -185,5 +185,8 @@ public class RobbyUI : MonoBehaviour
             Invoke("ResetSystemMessage", 1.0f);
             Message = "";
         }
+
+        if (Input.GetKeyDown(KeyCode.KeypadEnter) || Input.GetKeyDown(KeyCode.Return))
+            ServerClient.instance.Connect();
     }
 }

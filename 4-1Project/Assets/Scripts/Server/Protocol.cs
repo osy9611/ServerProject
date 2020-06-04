@@ -24,7 +24,7 @@ public struct Ready
     public void Init()
     {
         type = "Ready";
-        if(GameManager.instance != null)
+        if (GameManager.instance != null)
         {
             Name = GameManager.instance.PlayerName;
         }
@@ -40,7 +40,7 @@ public struct PlayerData
     public double x, y;
     //회전값
     public double rx, ry;
-    //공격값
+    //플레이어 위치에 대비한 마우스 포인터의 방향벡터
     public double ax, ay;
     //현재 위치
     public double nx, ny;
@@ -50,6 +50,8 @@ public struct PlayerData
     public double Speed;
     //현재 상태
     public int State;
+    // 대쉬 목적지 좌표
+    public double dx, dy;
 
     public void Init(string Name)
     {
@@ -126,7 +128,7 @@ public struct MonsterData
 
     public string MonsterName;
     public string UserName;
-    public void Init(string User,string Monster)
+    public void Init(string User, string Monster)
     {
         type = "MonsterCheck";
         this.UserName = User;
@@ -312,6 +314,78 @@ public struct PhaseTimeEnd
         type = "PhaseTimeEnd";
     }
 }
+
+public struct FireBallState
+{
+    public string type;
+    public string Name;
+
+    public void Init(string _Name)
+    {
+        type = "DamageFireBall";
+        Name = _Name;
+    }
+}
+
+public struct DestroyFireBall
+{
+    public string type;
+
+    public void Init()
+    {
+        type = "DestroyFireBall";
+    }
+}
+
+public struct PlayerPortal
+{
+    public string type;
+
+    public string nickname;
+    public double x;
+    public double y;
+    public bool get;
+
+    public void Init(string name)
+    {
+        nickname = name;
+        type = "PlayerPortal";
+    }
+}
+
+public struct ItemPerResult
+{
+    public string type;
+
+    public void Init()
+    {
+        type = "ItemPerResult";
+    }
+}
+
+//public struct MagicSquarePassword
+//{
+//    public string type;
+
+//    public int[] password;
+
+//    public void Init()
+//    {
+//        type = "MagicSqaurePassword";
+//    }
+//}
+
+//public struct MagicSquareDead
+//{
+//    public string type;
+
+//    public string[] nickname; // 사망시킬 유저들의 닉네임
+
+//    public void Init()
+//    {
+//        type = "MagicSquareDead";
+//    }
+//}
 
 
 

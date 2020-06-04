@@ -3,15 +3,28 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // 0 : 아이템 없음
-// 1 ~ 100 : 재료
-// 101 ~ 200 : 소비
-// 201 ~ 300 : 장비
+// 1 ~ 100 : 재료 (1)
+// 101 ~ 200 : 소비 (2)
+// 201 ~ 300 : 장비 (0)
 
 public class DataBase : MonoBehaviour
 {
-    public List<Item> itemList = new List<Item>();
+    public static DataBase instance;
 
-    // ItemID , ItemName, ItemDes, ItemSpriteFilename
+    public List<Item> itemList = new List<Item>();
+    public List<Recipe> armorRecipeList = new List<Recipe>();
+    public List<Recipe> weaponRecipeList = new List<Recipe>();
+    public List<Recipe> subweaponRecipeList = new List<Recipe>();
+    public List<Recipe> accessoryRecipeList = new List<Recipe>();
+    public List<Recipe> activeRecipeList = new List<Recipe>();
+
+    private void Awake()
+    {
+        instance = this;
+    }
+    // ITEM : ItemID , ItemName, ItemDes, ItemSpriteFilename
+    // RECIPE : (item1ID, item1Count, item1filename), (2), (3), money, resultitemfilepath, resultitemID
+
     private void Start()
     {
         // Material Item
@@ -28,5 +41,18 @@ public class DataBase : MonoBehaviour
 
         // Equipment Item
         itemList.Add(new Item(201, "펜던트", "펜던트...", "pendant"));
+        itemList.Add(new Item(202, "칼", "칼...", "knife"));
+        itemList.Add(new Item(203, "보스방 열쇠", "이 열쇠가 있어야 보스방에 입장할 수 있습니다.", "bosskey"));
+
+        // Armor Recipe
+
+        // Weapon Recipe
+        weaponRecipeList.Add(new Recipe(5, 1, "hernite", 6, 1, "iron", 7, 1, "gaiter", 5000, "knife", 202));
+        // SubWeapon Recipe
+
+        // Accessory Recipe
+        accessoryRecipeList.Add(new Recipe(1, 1, "alchemy", 2, 1, "ashvattha", 3, 1, "Ereronium", 5000, "pendant", 201));
+        // Active Recipe
+        activeRecipeList.Add(new Recipe(1, 1, "alchemy", 4, 1, "fabric", 7, 1, "gaiter", 10000, "bosskey", 203));
     }
 }

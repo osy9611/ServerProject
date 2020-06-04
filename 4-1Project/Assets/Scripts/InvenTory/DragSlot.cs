@@ -14,9 +14,9 @@ public class DragSlot : MonoBehaviour
         instance = this;
     }
 
-    public void DragSetImage(Image _itemImage)
+    public void DragSetImage(Sprite _itemImage)
     {
-        imageItem.sprite = _itemImage.sprite;
+        imageItem.sprite = _itemImage;
         SetColor(0.5f);
     }
 

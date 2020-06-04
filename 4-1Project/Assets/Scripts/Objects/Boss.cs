@@ -7,15 +7,16 @@ public class Boss : MonoBehaviour
 {
     public static Boss instance;
 
+    Animator _animator;
     Rigidbody2D _rigidbody2D;
     Transform _playerPos;
+    ShakeCamera _shakeCamera;
+    BossHPBar _BossHPBar;
 
     private float _Nowpercent;
 
     public int HP, STR, DEF;
     private int _fullHp;
-
-    private BossHPBar _BossHPBar;
 
     public int patternNum;
 
@@ -25,12 +26,18 @@ public class Boss : MonoBehaviour
 
     public int _floorDeathOn;   //장판 작동
 
+    public Fire_Ball _fireBall; //불 구슬 데미지 관련
+
+    bool _firstStart = true, _attack;
+
     private void Awake()
     {
         instance = this;
         _rigidbody2D = GetComponent<Rigidbody2D>();
         _playerPos = FindObjectOfType<Player>().transform;
         _BossHPBar = FindObjectOfType<BossHPBar>();
+        _animator = GetComponent<Animator>();
+        _shakeCamera = FindObjectOfType<ShakeCamera>();
         _fullHp = HP;
 
         Data.Init(false);
@@ -38,20 +45,52 @@ public class Boss : MonoBehaviour
 
     public void SetHP(JsonData _data)
     {
-        if(_fullHp == HP)
+        if (_fullHp == HP && _firstStart)
         {
             patternNum = int.Parse(_data["Phase"].ToString());
+            _attack = true;
             PatternManager.instance._isStart = true;
+            _firstStart = false;
         }
 
         HP = int.Parse(_data["Hp"].ToString());
+    }
+    private void Update()
+    {
+        if (_attack)
+        {
+            _animator.SetTrigger("Attack");
+            _attack = false;
+        }
+
+        if (HP <= 0)
+            _animator.SetTrigger("Dead");
+    }
+
+    public void Attack()
+    {
+        _attack = true;
+    }
+
+    public void ShakeCamera() // 애니메이션 이벤트 함수
+    {
+        _shakeCamera.PutShakeTime();
+    }
+
+    public void Dead()
+    {
+        gameObject.SetActive(false);
+    }
+
+    public void SetFullHP()
+    {
+        HP = _fullHp;
     }
 
     public void SetPhase(JsonData _data)
     {
         patternNum = int.Parse(_data["Phase"].ToString());
     }
-
 
     public void DelaySendPhaseData(float _delayTime)
     {
@@ -73,7 +112,12 @@ public class Boss : MonoBehaviour
 
     public void ActiveHPBar()
     {
-        if(!_BossHPBar.gameObject.activeSelf)
+        if (!_BossHPBar.gameObject.activeSelf)
             _BossHPBar.gameObject.SetActive(true);
+    }
+
+    public void SearchFireBall(JsonData _data)
+    {
+        _fireBall.ServerHitFireBall(_data["Name"].ToString());
     }
 }

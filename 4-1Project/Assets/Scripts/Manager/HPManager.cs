@@ -4,14 +4,6 @@ using UnityEngine.UI;
 using LitJson;
 using System.Collections.Generic;
 
-[System.Serializable]
-struct OtherHP
-{
-    public string nickname;
-    public int otherHP;
-    public int otherFullHP;
-}
-
 public class HPManager : MonoBehaviour
 {
     public static HPManager instance;
@@ -20,12 +12,15 @@ public class HPManager : MonoBehaviour
     public int myHP;
     public float myFullHP;
 
+    public float invincibleTime;
+
     public List<Image> image_otherHP;
     public List<string> nickname;
     public List<float> otherFullHP;
 
     private bool isSend;
     private int send_hp;
+    private float time;
     private string send_nickname;
 
     private void Awake()
@@ -63,7 +58,7 @@ public class HPManager : MonoBehaviour
 
     private void Update()
     {
-        if(isSend)
+        if(isSend) // 다른 플레이어에게서 체력 정보를 받으면
         {
             for (int i = 0; i < nickname.Count; i++)
             {
@@ -83,9 +78,10 @@ public class HPManager : MonoBehaviour
         
         isSend = true;
     }
-    
-    public void SetHP()
+
+    public void SetHP() // 내 HP를 조정
     {
         image_myHP.fillAmount = myHP / myFullHP;
+        CharacterInfoWindow.instance.UpdateHP(myHP);
     }
 }

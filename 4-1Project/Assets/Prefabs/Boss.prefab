@@ -93,7 +93,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8325361491396822724}
-  m_BodyType: 0
+  m_BodyType: 2
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -135,6 +135,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _isStart: 0
+  BT: 0
+  _patternCount: 0
+  _circleFloorTargetName: 
+  _limitTimeOn: 0
+  _time: 0
 --- !u!114 &7978250062191570095
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -152,3 +157,5 @@ MonoBehaviour:
   DEF: 20
   patternNum: 0
   _circleBullet: 16
+  _floorDeathOn: 0
+  _fireBall: {fileID: 0}

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public enum LaserType
 {
@@ -11,8 +12,26 @@ public class Laser : MonoBehaviour
     private LaserType LT;
     public float _speed = 100.0f;
     public bool _on = false;
-    private int _setDir = 0;
 
+    public Transform[] Lasers;
+    private RaycastHit2D[] _hit2D =new RaycastHit2D[2];
+
+    public int LaserDamage = 20;
+
+    float angle;
+
+    public LayerMask layer;
+
+    public float _range;
+
+    // #pragma warning disable IDE0044 // 읽기 전용 한정자 추가
+    // private int _setDir = 0;
+    // #pragma warning restore IDE0044 // 읽기 전용 한정자 추가
+
+    private void Awake()
+    {
+        angle = (Mathf.PI * 2) / Lasers.Length;
+    }
     void Update()
     {
         if (_on)

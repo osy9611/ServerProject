@@ -6,19 +6,24 @@ using LitJson;
 
 public class ControlUI : MonoBehaviour
 {
-    public GameObject inventory;
-    public InputField UI_typingfield;
+    public GameObject[] openInventory;
 
     private void Update()
     {
-        if (!UI_typingfield.isFocused) // 채팅창이 활성화되어있는동안 다른 UI는 열고 닫을 수 없다.
+        if (!Chatting.instance.CheckActive()) // 채팅창이 활성화되어있는동안 다른 UI는 열고 닫을 수 없다.
         {
             if (Input.GetKeyDown(KeyCode.I))
             {
-                if (inventory.activeSelf)
-                    inventory.SetActive(false);
+                if (openInventory[0].activeSelf)
+                {
+                    for (int i = 0; i < openInventory.Length; i++)
+                        openInventory[i].SetActive(false);
+                }
                 else
-                    inventory.SetActive(true);
+                {
+                    for (int i = 0; i < openInventory.Length; i++)
+                        openInventory[i].SetActive(true);
+                }
                 return;
             }
         }

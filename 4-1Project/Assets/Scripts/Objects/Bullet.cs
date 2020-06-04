@@ -5,10 +5,27 @@ using UnityEngine;
 //탄막 타입들 몬스터와 캐릭터의 탄막 스크립트를 분리하길 요망 
 public enum BulletType
 {
+    //원형 직선 탄환
     EVEN_CIRCLE_NORMAL,
     ODD_NUMBER_CIRCLE_NORMAL,
+
+    //원형 커브 탄환
     EVEN_CIRCLE_CURVE,
     ODD_NUMBER_CIRCLE_CURVE,
+
+    //사각 직선 탄환
+    EVEN_SQUARE_NORMAL,
+    ODD_NUMBER_SQUARE_NORMAL,
+
+    //사각 커브 탄환
+    EVEN_SQUARE_CURVE,
+    ODD_NUMBER_SQUARE_CURVE,
+
+    //완전 사각 직선 탄환
+    SQUARE_NORMAL,
+
+    //완전 사각 커브 탄환
+    SQUARE_CURVE
 }
 
 public class Bullet : MonoBehaviour
@@ -35,6 +52,7 @@ public class Bullet : MonoBehaviour
         if (Boss.instance != null)
             transform.position = Boss.instance.transform.position;
         _rigidbody2D.velocity = Vector2.zero;
+        transform.rotation = Quaternion.identity;
     }
 
     private void Update()
@@ -48,10 +66,16 @@ public class Bullet : MonoBehaviour
         {
             case BulletType.EVEN_CIRCLE_NORMAL:
             case BulletType.ODD_NUMBER_CIRCLE_NORMAL:
+            case BulletType.EVEN_SQUARE_NORMAL:
+            case BulletType.ODD_NUMBER_SQUARE_NORMAL:
+            case BulletType.SQUARE_NORMAL:
                 NormaCirclelBullet();
                 break;
             case BulletType.EVEN_CIRCLE_CURVE:
             case BulletType.ODD_NUMBER_CIRCLE_CURVE:
+            case BulletType.EVEN_SQUARE_CURVE:
+            case BulletType.ODD_NUMBER_SQUARE_CURVE:
+            case BulletType.SQUARE_CURVE:
                 CircleCurveBullet();
                 break;
             default:

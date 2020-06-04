@@ -98,7 +98,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-
     public void SceneChange(string SceneName)
     {
         SceneManager.LoadScene(SceneName);

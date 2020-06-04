@@ -5,7 +5,7 @@ using UnityEngine;
 using LitJson;
 
 /*
- * 네트워크의 특성상 서베어서 보내는 데이터를 클라는 패킷 단위로 받지 않는다. 한 번에 모두 받을 수 있고
+ * 네트워크의 특성상 서버어서 보내는 데이터를 클라는 패킷 단위로 받지 않는다. 한 번에 모두 받을 수 있고
  * 여러 번 나눠서 받을 수 있다.(즉, 서버는 send를 두 번 했는데, 클라에서는 receive 한 번만 발생하는 경우가 생김)
  * 이런 경우를 처리하기 위해서 먼저 받은 데이터를 PacketBuffer에 저장한 후 클라이언트에서 동시에 여러번 요청하면서 서버는 
  * 한 번에 다 받으므로, 각 요청별로 나누어 처리한다. 그리고 서버가 보낸 데이터 중 일부가 도착한 경우,
@@ -97,6 +97,10 @@ public class Resolve
                     if (OtherPlayerManager.instance.PlayerList.ContainsKey(Data["name"].ToString()))
                         OtherPlayerManager.instance.PlayerList[Data["name"].ToString()].SetInput(Data);
                     break;
+                case "PlayerPortal":
+                    if (OtherPlayerManager.instance.PlayerList.ContainsKey(Data["nickname"].ToString()))
+                        OtherPlayerManager.instance.PlayerList[Data["nickname"].ToString()].Teleport(Data);
+                    break;
                 case "UserInfo":
                     GameManager.instance.AddCharactor(Data);
                     break;
@@ -118,7 +122,7 @@ public class Resolve
                     Chatting.instance.ReceiveComment(Data);
                     break;
                 case "ItemMixResult":
-                    Inventory.instance.ReceiveMixResult(Data);
+                    MixWindow.instance.ReceiveMixResult(Data);
                     break;
                 case "SendShareInvInfo":
                     Inventory.instance.UpdateShareInfo(Data);
@@ -129,12 +133,16 @@ public class Resolve
                 case "CircleBulletType":  //원형 탄환
                     PatternManager.instance.LoadInduceCircleBullet(Data);
                     break;
-                case "CircleFloor":
-                    
+                case "CircleFloor": // 원형장판(안전지대)                   
                     PatternManager.instance.LoadInduceCircleFloor(Data);
                     break;
+                case "FireBall": // 불구슬
+                    PatternManager.instance.LoadInuceFirBall(Data);
+                    break;
+                case "Restriction": // 속박
+                    PatternManager.instance.LoadRestriction(Data);
+                    break;
                 case "TimerOn":
-                    Debug.Log("들어옴!");
                     PatternManager.instance.LimitTimeOn();
                     break;
                 case "PhaseRestart":
@@ -144,12 +152,20 @@ public class Resolve
                     PatternManager.instance.PatternStart(Data);
                     break;
                 case "BossHp":
-                    Debug.Log("패턴 재시작");
                     Boss.instance.SetHP(Data);
                     break;
                 case "PlayerDamage":
-                    Debug.Log("공격받음");
                     HPManager.instance.ReceiveHp(Data);
+                    break;
+                case "DamageFireBall":
+                    Boss.instance.SearchFireBall(Data);
+                    break;
+                case "ItemPerResult":
+                    if (Data["name"].ToString() == GameManager.instance.PlayerName)
+                        GameManager.instance._player.SetPercentItem(Data);
+                    else if (OtherPlayerManager.instance.PlayerList.ContainsKey(Data["name"].ToString()))
+                        OtherPlayerManager.instance.PlayerList[Data["name"].ToString()].Setpercent(Data);
+                    else { }
                     break;
             }
         }

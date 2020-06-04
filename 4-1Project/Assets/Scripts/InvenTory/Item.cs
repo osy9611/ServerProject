@@ -31,7 +31,8 @@ public class Item
 
     public Item Init() // 깊은 복사
     {
-        Item obj = new Item(itemID, itemName, itemDescription);
+        //Item obj = new Item(itemID, itemName, itemDescription);
+        Item obj = new Item();
         obj.itemID = itemID;
         obj.itemName = itemName;
         obj.itemDescription = itemDescription;
