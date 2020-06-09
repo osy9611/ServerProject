@@ -19,6 +19,8 @@
 #define MAX_MAIN_BULLET 7
 #define MAX_SUB_BULLET 9
 
+#define BOSS_NUM_MAX 2
+
 using namespace DirectX;
 
 class GameServer;
@@ -35,6 +37,7 @@ public:
 	BossResult HitBoss(float Damage);
 	BossPhaseResult CalcPhase(Json::Value _messsage);
 	PhaseRestart PhaseSet();
+	GetItemIDResult GetBossItemID();
 
 	//각 클라이언트의 페이즈가 끝났는지 확인하는 함수
 	bool RestartCheck();
@@ -53,8 +56,14 @@ public:
 	void ShuffleMainBulletType();
 	void ShuffleSubBulletType();
 
+	//피통 호출
+	int CheckHp();
+
 private:
 	const char* RoomName;
+
+	int BossNum;
+
 	//Hp
 	float FullHp;
 	float Hp;

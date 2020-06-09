@@ -261,6 +261,21 @@ struct BossData
 	int Hp = 0;
 };
 
+struct GetItemIDResult : public JsonData
+{
+	void Init(int Item[], int ItemCount, int Money)
+	{
+		root["type"] = "GetItemID";
+		for (size_t i = 0; i < ItemCount; ++i)
+		{
+			root["itemIDs"].append(Item[i]);
+		}
+		root["money"] = Money;
+
+		SetJsonData();
+	}
+};
+
 
 struct BossResult :public JsonData
 {
@@ -268,12 +283,6 @@ struct BossResult :public JsonData
 	{
 		root["type"] = "BossHp";
 		root["Hp"] = 0;
-		for (size_t i = 0; i < ItemCount; ++i)
-		{
-			root["items"].append(Item[i]);
-		}
-		root["money"] = Money;
-
 		SetJsonData();
 	}
 
@@ -373,6 +382,7 @@ struct SyncPosition :public JsonData
 		SetJsonData();
 	}
 };
+
 
 struct ItmePerResult : public JsonData
 {

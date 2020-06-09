@@ -370,6 +370,13 @@ public:
 					Room[m_SessionList[nSessionID]->RoomName].bossManager->DestroyFireBall();
 					break;
 				}
+				case HashCode("GetItemID"):
+				{
+					GetItemIDResult getItemIdResult = Room[m_SessionList[nSessionID]->RoomName].bossManager->GetBossItemID();
+					SendAllPlayer(m_SessionList[nSessionID]->RoomName.c_str(), getItemIdResult.packet);
+
+					break;
+				}
 				case HashCode("ItemPerResult"):
 				{
 					ItmePerResult itemPerResult = PercentageCheck(SOURCEITEMPER, m_SessionList[nSessionID]->GetName());

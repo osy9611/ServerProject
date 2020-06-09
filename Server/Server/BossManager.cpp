@@ -24,19 +24,29 @@ int BossManager::GetPhase()
 	return Phase;
 }
 
+int BossManager::CheckHp()
+{
+	return Hp;
+}
+
 void BossManager::SetBossData(int Data)
 {
 	std::cout << "보스 셋팅중입니다" << std::endl;
+
+	BossNum = Data;
 
 	ResetBossData();
 
 	_BossData = dbManager->SearchBoss(Data);
 	FullHp = _BossData.Hp;
 	Hp = _BossData.Hp;
+	_firstStart = true;
 	for (size_t i = 0; i < 3; ++i)
 	{
 		RandomItemSet(_BossData.Item[i], _BossData.ItemPer[i]);
 	}
+
+
 	Money = _BossData.Money;
 }
 
@@ -54,16 +64,17 @@ void BossManager::RandomItemSet(int ItemID, int ItemPer)
 		//random 함수셋팅 
 		std::random_device randDevice;	//랜덤 디바이스 생성
 		std::mt19937  mt(randDevice());
-		std::uniform_int_distribution<int> distribution(0, 100);
-
-		int result = distribution(randDevice);
-
-		if (result <= ItemPer)
-		{
-			Item[ItemCount] = ItemID;
-			ItemCount++;
-		}
+		std::uniform_int_distribution<int> distribution(0, 5);
+		Item[ItemCount] = distribution(randDevice);
+		ItemCount++;
 	}
+}
+
+GetItemIDResult  BossManager::GetBossItemID()
+{
+	GetItemIDResult result;
+	result.Init(Item,ItemCount, Money);
+	return result;
 }
 
 void BossManager::ShufflePhase()
@@ -130,6 +141,12 @@ BossResult BossManager::HitBoss(float BossDamage)
 		if (Hp <= 0)
 		{
 			result.Init(Item, ItemCount, Money);
+			if (BossNum < BOSS_NUM_MAX)
+			{
+				BossNum++;
+				
+				SetBossData(BossNum);
+			}
 		}
 		else
 		{
