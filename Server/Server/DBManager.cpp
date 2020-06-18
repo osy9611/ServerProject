@@ -57,7 +57,7 @@ ItemMixResult DBManager::SetResultItem(Json::Value _message)
 	std::string Query;
 	for (int i = 0; i < 3; ++i)
 	{
-		std::cout << sourceID[i] << std::endl;
+		std::cout << sourceID[i] << source[i] << std::endl;
 	}
 	printf("\n");
 	Query = "CALL SearchItem('" 
@@ -79,6 +79,7 @@ ItemMixResult DBManager::SetResultItem(Json::Value _message)
 			{
 				std::cout << "¼º°ø" << std::endl;
 				tbl.Get((char*)"@result", result);
+				std::cout << result << std::endl;
 				resultMoney = tbl.Get("@resultMoney");
 			}
 		}
@@ -86,6 +87,9 @@ ItemMixResult DBManager::SetResultItem(Json::Value _message)
 	
 	ItemMixResult mixResult;
 	mixResult.Init(result, _message["money"].asInt() - resultMoney);
+	
+	std::cout << _message["money"].asString() << std::endl;
+	std::cout << resultMoney << std::endl;
 	std::cout << mixResult.str << std::endl;
 	return mixResult;
 }

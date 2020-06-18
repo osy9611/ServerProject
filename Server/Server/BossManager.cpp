@@ -11,7 +11,15 @@ BossManager::BossManager(GameServer *pServer,const char* _roomName)
 
 BossManager::~BossManager()
 {
-	dbManager = NULL;
+		
+}
+
+void BossManager::ResetDB()
+{
+	if (RoomName != "")
+	{
+		dbManager = NULL;
+	}
 }
 
 void BossManager::UserSet(int _userCount)
@@ -249,14 +257,14 @@ BossPhaseResult BossManager::CalcPhase(Json::Value _message)
 		}
 		case 12:
 		{
-			int index = Random(0, m_pServer->GetRoomData(RoomName).Count - 1);
-			result.CircleFloor(m_pServer->SearchUserName(index, RoomName), Random(0, MAX_SUB_BULLET));
+			int index = Random(0, m_pServer->GetRoomData(RoomName.c_str()).Count - 1);
+			result.CircleFloor(m_pServer->SearchUserName(index, RoomName.c_str()), Random(0, MAX_SUB_BULLET));
 			break;
 		}
 		case 21:
 		{
-			int index = Random(0, m_pServer->GetRoomData(RoomName).Count - 1);
-			result.Restriction(m_pServer->SearchUserName(index, RoomName), Random(0, MAX_SUB_BULLET));
+			int index = Random(0, m_pServer->GetRoomData(RoomName.c_str()).Count - 1);
+			result.Restriction(m_pServer->SearchUserName(index, RoomName.c_str()), Random(0, MAX_SUB_BULLET));
 			std::cout << result.str << std::endl;
 			break;
 		}
@@ -300,7 +308,7 @@ int BossManager::Random(int min,int max)
 void BossManager::DestroyFireBall()
 {
 	FireBallCount -= 1;
-	std::cout << FireBallCount << std::endl;
+	std::cout << "RoomName:"<<RoomName<< " " <<FireBallCount << std::endl;
 }
 
 void BossManager::FireBallCheck()

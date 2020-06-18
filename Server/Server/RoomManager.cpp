@@ -120,8 +120,13 @@ void RoomManager::UserOutCheck(const char* RoomName, const int nSessionID, std::
 				}
 			}
 		}
+
 		Room[RoomName].Count--;
-		Room[RoomName].bossManager->UserSet(Room[RoomName].Count);
+		if (Room[RoomName].GameStart)
+		{
+			Room[RoomName].bossManager->UserSet(Room[RoomName].Count);
+		}
+	
 		UserOut userOut;
 		userOut.Init(m_SessionList[nSessionID]->GetName());
 
@@ -135,7 +140,8 @@ void RoomManager::UserOutCheck(const char* RoomName, const int nSessionID, std::
 	}
 	else
 	{
-		delete Room[m_SessionList[nSessionID]->RoomName].bossManager;
+		//Room[m_SessionList[nSessionID]->RoomName].bossManager->ResetDB();
+		//delete Room[m_SessionList[nSessionID]->RoomName].bossManager;
 		Room.erase(m_SessionList[nSessionID]->RoomName);
 
 		for (size_t i = 0; i < RoomNames.size(); ++i)

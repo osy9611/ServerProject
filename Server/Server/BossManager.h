@@ -30,7 +30,7 @@ class BossManager
 public:
 	BossManager(GameServer* pServer,const char* roomName);
 	~BossManager();
-
+	void ResetDB();
 	void SetBossData(int Data);
 	void UserSet(int _userCount);
 	void ResetBossData();
@@ -59,8 +59,9 @@ public:
 	//피통 호출
 	int CheckHp();
 
+	int PrevUserCount;
 private:
-	const char* RoomName;
+	std::string RoomName;
 
 	int BossNum;
 

@@ -151,12 +151,20 @@ public:
 					}
 					break;
 				}
+				case HashCode("PlayerExit"):
+				{
+					UserOutCheck(m_SessionList[nSessionID]->RoomName.c_str(), nSessionID, m_SessionList);
+					m_SessionList[nSessionID]->RoomName = "";
+					m_SessionList[nSessionID]->InviteNumber = 0;
+					m_SessionList[nSessionID]->State = ROBBY;
+					break;
+				}
 				case HashCode("FindFriend"):
 				{
 					for (size_t i = 0; i < m_SessionList.size(); ++i)
 					{
 						if (m_SessionList[i]->GetName() == Message["FriendName"].asString())
-						{
+						{	
 							if (m_SessionList[i]->State == ROBBY)
 							{
 								ResultFriend result;
