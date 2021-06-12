@@ -30,7 +30,7 @@ private:
 				   SERVER=localhost;\
 				   DATABASE=gamedatas;\
 				   USER=root;\
-				   PASSWORD=@ppgk38629;";
+				   PASSWORD=1111;";
 
 	//DB에 사용할 쿼리문
 	std::string Query;
